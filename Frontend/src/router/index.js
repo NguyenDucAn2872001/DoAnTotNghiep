@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import LoginClient from '../views/Login/LoginClient.vue'
 import NewLogin from '../views/Login/NewLogin.vue'
 import Home from '../views/Home/HomeView.vue'
+import ForgotPassword from '../views/Login/ForgotPassword.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -16,10 +17,16 @@ const router = createRouter({
       component: NewLogin
     },
     {
+      path: '/Login/ForgotPassword',
+      name: 'ForgotPassword',
+      component: ForgotPassword
+    },
+    {
       path: '/Home',
       name: 'Home',
       component: Home
     },
+    
   ]
 })
 

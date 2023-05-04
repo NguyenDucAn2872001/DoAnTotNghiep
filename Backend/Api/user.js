@@ -4,10 +4,8 @@ var connection = require('../Database/dbinfo');
 const jwt = require('jsonwebtoken')
 const multer = require('multer')
 
-// API tạo user authen 
 router.post('/',  async(req, res)=> {
     var password=req.body.password
-    // const encryptedPassword = await bcryp.hash(password,10);
     let sql = "insert into users (email,username,name,password,role,createdAt,avata) values (?) ";
     const values= [
         req.body.email,
@@ -26,19 +24,6 @@ router.post('/',  async(req, res)=> {
             return(res.json(result))
         }
     })
-    // try {
-    //     const user = req.body
-    //     let token = jwt.sign({user},process.env.SECRET,{expiresIn:" 2 day"})
-    //     await connection.query(sql, (err, results)=>{         
-    //         res.json(results)            
-    //     });
-        
-        
-        
-    // } catch (error) {
-    //     console.log("connect faild 2");
-    //     res.status(500).json(error)
-    // }
 })
 
 router.post('/auth/user', async(req, res) => {
@@ -53,20 +38,17 @@ router.post('/auth/user', async(req, res) => {
         res.status(500).json(error)
     }
 });
-// router.post('/auth/login',  async(req, res)=> {
-//     const password=req.body.password;
-//     const email = req.body.email;
 
-//     let sql = "SELECT * FROM users where email=@email ";
+router.post('/forgot', async(req, res) => {
+    const email = req.body.email;
+    let sql = "SELECT password FROM users WHERE email =? ";
+    try {
+        connection.query(sql,[email], (err, results)=>{         
+            res.json(results);               
+        });
+    } catch (error) {
+        res.status(500).json(error)
+    }
+});
 
-//     connection.query(sql,email,(err,result)=>{
-//         if(err){
-//             return res.json(err)
-//         }else{
-//             console.log(result)
-//             return(res.json(result))
-//         }
-//     })
-
-// })
 module.exports= router

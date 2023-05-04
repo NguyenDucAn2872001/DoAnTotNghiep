@@ -1,59 +1,57 @@
 <template>
     <section class="vh-100 ">
-    <div class="container-fluid h-custom ">
-        <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col-md-9 col-lg-6 col-xl-5">
-                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
-                class="img-fluid" alt="Sample image">
-            </div>
-            <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-                <form @submit.prevent="submitCreate()">
-                    <div class="form-outline mb-4">
-                        <label class="form-label" for="form3Example3">Địa chỉ Email</label>
-                        <input v-model="info.email" type="email" id="form3Example3" class="form-control form-control-lg"
-                        placeholder="Nhập địa chỉ Email" />
-                        <span class="text-danger" v-for="error in v$.email.$errors" :key="error.$uid">
-                            {{ error.$message }}
-                        </span>
-                    </div>
-                    <div class="form-outline mb-3">
-                        <label class="form-label" for="form3Example4">Mật Khẩu</label>
-                        <input v-model="info.password" type="password" id="form3Example4" class="form-control form-control-lg"
-                        placeholder="Nhập  mật khẩu" />
-                        <span class="text-danger" v-for="error in v$.password.$errors" :key="error.$uid">
-                            {{ error.$message }}
-                        </span>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="form-check mb-0">
-                        <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3" />
-                        <label class="form-check-label" for="form2Example3">
-                            Remember me
-                        </label>
+        <div class="container-fluid h-custom ">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-md-9 col-lg-6 col-xl-5">
+                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+                    class="img-fluid" alt="Sample image">
+                </div>
+                <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                    <form @submit.prevent="submitCreate()">
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="form3Example3">Địa chỉ Email</label>
+                            <input v-model="info.email" type="email" id="form3Example3" class="form-control form-control-lg"
+                            placeholder="Nhập địa chỉ Email" />
+                            <span class="text-danger" v-for="error in v$.email.$errors" :key="error.$uid">
+                                {{ error.$message }}
+                            </span>
                         </div>
-                        <router-link to="/Login/ForgotPassword" >
-                            <a href="#!" class="text-body">Forgot password?</a>
-                        </router-link>
-                        
-                    </div>
-                    <div class="text-center text-lg-start mt-4 pt-2">
-                        <input type="submit" value="Đăng Nhập" class="btn btn-primary btn-lg"
-                        style="padding-left: 2.5rem; padding-right: 2.5rem;">
-                        <p class="small fw-bold mt-2 pt-1 mb-0">Bạn chưa có tài khoản? 
-                            <router-link to="/Login/NewLogin" >
-                                <a href="#!" class="link-danger">Đăng ký</a>
-                            </router-link>
-                        </p>
-                    </div>
-                </form>
+                        <div class="form-outline mb-3">
+                            <label class="form-label" for="form3Example4">Mật Khẩu</label>
+                            <input v-model="info.password" type="password" id="form3Example4" class="form-control form-control-lg"
+                            placeholder="Nhập  mật khẩu" />
+                            <span class="text-danger" v-for="error in v$.password.$errors" :key="error.$uid">
+                                {{ error.$message }}
+                            </span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="form-check mb-0">
+                            <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3" />
+                            <label class="form-check-label" for="form2Example3">
+                                Remember me
+                            </label>
+                            </div>
+                            <router-link to="/Login/ForgotPassword" >
+                                <a href="#!" class="text-body">Forgot password?</a>
+                            </router-link>               
+                        </div>
+                        <div class="text-center text-lg-start mt-4 pt-2">
+                            <input type="submit" value="Đăng Nhập" class="btn btn-primary btn-lg"
+                            style="padding-left: 2.5rem; padding-right: 2.5rem;">
+                            <p class="small fw-bold mt-2 pt-1 mb-0">Bạn chưa có tài khoản? 
+                                <router-link to="/Login/NewLogin" >
+                                    <a href="#!" class="link-danger">Đăng ký</a>
+                                </router-link>
+                            </p>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-    
     </section>
-  </template>
+</template>
   
-  <script setup>
+<script setup>
     import {ref,computed } from 'vue'
     import {required , minLength,email} from "@vuelidate/validators"
     import useVuelidate from "@vuelidate/core"
