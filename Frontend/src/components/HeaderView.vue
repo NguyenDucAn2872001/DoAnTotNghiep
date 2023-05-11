@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="bg-danger">
     hello
   </div>
 </template>

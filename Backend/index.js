@@ -9,13 +9,14 @@ dotenv.config();
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({extended:false}))
-
 app.get('/',(req,res)=>{
     res.send("This is backend server api")
 })
 
 // app.use('/api', require('./api/testConnect'))
-app.use('/users', require('./Api/user'))
+app.use('/users', require('./Api/user'));
+
+app.use('/admin', require('./Api/admin'));
 
 app.listen(process.env.PORT,()=>{
     console.log( `Server start running on ${process.env.PORT}`)

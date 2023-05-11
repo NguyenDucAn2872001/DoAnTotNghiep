@@ -1,12 +1,72 @@
 const express = require('express')
 const router = express.Router();
 var connection = require('../Database/dbinfo');
-const jwt = require('jsonwebtoken')
-const multer = require('multer')
+// const jwt = require('jsonwebtoken')
+// const multer = require('multer')
+const nodemailer = require('nodemailer');
+const speakeasy = require('speakeasy');
+
+router.post('/sendOTP', (req, res) => {
+    // Tạo mã OTP
+    const secret = speakeasy.generateSecret({length: 6});
+  
+    // Gửi email chứa OTP tới người dùng
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'ducan287@gmail.com',
+        pass: 'Ducan287123456@'
+      }
+    });
+  
+    const mailOptions = {
+      from: 'hn433737@gmail.com',
+      to: req.body.email,
+      subject: 'Xác thực OTP',
+      text: 'Mã OTP của bạn là ' + secret.base32
+    };
+  
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error,"1");
+        res.send({
+          sent: false
+        });
+      } else {
+        console.log('Email gửi thành công: ' + info.response);
+        res.send({
+          sent: true,
+          secret: secret.base32
+        });
+      }
+    });
+  });
 
 router.post('/',  async(req, res)=> {
-    var password=req.body.password
-    let sql = "insert into users (email,username,name,password,role,createdAt,avata) values (?) ";
+    //let sqlcheck="ALTER TABLE users ADD UNIQUE (email) "
+    let sql = "insert IGNORE into users (email,username,name,password,role,createdAt,avata) values (?) ";
+    const values= [
+        req.body.email,
+        req.body.username,
+        req.body.name,
+        req.body.password,
+        req.body.role,
+        req.body.createdAt,
+        req.body.avata,
+    ]
+    connection.query(sql,[values],(err,result)=>{
+        if(err){
+            return res.json(err)
+        }else{
+            console.log(result)
+            return(res.json(result))
+        }
+    })
+})
+
+router.get('/getApi',  async(req, res)=> {
+    //let sqlcheck="ALTER TABLE users ADD UNIQUE (email) "
+    let sql = "SELECT * FROM textcompletion.users;";
     const values= [
         req.body.email,
         req.body.username,
@@ -41,7 +101,7 @@ router.post('/auth/user', async(req, res) => {
 
 router.post('/forgot', async(req, res) => {
     const email = req.body.email;
-    let sql = "SELECT password FROM users WHERE email =? ";
+    let sql = "SELECT password,email FROM users WHERE email =? ";
     try {
         connection.query(sql,[email], (err, results)=>{         
             res.json(results);               

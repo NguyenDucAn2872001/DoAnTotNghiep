@@ -116,9 +116,26 @@ import {ref,onMounted,computed} from 'vue'
 import axios  from 'axios';
 import Swal from "sweetalert2";
 
-// const containerUser=(value)=>{
-//     return value.includes("user")
-// }
+const emailUser= ref([])
+const nameUser= ref([])
+
+onMounted( async() => {
+    try {
+            await axios.get("http://localhost:8888/users/getApi",{
+            }
+            ).then(response =>{
+                for (let i = 0; i < response.data.length; i++) {
+                    emailUser.value.push(response.data[i].email)
+                }
+                for (let i = 0; i < response.data.length; i++) {
+                    nameUser.value.push(response.data[i].name)
+                }
+
+            })
+        } catch (error) {
+            console.log(error);
+        }
+})
 const info = ref({
     email : "",
     password : "",
@@ -148,44 +165,59 @@ const  submitCreate  = async()=>{
     var result = await v$.value.$validate();
     if(result)
     {
-        Swal.fire({
-            icon: 'success',
-            title: 'Tạo tài khoản thành công',
-            showConfirmButton: false,
-            timer: 1000
-        })
-        try {
-            let data = new FormData();
-            await axios.post(import.meta.env.VITE_NEW_LOGIN,{
-                email:info.value.email,
-                password :info.value.password,
-                name:info.value.name,
-                username :info.value.username,
-                role:info.value.role,
-                createdAt :info.value.createdAt,
-                avata:info.value.avata
+        if(emailUser.value.indexOf(info.value.email)==-1){
+            if(nameUser.value.indexOf(info.value.name)==-1){
+                try {
+                await axios.post(import.meta.env.VITE_NEW_LOGIN,{
+                    email:info.value.email,
+                    password :info.value.password,
+                    name:info.value.name,
+                    username :info.value.username,
+                    role:info.value.role,
+                    createdAt :info.value.createdAt,
+                    avata:info.value.avata
+                }
+                ).then (response => {
+                    console.log(response);
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Tạo tài khoản thành công',
+                            showConfirmButton: false,
+                            timer: 2000
+                        })
+                        setTimeout(function(){
+                            location.reload();   
+                        }, 1000);
+                })
+            } catch (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Đăng ký lỗi!',
+                    footer: '<a href="">Why do I have this issue?</a>'
+                })
             }
-            ).then(response =>{
-                console.log(response);
+            }else{
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Đăng ký lỗi',
+                    text: 'Tên người dùng đã tồn tại!',
+                })
+            }
+
+        }else{
+            Swal.fire({
+                icon: 'error',
+                title: 'Đăng ký lỗi',
+                text: 'Tài khoản email này đã từng đăng ký trước kia!',
             })
-            console.log(" Add successfully");
-            console.log(data.values);
-        } catch (error) {
-            console.log(error);
         }
+        
     }
     else{
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'Đăng ký lỗi!',
-            footer: '<a href="">Why do I have this issue?</a>'
-        })
+        console.log("error");
     }
 }
-onMounted(() => {
-    console.log("hello");
-})
 
 </script>
 <style>

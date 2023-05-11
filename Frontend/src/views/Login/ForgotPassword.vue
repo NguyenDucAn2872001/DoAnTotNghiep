@@ -11,15 +11,13 @@
                 <p class="mb-2">Vui lòng nhập địa chỉ email để lấy lại mật khẩu
                 </p>
               </div>
-              <form>
+              <form @submit.prevent="submitCreate()">
                 <div class="mb-3">
                   <label for="email" class="form-label">Email</label>
-                  <input type="email" id="email" class="form-control"  name="email" placeholder="Enter Your Email">
+                  <input type="email" id="email" class="form-control" v-model="info.email" name="email" placeholder="Enter Your Email">
                 </div>
                 <div class="mb-3 d-grid" >
-                  <button type="submit" class="btn btn-primary" @click="submitCreate()" >
-                    Reset Password
-                  </button>
+                  <input type="submit" value="Đăng Nhập" class="btn btn-primary ">
                 </div>
                 <span >Bạn chưa có tài khoản ? 
                   <router-link to="/Login/NewLogin" >
@@ -30,7 +28,7 @@
             </div>
             <div class="card-body" v-else>
                 <div class="mb-4">
-                    <h5>Forgot Password Success</h5>
+                    <h5>Lấy lại mật khẩu thành công</h5>
                     <p class="mb-2">Below is your account and password </p>
                 </div>
                 <div class="row">
@@ -38,7 +36,7 @@
                         Tài Khoản: 
                     </div>
                     <div class="col">
-
+                      {{ info.email }}
                     </div>
                 </div>
                 <div class="row">
@@ -46,15 +44,15 @@
                         Mật Khẩu: 
                     </div>
                     <div class="col">
-
+                      {{ info.password }}
                     </div>
                 </div>
                 <div class="mt-3 d-grid" >
-                  <!-- <router-link to="/Login" >
+                  <router-link to="/" >
                     <button type="submit" class="btn btn-primary"  >
-                      Back to Login
+                      Trở lại trang đăng nhập
                     </button>
-                  </router-link> -->
+                  </router-link>
                 </div>
             </div>
           </div>
@@ -65,7 +63,7 @@
 <script setup>
     import {ref } from 'vue'
     import axios  from 'axios';
-
+    import Swal from "sweetalert2";
     const check= ref(true)
     const info = ref({
         email : "",
@@ -74,14 +72,36 @@
     const submitCreate  = async()=>{
             try {
                 console.log("1");
-                await axios.post("http://localhost:8888/users/forgot",{
+                await axios.post(import.meta.env.VITE_FORGOT_PASSWORD,{
                     email:info.value.email,
                 }
                 ).then(response =>{
-                    console.log(response.data[0].password ,"test here");
+                    console.log(response.data,"test here");
                     if ( response.data[0].email=== info.value.email ) {
-                        check.value=false
-                        console.log("2");
+                      let timerInterval
+                      Swal.fire({
+                        icon: 'success',
+                        title: 'Đang lấy lại mật khẩu!',
+                        html: 'Vui lòng chờ trong <b></b> ms giây',
+                        timer: 2000,
+                        timerProgressBar: true,
+                        didOpen: () => {
+                          Swal.showLoading()
+                          const b = Swal.getHtmlContainer().querySelector('b')
+                          timerInterval = setInterval(() => {
+                            b.textContent = Swal.getTimerLeft()
+                          }, 100)
+                        },
+                        willClose: () => {
+                          clearInterval(timerInterval)
+                        }
+                      }).then((result) => {
+                        if (result.dismiss === Swal.DismissReason.timer) {
+                          console.log('I was closed by the timer')
+                        }
+                      })
+                        info.value.password =response.data[0].password
+                        check.value=false    
                         
                     }
                     else{
@@ -89,7 +109,11 @@
                     }
                 })
             } catch (error) {
-                console.log("3",error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Tài khoản không tồn tại!',
+                    text: 'Vui lòng nhập lại hoặc tạo tài khoản mới ',
+                })
             }
     }
 </script>

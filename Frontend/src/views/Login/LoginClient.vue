@@ -26,7 +26,7 @@
                         </div>
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="form-check mb-0">
-                            <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3" />
+                            <input class="form-check-input me-2 " type="checkbox" value="" id="form2Example3" />
                             <label class="form-check-label" for="form2Example3">
                                 Remember me
                             </label>
@@ -52,6 +52,7 @@
 </template>
   
 <script setup>
+    import { mapGetters } from 'vuex'
     import {ref,computed } from 'vue'
     import {required , minLength,email} from "@vuelidate/validators"
     import useVuelidate from "@vuelidate/core"
@@ -64,12 +65,13 @@
         password : "",
     })
     const rules= computed(()=>{
-    return{
-        // email:{required,email,containerUser: helpers.withMessage("please enter email",containerUser)},
-        email:{required,email},
-        password : {required, minLength:minLength(4)},
-  
-        }
+        mapGetters('auth', ['isLoggedIn'])
+        return{
+            // email:{required,email,containerUser: helpers.withMessage("please enter email",containerUser)},
+            email:{required,email},
+            password : {required, minLength:minLength(4)},
+    
+            }
     })
     const v$ = useVuelidate(rules,info.value)
     const  submitCreate  = async()=>{

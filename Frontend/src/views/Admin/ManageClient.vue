@@ -1,0 +1,112 @@
+<template>
+    <section class="vh-100 mb-5" >
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col col-lg-9 col-xl-7">
+                <div class="card rounded-3">
+                <div class="card-body p-4">
+
+                    <h4 class="text-center my-3 pb-3">Quản lý tài khoản người dùng</h4>
+                    <div class="input-group rounded" style="width: 400px;">
+                        <input type="search" class="form-control rounded" placeholder="Vui lòng nhập tên " aria-label="Search" aria-describedby="search-addon"  />
+                        <i class="fa-solid fa-magnifying-glass icon-search"></i>
+                        <!-- <span class="input-group-text border-0" id="search-addon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                            </svg>
+                        </span> -->
+                    </div>
+                    <table class="table mb-4">
+                    <thead>
+                        <tr>
+                        <th scope="col">Stt</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Tên</th>
+                        <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="inf in info" :key="inf">
+                        <th scope="row">{{ inf.id }}</th>
+                        <td>{{ inf.email }}</td>
+                        <td>{{ inf.name }}</td>
+                        <td>
+                            <button type="submit" class="btn btn-danger" @click="DeleteUser(inf,inf.id)"><i class="fa-regular fa-trash-can"></i></button>
+                            <button type="submit" class="btn btn-success ms-1"><i class="fa-regular fa-eye"></i></button>
+                            <button type="submit" class="btn btn-warning ms-1"><i class="fa-regular fa-comments"></i></button>
+                        </td>
+                        </tr>
+                    </tbody>
+                    </table>
+
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </section>
+</template>
+
+<script setup>
+import {ref ,onMounted} from 'vue'
+import axios  from 'axios';
+import Swal from "sweetalert2";
+
+const info= ref([])
+
+onMounted( async() => {
+try {
+        await axios.get("http://localhost:8888/admin/infoUser",{
+        }
+        ).then(response =>{
+            for (let i = 0; i < response.data.length; i++) {
+                info.value.push(response.data[i])
+                console.log(info.value[i]);
+            }
+        })
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+const DeleteUser = async (inf,id)=>{
+
+    await Swal.fire({
+        title: 'Xóa người dùng',
+        text: "Bạn có muốn xóa người dùng này không ?",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Tiếp tục!'
+        }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire(
+            'Deleted!',
+            'Xoá người dùng thành công .',
+            'success'
+            )
+            info.value.pop(inf)
+            try {
+            axios.post(import.meta.env.VITE_DELETE_USER,{
+                    id:id,
+            })
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    })
+
+
+
+    
+}
+</script>
+
+<style scoped>
+    .icon-search{
+        font-size: 26px;
+        padding-left: 10px;
+        padding-top: 4px;
+    }
+</style>

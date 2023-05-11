@@ -1,5 +1,6 @@
 <template>
     <div>
+      <HeaderView  />
         <div ref="de_titlebar" id="documenteditor_titlebar" class="e-de-ctn-title">
             <div v-on:keydown="titleBarKeydownEvent" v-on:click="titleBarClickEvent" class="single-line"
                 id="documenteditor_title_contentEditor" title="Document Name. Click or tap to rename this document."
@@ -18,6 +19,7 @@
     </div>
 </template>
 <script >
+  import HeaderView from '../../components/HeaderView.vue';
   import {DocumentEditorContainerComponent,Toolbar} from '@syncfusion/ej2-vue-documenteditor';
   import { DropDownButtonComponent } from '@syncfusion/ej2-vue-splitbuttons';
   import { ButtonComponent } from '@syncfusion/ej2-vue-buttons';
@@ -26,6 +28,7 @@
   export default {
     components: {
       // Declaring component
+      'HeaderView':HeaderView,
       'ejs-documenteditorcontainer': DocumentEditorContainerComponent,
       'ejs-button': ButtonComponent,
       'ejs-dropdownbutton': DropDownButtonComponent,
@@ -166,7 +169,6 @@
   };
 </script>
 <style >
-
   @import '../../../node_modules/@syncfusion/ej2-base/styles/material.css';
   @import '../../../node_modules/@syncfusion/ej2-buttons/styles/material.css';
   @import '../../../node_modules/@syncfusion/ej2-inputs/styles/material.css';
@@ -182,138 +184,3 @@
     float: none;
   }
 </style>
-<!-- <template>
-    <h1>
-        
-    </h1> -->
-    <!-- <div id="app">
-      <editor
-        api-key="no-api-key"
-        :init="{
-          height: 500,
-          menubar: false,
-          plugins: [
-            'a11ychecker','advlist','advcode','advtable','autolink','checklist','export',
-            'lists','link','image','charmap','preview','anchor','searchreplace','visualblocks',
-            'powerpaste','fullscreen','formatpainter','insertdatetime','media','table','help','wordcount'
-          ],
-          toolbar:
-            'undo redo | casechange blocks | bold italic backcolor | \
-            alignleft aligncenter alignright alignjustify | \
-            bullist numlst checklist outdent indent | removeformat | a11ycheck code table help'
-        }"
-        initial-value="Welcome to TinyMCE Vue"
-      />
-    </div> -->
-    <!-- </template> -->
-    
- <!-- <script>
-    // import Editor from '@tinymce/tinymce-vue'
-    
-    // export default {
-    // name: 'app',
-    // components: {
-    //   'editor': Editor
-    // }
-    // }
-    </script> -->
-<!--<template>
-    <h1>Home</h1>
-     <NavBar/>
-    <div class="container mt-3">
-        <div class="row">
-            <div class="col">
-                <p class="h3 text-success fw-bold">FASHION SHOP
-                    <router-link to="/contacts/add" class="btn btn-success btn-sm">
-                        <i class="fa fa-plus"></i>
-                        New
-                    </router-link>
-                </p>
-                <p class="fst-italic">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                <form action="">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="col">
-                            <input type="text" class="form-control" placeholder="Seach Name">
-                        </div>
-                        <router-link to="" class="col">
-                            <input type="submit" class="btn btn-outline-dark" value="Submit">
-                        </router-link>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-  <div class="container mt-3" v-if="contacts.length >0 ">
-        <div class="row">
-            <div class="col-lg-3 col-md-6 col-sm-12 pb-1" v-for="contact of contacts" :key="contact">
-                <div class="card product-item border-0 mb-4">
-                    <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                        <img class="w-100 imgelement" :src="contact.photo" alt="">
-                    </div>
-                    <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                        <h6 class="text-truncate mb-3 text_font">{{ contact.name }}</h6>
-                        <div class="d-flex justify-content-center">
-                            <h6 class="cost">{{ contact.cost }}</h6><h6 class="text-muted ml-2 text_font"><del>{{ contact.discount }}</del></h6>
-                        </div>
-                    </div>
-                    <div class="card-footer d-flex justify-content-between bg-light border">
-                        <router-link :to="`/Home/ViewDetail/${contact.id}`" class="btn btn-sm text-dark p-0 text_font">
-                            <i class="fas fa-eye text-danger mr-1"></i>View Detail
-                        </router-link>
-                        <router-link to="/Home/AddToCart" >
-                            <a href="" class="btn btn-sm text-dark p-0 text_font"><i class="fas fa-shopping-cart text-danger mr-1"></i>Add To Cart</a>
-                        </router-link>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-  <Footer/> 
-</template>-->
-
-<!-- <script>
-import Footer from '@/components/Footer.vue';
-import { ContactService } from '@/services/ContactService';
-import NavBar from '@/components/NavBar.vue';
-export default {
-  name: 'HomeView',
-  components: { Footer, NavBar },
-  data: function () {
-        return {
-            loading: false,
-            contacts: [],
-            errorMessage: null
-        };
-    },
-    created: async function () {
-        try {
-            this.loading = true;
-            let response = await ContactService.getAllContacts();
-            this.contacts = response.data;
-            this.loading = false;
-        }
-        catch (error) {
-            this.errorMessage = error;
-            this.loading = false;
-        }
-    },
-    
-
-}
-</script>
-<style>
-    .text_font{
-        font-family: "Comic Sans MS", cursive, sans-serif;
-    }
-    .cost{
-        padding-right: 10px;
-    }
-    .imgelement{
-        height: 350px;
-        object-fit: cover;
-    }
-</style> -->
