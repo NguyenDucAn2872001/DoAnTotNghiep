@@ -4,8 +4,9 @@ import NewLogin from '../views/Login/NewLogin.vue'
 import Home from '../views/Home/HomeView.vue'
 import ForgotPassword from '../views/Login/ForgotPassword.vue'
 import ManageClient from '../views/Admin/ManageClient.vue'
-import {ref} from 'vue'
-const check=ref(false)
+// import { ref } from 'vue'
+
+// const check= ref(localStorage.getItem('id'))
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -27,14 +28,17 @@ const router = createRouter({
     {
       path: '/ManageClient',
       name: 'ManageClient',
-      component: ManageClient,           
+      component: ManageClient,    
+      meta: {
+        requiresAuth:true
+      }       
     },
     {
       path: '/Home',
       name: 'Home',
       component: Home,
       meta: {
-        requiresAuth:check.value
+        requiresAuth:true
       }
            
     },
@@ -44,12 +48,9 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    // Kiểm tra xem người dùng đã đăng nhập hay chưa
     if (isLoggedIn()) {
-      
       next();
     } else {
-      // Người dùng chưa đăng nhập, điều hướng họ đến trang đăng nhập
       next('/');
     }
   } else {
@@ -57,10 +58,16 @@ router.beforeEach((to, from, next) => {
   }
 });
 
-function isLoggedIn() {
-  check.value=false
-  // Kiểm tra xem người dùng đã đăng nhập hay chưa
-  // Trả về true nếu đã đăng nhập và false nếu chưa
+function isLoggedIn (){
+  
+  if(localStorage.getItem('id')!='false')
+  {
+    return true
+  }else{
+    return false
+  }
+  
+  //console.log("aaa");
 }
 
 export default router

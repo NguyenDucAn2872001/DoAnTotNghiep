@@ -55,6 +55,7 @@ import Swal from "sweetalert2";
 const info= ref([])
 
 onMounted( async() => {
+    console.log(localStorage.getItem('id'));
 try {
         await axios.get("http://localhost:8888/admin/infoUser",{
         }

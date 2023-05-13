@@ -121,20 +121,20 @@ const nameUser= ref([])
 
 onMounted( async() => {
     try {
-            await axios.get("http://localhost:8888/users/getApi",{
-            }
-            ).then(response =>{
-                for (let i = 0; i < response.data.length; i++) {
-                    emailUser.value.push(response.data[i].email)
-                }
-                for (let i = 0; i < response.data.length; i++) {
-                    nameUser.value.push(response.data[i].name)
-                }
-
-            })
-        } catch (error) {
-            console.log(error);
+        await axios.get("http://localhost:8888/users/getApi",{
         }
+        ).then(response =>{
+            for (let i = 0; i < response.data.length; i++) {
+                emailUser.value.push(response.data[i].email)
+            }
+            for (let i = 0; i < response.data.length; i++) {
+                nameUser.value.push(response.data[i].name)
+            }
+
+        })
+    } catch (error) {
+        console.log(error);
+    }
 })
 const info = ref({
     email : "",

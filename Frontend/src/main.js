@@ -3,6 +3,7 @@ import App from './App.vue'
 import Vuex from 'vuex';
 import router from './router'
 import { registerLicense } from '@syncfusion/ej2-base';
+import store from '../src/store/index'
 import './assets/main.css'
 //import {store} from '../public/store.js'
 
@@ -13,6 +14,7 @@ registerLicense('License Key :Mgo+DSMBaFt+QHFqUUdrWU5GcUBAXWFKblJ2T2FYdV5zZCQ7a1
 //     console.log("global route guards");
 //     next()
 // })
+app.use(store)
 app.use(router)
 app.use(Vuex);
 app.mount('#app')

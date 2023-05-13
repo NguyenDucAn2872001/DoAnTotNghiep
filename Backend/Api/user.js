@@ -75,6 +75,7 @@ router.get('/getApi',  async(req, res)=> {
         req.body.role,
         req.body.createdAt,
         req.body.avata,
+        req.body.state,
     ]
     connection.query(sql,[values],(err,result)=>{
         if(err){
@@ -111,4 +112,15 @@ router.post('/forgot', async(req, res) => {
     }
 });
 
+router.post('/state', async(req, res) => {
+    const id = req.body.id;
+    let sql = "UPDATE users SET state = true WHERE id =? ";
+    try {
+        connection.query(sql,[id], (err, results)=>{         
+            res.json(results);               
+        });
+    } catch (error) {
+        res.status(500).json(error)
+    }
+});
 module.exports= router

@@ -1,4 +1,6 @@
 <template>
+    <!-- <div>{{ store.state.check }}</div>
+    <button @click="store.state.check = !store.state.check"> check here</button> -->
     <section class="vh-100 ">
         <div class="container-fluid h-custom ">
             <div class="row d-flex justify-content-center align-items-center h-100">
@@ -52,22 +54,21 @@
 </template>
   
 <script setup>
-    import { mapGetters } from 'vuex'
-    import {ref,computed } from 'vue'
+    import {ref,computed,onMounted } from 'vue'
     import {required , minLength,email} from "@vuelidate/validators"
     import useVuelidate from "@vuelidate/core"
     import axios  from 'axios';
     import { useRouter } from 'vue-router';
     import Swal from "sweetalert2";
+
+    const check=ref(false)
     const route = useRouter()
     const info = ref({
         email : "",
         password : "",
     })
     const rules= computed(()=>{
-        mapGetters('auth', ['isLoggedIn'])
         return{
-            // email:{required,email,containerUser: helpers.withMessage("please enter email",containerUser)},
             email:{required,email},
             password : {required, minLength:minLength(4)},
     
@@ -94,10 +95,12 @@
                             showConfirmButton: false,
                             timer: 1000
                         })
-                        setTimeout(function(){
-                            return route.push('/Home')
+                        localStorage.removeItem('id');
+                        localStorage.setItem('id','true')
+                        setTimeout(function(){   
+                            return route.push('/Home') 
                         }, 1000);
-                        
+                        check.value=true
                     }
                     else{
                         console.log("error");
@@ -115,6 +118,10 @@
             console.log("error");
         }
     }
+
+    
+
+    
   </script>
   <style>
     .butonicon{
