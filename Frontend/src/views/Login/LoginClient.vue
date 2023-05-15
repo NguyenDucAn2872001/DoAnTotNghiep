@@ -74,38 +74,57 @@
     
             }
     })
+    onMounted(()=>{
+        localStorage.setItem('id','false')
+        console.log(localStorage.getItem('id'));
+    })
     const v$ = useVuelidate(rules,info.value)
     const  submitCreate  = async()=>{
         var result = await v$.value.$validate();
         if(result)
         {
             try {
-                console.log("1");
-                await axios.post(import.meta.env.VITE_LOGIN_CLIENT,{
-                    email:info.value.email,
-                    password :info.value.password,
+                if(info.value.email==='admin@admin.com' && info.value.password==='1111'){
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Đăng nhập thành công',
+                        showConfirmButton: false,
+                        timer: 1000
+                    })
+                    localStorage.removeItem('id');
+                    localStorage.setItem('id','true')
+                    setTimeout(function(){   
+                        return route.push('/ManageClient') 
+                    }, 1000);
+                }else{
+                    await axios.post(import.meta.env.VITE_LOGIN_CLIENT,{
+                        email:info.value.email,
+                        password :info.value.password,
+                    }
+                    ).then(response =>{
+                        console.log(response.data[0].email );
+                        if ( info.value.email===response.data[0].email  && info.value.password=== response.data[0].password) {
+                            localStorage.setItem('iduser',response.data[0].id)
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Đăng nhập thành công',
+                                showConfirmButton: false,
+                                timer: 1000
+                            })
+                            localStorage.removeItem('id');
+                            localStorage.setItem('id','true')
+                            setTimeout(function(){   
+                                return route.push(`/Home/${response.data[0].id}`) 
+                            }, 1000);
+                            check.value=true
+                        }
+                        else
+                        {
+                            console.log("error");
+                        }
+                    
+                    })
                 }
-                ).then(response =>{
-                    console.log(response.data[0].email );
-                    if ( response.data[0].email=== info.value.email &&  response.data[0].password=== info.value.password) {
-                        Swal.fire({
-                            // position: 'top-end',
-                            icon: 'success',
-                            title: 'Đăng nhập thành công',
-                            showConfirmButton: false,
-                            timer: 1000
-                        })
-                        localStorage.removeItem('id');
-                        localStorage.setItem('id','true')
-                        setTimeout(function(){   
-                            return route.push('/Home') 
-                        }, 1000);
-                        check.value=true
-                    }
-                    else{
-                        console.log("error");
-                    }
-                })
             } catch (error) {
                 Swal.fire({
                     icon: 'error',
@@ -118,12 +137,8 @@
             console.log("error");
         }
     }
-
-    
-
-    
-  </script>
-  <style>
+</script>
+<style>
     .butonicon{
         border-radius: 50%;
     }

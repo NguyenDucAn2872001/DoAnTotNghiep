@@ -4,6 +4,7 @@ import NewLogin from '../views/Login/NewLogin.vue'
 import Home from '../views/Home/HomeView.vue'
 import ForgotPassword from '../views/Login/ForgotPassword.vue'
 import ManageClient from '../views/Admin/ManageClient.vue'
+import EditDocument from '../views/Home/EditDocument.vue'
 // import { ref } from 'vue'
 
 // const check= ref(localStorage.getItem('id'))
@@ -34,9 +35,18 @@ const router = createRouter({
       }       
     },
     {
-      path: '/Home',
+      path: '/Home/:id',
       name: 'Home',
       component: Home,
+      meta: {
+        requiresAuth:true
+      }
+           
+    },
+    {
+      path: '/Home/EditDocument',
+      name: 'EditDocument',
+      component: EditDocument,
       meta: {
         requiresAuth:true
       }

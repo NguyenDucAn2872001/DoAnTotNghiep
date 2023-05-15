@@ -4,7 +4,7 @@ var connection = require('../Database/dbinfo');
 
 router.get('/infoUser',  async(req, res)=> {
     //let sqlcheck="ALTER TABLE users ADD UNIQUE (email) "
-    let sql = "SELECT id,email ,name FROM users  ";
+    let sql = "SELECT id,email ,name,state FROM users  ";
     const values= [
         req.body.email,
         req.body.name

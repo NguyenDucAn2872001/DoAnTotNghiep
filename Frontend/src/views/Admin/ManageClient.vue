@@ -2,7 +2,7 @@
     <section class="vh-100 mb-5" >
         <div class="container py-5 h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col col-lg-9 col-xl-7">
+            <div class="col col-lg-9 col-xl-7" style="width: 100%;">
                 <div class="card rounded-3">
                 <div class="card-body p-4">
 
@@ -22,14 +22,27 @@
                         <th scope="col">Stt</th>
                         <th scope="col">Email</th>
                         <th scope="col">Tên</th>
+                        <th scope="col">Trạng thái</th>
                         <th scope="col">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="inf in info" :key="inf">
-                        <th scope="row">{{ inf.id }}</th>
+                        <th scope="row">{{ inf.id*0 +1 }}</th>
                         <td>{{ inf.email }}</td>
                         <td>{{ inf.name }}</td>
+                        <td v-if="inf.state==true" scope="row" >
+                            <div style="display: flex;align-items: center;">
+                                <div style="width: 7px;height: 7px;background-color: green;border-radius: 50%;"></div>
+                                <div style="padding-left: 6px;">Online</div>
+                            </div>                            
+                        </td>
+                        <td v-else scope="row">
+                            <div style="display: flex;align-items: center;">
+                                <div style="width: 7px;height: 7px;background-color: red;border-radius: 50%;"></div>
+                                <div style="padding-left: 6px;">Offline</div>
+                            </div>     
+                        </td>
                         <td>
                             <button type="submit" class="btn btn-danger" @click="DeleteUser(inf,inf.id)"><i class="fa-regular fa-trash-can"></i></button>
                             <button type="submit" class="btn btn-success ms-1"><i class="fa-regular fa-eye"></i></button>
@@ -55,19 +68,22 @@ import Swal from "sweetalert2";
 const info= ref([])
 
 onMounted( async() => {
-    console.log(localStorage.getItem('id'));
-try {
+    try {
         await axios.get("http://localhost:8888/admin/infoUser",{
         }
         ).then(response =>{
+            console.log(response.data.length);
             for (let i = 0; i < response.data.length; i++) {
                 info.value.push(response.data[i])
-                console.log(info.value[i]);
+            }
+            if(response.data.length!=info.value.length){
+                location.reload
             }
         })
     } catch (error) {
         console.log(error);
     }
+    
 })
 
 const DeleteUser = async (inf,id)=>{

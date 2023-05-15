@@ -64,9 +64,24 @@ router.post('/',  async(req, res)=> {
     })
 })
 
+router.get('/getUserById',  async(req, res)=> {
+    //let sqlcheck="ALTER TABLE users ADD UNIQUE (email) "
+    let sql = "SELECT * FROM users WHERE id=19 ";
+    const id = req.body.id
+
+    connection.query(sql,id,(err,result)=>{
+        if(err){
+            return res.json(err)
+        }else{
+            console.log(result)
+            return(res.json(result))
+        }
+    })
+})
+
 router.get('/getApi',  async(req, res)=> {
     //let sqlcheck="ALTER TABLE users ADD UNIQUE (email) "
-    let sql = "SELECT * FROM textcompletion.users;";
+    let sql = "SELECT * FROM textcompletion.users";
     const values= [
         req.body.email,
         req.body.username,
@@ -115,6 +130,18 @@ router.post('/forgot', async(req, res) => {
 router.post('/state', async(req, res) => {
     const id = req.body.id;
     let sql = "UPDATE users SET state = true WHERE id =? ";
+    try {
+        connection.query(sql,[id], (err, results)=>{         
+            res.json(results);               
+        });
+    } catch (error) {
+        res.status(500).json(error)
+    }
+});
+
+router.post('/stateout', async(req, res) => {
+    const id = req.body.id;
+    let sql = "UPDATE users SET state = false WHERE id =? ";
     try {
         connection.query(sql,[id], (err, results)=>{         
             res.json(results);               

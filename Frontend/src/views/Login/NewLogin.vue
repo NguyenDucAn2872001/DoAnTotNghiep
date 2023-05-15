@@ -121,9 +121,10 @@ const nameUser= ref([])
 
 onMounted( async() => {
     try {
-        await axios.get("http://localhost:8888/users/getApi",{
+        await axios.get(import.meta.env.VITE_GETAPI_USER,{
         }
         ).then(response =>{
+            console.log(response);
             for (let i = 0; i < response.data.length; i++) {
                 emailUser.value.push(response.data[i].email)
             }
