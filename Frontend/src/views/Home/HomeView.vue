@@ -39,10 +39,13 @@
             <input class="form-control border-end-0 border" type="search" placeholder="search" id="example-search-input" style="border-radius: 18px;">
             <i class="fa fa-search icon-search"></i>
           </div>
-          <div v-for="i in infoUser" class="list-message" @click="chat()">
-            <i class="fa-solid fa-circle-user icon-users" style="cursor: pointer;"></i>
-            <label for="" style="font-weight: 700;cursor: pointer;">{{ i }}</label>
+          <div class="scroll-snap">
+            <div v-for="i in infoUser" class="list-message" @click="chat()">
+              <i class="fa-solid fa-circle-user icon-users" style="cursor: pointer;"></i>
+              <label for="" style="font-weight: 700;cursor: pointer;">{{ i }}</label>
+            </div>
           </div>
+          
         </div>
         <div v-if="dropdownRp==true " class="dropdown-message " >
           <i class="fa-solid fa-circle-xmark icon-close" @click="dropdownRp=!dropdownRp"></i>
@@ -57,9 +60,21 @@
               <label for="" style="font-weight: 700;cursor: pointer;">Nguyen Duc An</label>
             </div>
             <div class="line-1"></div>
-            <div class="guest-message" >Hello </div>
-            <div class="guest-message" >how are you doing </div>
-            <div class="you-message" >I'm fine, how about you?</div>
+            <div class="scroll-snap" >
+              <div class="guest-message"  >Hello </div>
+              <div class="guest-message" >how are you doing </div>
+              <div class="you-message" >I'm fine, how about you?</div>
+              <div class="guest-message"  >Hello </div>
+              <div class="guest-message">how are you doing </div>
+              <div class="you-message"  >I'm fine, how about you?</div>
+              <div class="guest-message"  >Hello </div>
+              <div class="guest-message" >how are you doing </div>
+              <div class="you-message" >I'm fine, how about you?</div>
+              <div class="guest-message"  >Hello </div>
+              <div class="guest-message">how are you doing </div>
+              <div class="you-message"  >I'm fine, how about you?</div>
+            </div>
+            
             <div class="form-outline send-message">
               <input type="email" id="typeEmail" class="form-control " placeholder="input message" style="border-radius: 20px;margin-right: 10px;"/>
               <i class="fa-regular fa-paper-plane" style="padding-top: 10px;cursor: pointer;"></i>
@@ -187,6 +202,7 @@ const CheckOut = async()=>{
     padding-top: 16px; 
     display: flex; 
     align-items: center;
+    scroll-snap-align: start;
   }
   .icon-users{
     font-size: 36px; 
@@ -236,6 +252,7 @@ const CheckOut = async()=>{
     color: #000; 
     font-weight: 700; 
     margin: 10px;
+    scroll-snap-align: start;
   }
   .you-message{
     padding: 10px;
@@ -246,6 +263,7 @@ const CheckOut = async()=>{
     font-weight: 700;
     margin-top: 10px; 
     margin-left: 72px;
+    scroll-snap-align: start;
   }
   .send-message{
     position: absolute;
@@ -253,6 +271,14 @@ const CheckOut = async()=>{
     width: 100%;
     padding: 10px;
     display: flex;
+  }
+  .scroll-snap{
+    width: 100%;
+    height: 68%;
+    display: flex;
+    overflow-y: auto;
+    scroll-snap-type: y mandatory;
+    flex-direction: column;
   }
 </style>
 

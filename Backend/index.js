@@ -18,6 +18,8 @@ app.use('/users', require('./Api/user'));
 
 app.use('/admin', require('./Api/admin'));
 
+app.use('/message', require('./Api/message'));
+
 app.listen(process.env.PORT,()=>{
     console.log( `Server start running on ${process.env.PORT}`)
     connection.connect((err)=>{

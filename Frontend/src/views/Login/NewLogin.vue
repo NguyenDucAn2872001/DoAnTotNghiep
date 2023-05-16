@@ -89,10 +89,15 @@
                                     <a href="#!">Terms of service</a>
                                 </label>
                             </div>
-
-                            <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                                <input type="submit" class="btn btn-primary btn-lg" value="create">
-                            </div>
+                            <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4" style="padding-left: 20px;">
+                                <router-link class="me-3" to="/" style="width: 40%;">         
+                                    <button class="btn btn-danger btn-lg " style="width: 100%;">
+                                        <i class="fa-solid fa-arrow-left"></i>
+                                        Login
+                                    </button>
+                                </router-link>
+                                <input type="submit" class="btn btn-primary btn-lg" style="width: 40%;" value="Create">
+                            </div>                     
                         </form>
                     </div>
                     <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
