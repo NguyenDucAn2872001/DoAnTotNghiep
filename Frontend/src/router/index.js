@@ -5,6 +5,7 @@ import Home from '../views/Home/HomeView.vue'
 import ForgotPassword from '../views/Login/ForgotPassword.vue'
 import ManageClient from '../views/Admin/ManageClient.vue'
 import EditDocument from '../views/Home/EditDocument.vue'
+import TestConnectSocketIo from '../views/Home/TestConnectSocketIo.vue'
 // import { ref } from 'vue'
 
 // const check= ref(localStorage.getItem('id'))
@@ -52,7 +53,11 @@ const router = createRouter({
       }
            
     },
-    
+    {
+      path: '/TestConnectSocketIo',
+      name: 'TestConnectSocketIo',
+      component: TestConnectSocketIo
+    },
   ]
 })
 

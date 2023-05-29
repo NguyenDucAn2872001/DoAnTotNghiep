@@ -18,8 +18,12 @@
     "axios": "^1.4.0",
     "bootstrap-icons": "^1.10.5",
     "dotenv": "^16.0.3",
+    "i": "^0.3.7",
+    "npm": "^9.6.7",
+    "socket.io-client": "^4.6.1",
     "sweetalert2": "^11.7.3",
     "vue": "^3.2.47",
+    "vue-3-socket.io": "^1.0.5",
     "vue-router": "^4.1.6",
     "vuelidate": "^0.7.7",
     "vuex": "^4.1.0"

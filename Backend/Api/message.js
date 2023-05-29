@@ -42,5 +42,29 @@ router.post('/messages', async(req, res) => {
     }
 });
 
+// io.on('connection',(socket)=>{
+//     console.log("user connected");
+//     socket.on('on-chat',data=>{
+
+//     const query = 'INSERT INTO test3 (name,message) VALUES (?,?)';;
+//     const values = [data.name, data.message];
+//     connection.query(query, values, (error, result) => {
+//       if (error) throw error;
+
+//       // Truy vấn dữ liệu mới nhất từ cơ sở dữ liệu
+//       connection.query('SELECT * FROM test3 ', (error, results) => {
+//         if (error) throw error;
+
+//         console.log(results);
+//         socket.emit('newData', results);
+//       });
+//     });
+
+//     })
+
+//     socket.on('disconnect', () => {
+//         console.log('Client disconnected');
+//       });
+// })
 
 module.exports= router
