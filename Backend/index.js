@@ -69,6 +69,9 @@ app.use('/admin', require('./Api/admin'));
 
 app.use('/message', require('./Api/message'));
 
+app.use('/document', require('./Api/document'));
+
+
 server.listen(process.env.PORT,()=>{
     console.log( `Server start running on ${process.env.PORT}`)
     connection.connect((err)=>{

@@ -33,19 +33,26 @@
       </div>
       <div class="footer">
         <div class="d-flex">
-          <div class="btn btn-success" style="display: flex;align-items: center;width: 150px;margin-top: 30px; margin-left: 30px;">
-          <!-- <input type="file" class="form-control"> -->
-          <i class="fa-solid fa-plus me-2"></i>
-          <div>Thêm văn bản</div>
-        </div>
-        <div class="d-flex">
-          <div class="btn btn-danger" @click="checkClickSee=!checkClickSee" style="display: flex;align-items: center;width: 150px;margin-top: 30px; margin-left: 30px;">
-            <!-- <input type="file" class="form-control"> -->
-            <i class="fa-regular fa-eye me-2"></i>
-            <div>xem văn bản</div>
+          <router-link :to="`/Home/NewEdit/${getid}`"  style="text-decoration: none">
+            <div class="btn btn-success" style="display: flex;align-items: center;width: 150px;margin-top: 30px; margin-left: 30px;">
+              <i class="fa-solid fa-plus me-2"></i>
+              <div>Thêm văn bản</div>
+            </div>
+          </router-link>
+          <router-link :to="`/Home/NewEditOneUser/${getid}`"  style="text-decoration: none">
+            <div class="btn" style="display: flex;align-items: center;width: 150px;margin-top: 30px; margin-left: 30px;background-color: orange;">
+              <i class="fa-solid fa-plus me-2"></i>
+              <div>Thêm văn bản</div>
+            </div>
+          </router-link>
+          <div class="d-flex">
+            <div class="btn btn-danger" @click="checkClickSee=!checkClickSee" style="display: flex;align-items: center;width: 150px;margin-top: 30px; margin-left: 30px;">
+              <!-- <input type="file" class="form-control"> -->
+              <i class="fa-regular fa-eye me-2"></i>
+              <div>xem văn bản</div>
+            </div>
+            <input v-if="checkClickSee" type="text" placeholder="Nhập mã văn bản" style="margin-top: 30px;margin-left: 16px;border-radius: 11px;padding-left: 6px;">
           </div>
-          <input v-if="checkClickSee" type="text" placeholder="Nhập mã văn bản" style="margin-top: 30px;margin-left: 16px;border-radius: 11px;padding-left: 6px;">
-        </div>
 
         </div>
 

@@ -6,6 +6,8 @@ import ForgotPassword from '../views/Login/ForgotPassword.vue'
 import ManageClient from '../views/Admin/ManageClient.vue'
 import EditDocument from '../views/Home/EditDocument.vue'
 import TestConnectSocketIo from '../views/Home/TestConnectSocketIo.vue'
+import NewEdit from '../views/Home/NewEdit.vue'
+import NewEditOneUser from '../views/Home/NewEditOneUser.vue'
 // import { ref } from 'vue'
 
 // const check= ref(localStorage.getItem('id'))
@@ -43,6 +45,22 @@ const router = createRouter({
         requiresAuth:true
       }
            
+    },
+    {
+      path: '/Home/NewEdit/:id',
+      name: 'NewEdit',
+      component: NewEdit,
+      meta: {
+        requiresAuth:true
+      }
+    },
+    {
+      path: '/Home/NewEditOneUser/:id',
+      name: 'NewEditOneUser',
+      component: NewEditOneUser,
+      meta: {
+        requiresAuth:true
+      }
     },
     {
       path: '/Home/EditDocument',
