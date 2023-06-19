@@ -1,5 +1,8 @@
 <template>
   <div style="display: flex;width: 100%;background-color: #F8F8FF;">
+    <div class="center" >
+
+    </div>
     <div class="right" style="width: 80%;">
       <div class="">
         <nav class="navbar navbar-expand-lg navbar-light " style="background-color: #C6E2FF ;height: 80px; ">
@@ -25,8 +28,7 @@
               <div class="dropdown me-5" style="cursor: pointer; " @click="dropdownRp=!dropdownRp">
                 <i class="fas fa-bell"></i>
                 <span class="badge rounded-pill badge-notification bg-danger">1</span>    
-              </div>
-              
+              </div>       
             </div>
           </div>
         </nav>
@@ -47,83 +49,67 @@
           </router-link>
           <div class="d-flex">
             <div class="btn btn-danger" @click="checkClickSee=!checkClickSee" style="display: flex;align-items: center;width: 150px;margin-top: 30px; margin-left: 30px;">
-              <!-- <input type="file" class="form-control"> -->
+
               <i class="fa-regular fa-eye me-2"></i>
               <div>xem văn bản</div>
             </div>
             <input v-if="checkClickSee" type="text" placeholder="Nhập mã văn bản" style="margin-top: 30px;margin-left: 16px;border-radius: 11px;padding-left: 6px;">
           </div>
-
         </div>
-
-        <div>
-          <table class="table table-hover mt-5" style="width: 92%;margin-left: 40px;">
-          <thead>
-              <tr>
-                  <th>Số thứ tự</th>
-                  <th>Tên văn bản</th>
-                  <th>Phiên bản</th>
-                  <th>Action</th>
-              </tr>
-          </thead>
-          <tbody>
-              <tr>
-                  <td>1</td>
-                  <td>Lý thuyết mật mã</td>
-                  <td>1.0</td>
-                  <td class="d-flex">
-                    <div class="bg-info me-2" title="Thêm thành viên" style="cursor: pointer;width: 30px;height: 30px;display: flex;align-items: center;justify-content: space-around;border-radius: 50%;">
-                      <i class="fa-solid fa-user-plus" style="color: #fff;"></i>
+        <div class="mt-5">
+          <section class="intro">
+            <div class="bg-image h-100" >
+              <div class="mask d-flex align-items-center h-100" >
+                <div class="container">
+                  <div class="row justify-content-center">
+                    <div class="col-12">
+                      <div class="card">
+                        <div class="card-body">
+                          <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                              <thead>
+                                <tr>
+                                    <th class="text-center">Số thứ tự</th>
+                                    <th class="text-center">Tên văn bản</th>
+                                    <th class="text-center">Mật mã tài liệu</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr v-for="(i, index) in ListDocument">
+                                  <td class="text-center">{{ index + 1 }}</td>
+                                  <td class="text-center">{{ i.nameDocument }}</td>
+                                  <td class="text-center">{{ i.password }}</td>
+                                  <td class="text-center">
+                                    <div class="d-flex " style="justify-content: center;">
+                                      <div class="bg-info me-2" title="Thêm thành viên" @click="getUserIndocument(i.id)" style="cursor: pointer;width: 30px;height: 30px;display: flex;align-items: center;justify-content: space-around;border-radius: 50%;">
+                                      <i class="fa-solid fa-user" style="color: #fff;"></i>
+                                    </div>
+                                    <div class="bg-warning me-2" title="Gửi văn bản" style="cursor: pointer;width: 30px;height: 30px;display: flex;align-items: center;justify-content: space-around;border-radius: 50%;">
+                                      <i class="fa-solid fa-paper-plane" style="color: #fff;"></i>
+                                    </div>
+                                    <div class="bg-danger me-2" title="Xóa văn bản"  @click="deleteDocument(i.id)" style="cursor: pointer;width: 30px;height: 30px;display: flex;align-items: center;justify-content: space-around;border-radius: 50%;">
+                                      <i class="fa-solid fa-trash-arrow-up" style="color: #fff;"></i>
+                                    </div>
+                                    </div>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <div class="bg-warning me-2" title="Gửi văn bản" style="cursor: pointer;width: 30px;height: 30px;display: flex;align-items: center;justify-content: space-around;border-radius: 50%;">
-                      <i class="fa-solid fa-paper-plane" style="color: #fff;"></i>
-                    </div>
-                    <div class="bg-danger me-2" title="Xóa văn bản" style="cursor: pointer;width: 30px;height: 30px;display: flex;align-items: center;justify-content: space-around;border-radius: 50%;">
-                      <i class="fa-solid fa-trash-arrow-up" style="color: #fff;"></i>
-                    </div>
-                  </td>
-              </tr>
-              <tr>
-                  <td>2</td>
-                  <td>Cơ sở chuyền số liệu</td>
-                  <td>1.3</td>
-                  <td class="d-flex">
-                    <div class="bg-info me-2" title="Thêm thành viên" style="cursor: pointer;width: 30px;height: 30px;display: flex;align-items: center;justify-content: space-around;border-radius: 50%;">
-                      <i class="fa-solid fa-user-plus" style="color: #fff;"></i>
-                    </div>
-                    <div class="bg-warning me-2" title="Gửi văn bản" style="cursor: pointer;width: 30px;height: 30px;display: flex;align-items: center;justify-content: space-around;border-radius: 50%;">
-                      <i class="fa-solid fa-paper-plane" style="color: #fff;"></i>
-                    </div>
-                    <div class="bg-danger me-2" title="Xóa văn bản" style="cursor: pointer;width: 30px;height: 30px;display: flex;align-items: center;justify-content: space-around;border-radius: 50%;">
-                      <i class="fa-solid fa-trash-arrow-up" style="color: #fff;"></i>
-                    </div>
-                  </td>
-              </tr>
-              <tr>
-                  <td>3</td>
-                  <td>Đồ-án-tốt-nghiệp_July_22-1</td>
-                  <td>1.2</td>
-                  <td class="d-flex">
-                    <div class="bg-info me-2" title="Thêm thành viên" style="cursor: pointer;width: 30px;height: 30px;display: flex;align-items: center;justify-content: space-around;border-radius: 50%;">
-                      <i class="fa-solid fa-user-plus" style="color: #fff;"></i>
-                    </div>
-                    <div class="bg-warning me-2" title="Gửi văn bản" style="cursor: pointer;width: 30px;height: 30px;display: flex;align-items: center;justify-content: space-around;border-radius: 50%;">
-                      <i class="fa-solid fa-paper-plane" style="color: #fff;"></i>
-                    </div>
-                    <div class="bg-danger me-2" title="Xóa văn bản" style="cursor: pointer;width: 30px;height: 30px;display: flex;align-items: center;justify-content: space-around;border-radius: 50%;">
-                      <i class="fa-solid fa-trash-arrow-up" style="color: #fff;"></i>
-                    </div>
-                  </td>
-              </tr>                    
-          </tbody>
-      </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
         </div>
-        
-        
         <div v-if="dropdown==true" class="dropdown-message" >
           <i class="fa-solid fa-circle-xmark icon-close" @click="dropdown=!dropdown"></i>
           <div class="message">Chat </div>
-          <div class="input-group search-box" >
+          <div class="input-group1 search-box" >
             <input class="form-control border-end-0 border" type="search" placeholder="search" id="example-search-input" style="border-radius: 18px;">
             <i class="fa fa-search icon-search"></i>
           </div>
@@ -184,22 +170,25 @@
     </div>
     <div class="left" style="width: 20%; background-color: #026466 ;height: 739px; position: relative;">
       <router-link to="/Home/EditDocument"  style="text-decoration: none;z-index: 1;margin-top: 50px; position: absolute;margin-left: 20px;">
-            <div class="text-black " style="font-weight: 700;font-size: 16px;color: black;">Chỉnh sửa văn bản</div>
+            <div  style="font-weight: 700;font-size: 16px;color: #fff;">Word online</div>
       </router-link>
 
       <!-- <router-link to="/TestConnectSocketIo"  style="display: flex;align-items: center;text-decoration: none ;color: black;" >
           <div style="padding-right: 20px;font-weight: 700;">Test </div>
       </router-link>  -->
       
-      <router-link to="/Home/EditDocument"  style="text-decoration: none;z-index: 1;margin-top: 100px; position: absolute;margin-left: 20px;">
-            <div class="text-black " style="font-weight: 700;font-size: 16px;color: black;">Cá nhân</div>
+      <router-link :to="`/Home/EditDocumentUser/${getid}`"  style="text-decoration: none;z-index: 1;margin-top: 100px; position: absolute;margin-left: 20px;">
+            <div  style="font-weight: 700;font-size: 16px;color: #fff;">Chỉnh Sửa Văn bản</div>
       </router-link>
-      <router-link to="/Home/EditDocument"  style="text-decoration: none;z-index: 1;margin-top: 150px; position: absolute;margin-left: 20px;">
-            <div class="text-black " style="font-weight: 700;font-size: 16px;color: black;">Quản lý văn bản</div>
+      <router-link :to="`/Home/DocumentApproval/${getid}`"  style="text-decoration: none;z-index: 1;margin-top: 150px; position: absolute;margin-left: 20px;">
+            <div  style="font-weight: 700;font-size: 16px;color: #fff;">Phê duyệt văn bản</div>
       </router-link>
       <router-link to="/Home/EditDocument"  style="text-decoration: none;z-index: 1;margin-top: 200px; position: absolute;margin-left: 20px;">
-            <div class="text-black " style="font-weight: 700;font-size: 16px;color: black;">Quản lý thành viên</div>
+            <div style="font-weight: 700;font-size: 16px;color: #fff;">Quản lý thành viên</div>
       </router-link>
+      <!-- <router-link to="/Home/EditDocument"  style="text-decoration: none;z-index: 1;margin-top: 200px; position: absolute;margin-left: 20px;">
+            <div class="text-black " style="font-weight: 700;font-size: 16px;color: #fff;">Quản lý thành viên</div>
+      </router-link> -->
 
 
 
@@ -214,12 +203,18 @@
       </div>
     </div>
   </div>
+  <!-- <div>
+    <h1 v-for="i in ListDocument">
+        <div>{{ i.id }}</div>
+    </h1>
+  </div> -->
 </template>
 <script setup>
 import socket from '../../../plugins/socket'
 import { onMounted,ref } from 'vue';
 import axios  from 'axios';
 import {useRoute} from 'vue-router'
+import Swal from "sweetalert2";
 
 const route=useRoute()
 const dropdown=ref(false)
@@ -232,7 +227,8 @@ const useridGues=ref('') // id người nhận
 const listMessage=ref([]) // danh sách tất cả tin nhắn
 const infoUser=ref([])
 const message=ref("")
-
+const ListDocument=ref([])
+const ListUserInDocument=ref([])
 const users=ref([])
 const checkClickSee=ref(false)
 const selectUserToSend=ref()
@@ -268,6 +264,7 @@ const onselectedtosend=(user)=>{
 onMounted(async()=>{
   await getInfoUser()
   await CheckState()
+  await getDocument()
   console.log(users.value);
   onConnect()
   socket.on('getUsers',(data)=>{
@@ -294,13 +291,7 @@ onMounted(async()=>{
             to:from
         })
     })
-  
-  
-  
 })
-
-
-
 
 const chat=()=>{
   
@@ -341,13 +332,100 @@ const getInfoUser = async()=>{
         infoUser.value.push(response.data[i])
         if (response.data[i].name!=name.value) {
           users.value.push(response.data[i].name)
-          
         }
       }
     })
   } catch (error) {
       console.log(error);
   }
+}
+const getDocument = async()=>{
+  try {
+    await axios.get(import.meta.env.VITE_GETDOCUMENT_BYID,{
+      params:{
+        idDocumentOwner:getid
+      }
+    }).then(response =>
+    {
+      for (let i = 0; i < response.data.length; i++) {
+        ListDocument.value.push(response.data[i])
+        console.log(response.data[i]);
+      }
+    })
+  } catch (error) {
+      console.log(error);
+  }
+}
+const getUserIndocument = async(id)=>{
+  console.log(id);
+  console.log(infoUser.value);
+
+  try {
+    await axios.get(import.meta.env.VITE_GETUSERINDOCUMENT_BYID,{
+      params:{
+        documentId:id
+      }
+    }).then(response =>
+    {
+      for (let i = 0; i < response.data.length; i++) {
+        for (let j = 0; j < infoUser.value.length; j++) {
+          if (infoUser.value[j].id==response.data[i].userId) {
+            ListUserInDocument.value.push(infoUser.value[j])
+          }       
+        }
+      }
+      console.log(ListUserInDocument.value);
+    })
+  } catch (error) {
+      console.log(error);
+  }
+}
+
+const deleteDocument = async(id)=>{
+  // console.log(id,ListDocument.value);
+  // ListDocument.value.splice(id-1, 1);
+  await Swal.fire({
+        title: 'Xóa Tài Liệu',
+        text: "Bạn có muốn xóa tài liệu này không ?",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Tiếp tục!'
+        }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire(
+            'Deleted!',
+            'Xoá tài liệu thành công .',
+            'success'
+            )
+            try {
+               axios.delete(import.meta.env.VITE_DELETEUSERINDOCUMENT,{
+                params:{
+                  id:id
+                }
+              })
+            } catch (error) {
+              console.log(error);
+            }
+
+            try {
+               axios.delete(import.meta.env.VITE_DELETEDOCUMENT,{
+                params:{
+                  id:id
+                }
+              })
+            } catch (error) {
+              console.log(error);
+            }
+
+            window.location.reload();
+
+        }
+    })
+
+
+  
 }
 
 const CheckState = async()=>{
@@ -378,7 +456,27 @@ const CheckOut = async()=>{
 </script>
 
 <style >
+  .intro {
+  height: 100%;
+}
 
+table td,
+table th {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.card {
+  border-radius: .5rem;
+}
+.input-group1 {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width: 92%;
+}
   .footer{
     position: relative;
   }
@@ -398,7 +496,6 @@ const CheckOut = async()=>{
     border-radius: 18px;
     border: 1px solid #C0C0C0;
     margin-left: 10px;
-    width: 238px;
   }
   .icon-search{
     position: absolute;

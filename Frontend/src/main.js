@@ -7,6 +7,7 @@ import store from '../src/store/index'
 import './assets/main.css'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
+import "bootstrap/dist/css/bootstrap.min.css"
 
 
 const app = createApp(App)
@@ -16,3 +17,5 @@ app.use(ElementPlus)
 app.use(router)
 app.use(Vuex);
 app.mount('#app')
+
+import "bootstrap/dist/js/bootstrap.js"

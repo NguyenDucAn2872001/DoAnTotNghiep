@@ -26,9 +26,19 @@
                             </div>
 
                             <div class="form-outline mb-4" style="display: grid;">
-                                <label class="form-label" for="form3Example3cg">Người Chỉnh Sửa </label>
-                                <el-select-v2 v-model="info.ListUserInDocument" filterable :options="infoUser.map(name => ({ value: name, label: name }))" placeholder=" " style="width: 538.4px;" multiple />
+                                <label class="form-label" for="form3Example3cg">Người Chỉnh Sửa Văn Bản</label>
+                                <el-select-v2 v-model="info.ListUserInDocument" filterable :options="infoUser.map(name => ({ value: name.id, label: name.name }))" placeholder=" " style="width: 538.4px;" multiple />
                                 <span class="text-danger" v-for="error in v$.ListUserInDocument.$errors" :key="error.$uid">
+                                    {{ error.$message }}
+                                </span>
+                            </div>
+
+                            <div class="form-outline mb-4" style="display: grid;">
+                                <label class="form-label" for="form3Example3cg">Người Hợp Nhất Văn Bản </label>
+                                <el-select v-model="info.MergeUser" filterable placeholder="Select" >
+                                    <el-option v-for="item in infoUser" :key="item.id" :label="item.name" :value="item.id"/>     
+                                </el-select>
+                                <span class="text-danger" v-for="error in v$.MergeUser.$errors" :key="error.$uid">
                                     {{ error.$message }}
                                 </span>
                             </div>
@@ -56,28 +66,25 @@
             </section>
         </div>
         <div  v-else class="nav">
-            <div>
-                <button @click="addTextarea">Thêm Textarea</button>
-                <button @click="addTitle">Thêm Title</button>
-                <button >Save</button>
-                <div @click="ViewTextarea">click me</div>
+            <div style="margin: 100px;">
+                <button @click="SaveDocument">Save</button>
+                <button @click="PosttData">Get Data</button>
                 <div style="width: 1000px;height: 800px;border: 1px solid black; border-radius: 10px;" >
                     <div v-for="(item, index) in items" :key="index" style="display: flex;justify-content: center;">
-                        <template v-if="item.type === 'textarea'" >
+                        <template v-if="item.type === 'titleAndTextarea'">
                             <div class="box-textarea">
-                                <textarea class="custom-textarea" v-model="item.content" ></textarea>
-                                <i class="fa-solid fa-circle-xmark close-textarea" ></i>
-                            </div>
-                        </template>
-                        <template v-else-if="item.type === 'title'">
-                            <div >
-                                <input class="custom-input" type="text" v-model="item.content" placeholder="Input Title here">
-                                <!-- <i class="fa-solid fa-circle-xmark"></i> -->
+                                <div >
+                                    <input class="custom-input" type="text" v-model="item.titleContent" placeholder="Input Title here">
+                                </div>
+                                <div>
+                                    <textarea class="custom-textarea" v-model="item.textareaContent"></textarea>
+                                </div>
+                                <i class="fa-solid fa-circle-xmark close-textarea" @click="removeTextarea(item, index)"></i>
                             </div>
                         </template>
                     </div>
                     <div style="display: flex;justify-content: center;">
-                        <i class="fa-solid fa-circle-plus iconplus"></i>
+                        <i class="fa-solid fa-circle-plus iconplus" @click="addTextarea"></i>
                     </div>
                 </div>
             </div>
@@ -90,26 +97,25 @@ import {required } from "@vuelidate/validators"
 import useVuelidate from "@vuelidate/core"
 import axios  from 'axios';
 import {useRoute} from 'vue-router'
+import Swal from "sweetalert2";
 
 const route=useRoute()
-const getid=route.params.id  // id người nhắn
-
+const getid=route.params.id 
 const infoUser =ref([])
-// const ListUserInDocument = ref([])
-// const NameDocument = ref([])
-// const PassWordDocument = ref([])
-
+const items = ref([]);
+const idDocument=ref()
 const info = ref({
     ListUserInDocument :[],
     NameDocument : "",
+    MergeUser:"",
     PassWordDocument : "",
-
 })
 const rules= computed(()=>{
     return{
         ListUserInDocument:{required},
         NameDocument : {required},
         PassWordDocument : {required},
+        MergeUser : {required},
     }
 })
 const v$ = useVuelidate(rules,info.value)
@@ -123,26 +129,114 @@ const CreateDocument = async()=>{
     var result = await v$.value.$validate();
     if(result)
     {
+        await postDocument();
+        await getDocument();
+        for (let i = 0; i < info.value.ListUserInDocument.length; i++) {
+            try {
+                await axios.post(import.meta.env.VITE_POSTUSERINDOCUMENT,{
+                    documentId:idDocument.value,
+                    userId :info.value.ListUserInDocument[i],
+                    idDocumentOwner:getid,
+                }
+                ).then (response => {
+                    console.log(response);
+                })
+            } catch (error) {
+                console.log(error);
+            }
+                
+        }  
         CloseForm.value=false
         console.log(info.value);
     }
+}
+const SaveDocument= async()=>{
+
+    console.log(info.value.ListUserInDocument);
+    console.log(items.value);
     
 }
-const items = ref([]);
-
-const addTextarea =()=> {
-  items.value.push({ type: 'textarea', content: '' });
+const postDocument= async()=>{
+    try {
+        await axios.post(import.meta.env.VITE_POSTDOCUMENT,{
+            nameDocument:info.value.NameDocument,
+            password :info.value.PassWordDocument,
+            idDocumentOwner:getid,
+            mergeUser :info.value.MergeUser,
+        }
+        ).then (response => {
+            console.log(response);
+            Swal.fire({
+                icon: 'success',
+                title: 'Tạo tài khoản thành công',
+                showConfirmButton: false,
+                timer: 1000
+            })
+        })
+    } catch (error) {
+        console.log(error);
+    }
 }
 
-const addTitle =()=> {
-  items.value.push({ type: 'title', content: '' });
-}
-
-const ViewTextarea = () => {
-  for (let i = 0; i < items.value.length; i++) {
-    if(items.value[i].type=='textarea')
-    console.log(items.value[i].content);
+const getDocument = async()=>{
+  try {
+    await axios.get(import.meta.env.VITE_GETDOCUMENT_BYID,{
+      params:{
+        idDocumentOwner:getid
+      }
+    }).then(response =>
+    {
+      for (let i = 0; i < response.data.length; i++) {
+        if(response.data[i].nameDocument==info.value.NameDocument){
+            idDocument.value=response.data[i].id
+        }
+      }
+    })
+  } catch (error) {
+      console.log(error);
   }
+}
+
+const addTextarea = () => {
+  const newItem = {
+    type: 'titleAndTextarea',
+    titleContent: '',
+    textareaContent: ''
+  };
+  items.value.push(newItem);
+}
+
+const removeTextarea = (item, index) => {
+    console.log(item,index);
+  items.value.splice(index, 1);
+}
+
+const PosttData = async() => {
+    console.log(items.value);
+    for (let i = 0; i < items.value.length; i++) {
+        try {
+            await axios.post(import.meta.env.VITE_POST_DATA_CONTENT,{
+                userId:getid,
+                title:items.value[i].titleContent,
+                textarea:items.value[i].textareaContent,
+                documentid:idDocument.value,
+            }
+            ).then (response => {
+                console.log(response);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Lưu nội dung văn bản thành công',
+                    showConfirmButton: false,
+                    timer: 1000
+                })
+                return route.push(`/Home/${getid}`)
+            })
+        } catch (error) {
+            console.log(error);
+        }
+        
+    }
+  
 }
 
 const getInfoUser = async()=>{
@@ -151,12 +245,9 @@ const getInfoUser = async()=>{
     {
       for (let i = 0; i < response.data.length; i++) {
         console.log(response.data[i].name);
-        infoUser.value.push(response.data[i].name)
-        // infoUser.value.push(response.data[i])
-        // if (response.data[i].name!=name.value) {
-        //   users.value.push(response.data[i].name)
-          
-        // }
+        if (response.data[i].id!=getid) {
+            infoUser.value.push(response.data[i])                
+        }
       }
     })
   } catch (error) {
@@ -167,6 +258,11 @@ const getInfoUser = async()=>{
 </script>
 
 <style >
+.el-select .el-input {
+    display: flex;
+    height: 48px;
+}
+
 .el-tooltip__trigger{
     height: 48px;
 }
@@ -183,8 +279,8 @@ const getInfoUser = async()=>{
 }
 .close-textarea{
     position: absolute;
-    top: 14px;
-    right: -4px;
+    top: 71px;
+    right: 11px;
     color: red;
     cursor: pointer;
 }
@@ -192,7 +288,7 @@ const getInfoUser = async()=>{
     position: relative;
 }
 .custom-input {
-  width: 980px;
+  width: 960px;
   height: 20px;
   border: none;
   margin-top: 20px;
@@ -209,8 +305,9 @@ const getInfoUser = async()=>{
   border-color: transparent;
 }
 .custom-textarea{
+  padding: 10px;
   resize: none;
-  width: 980px;
+  width: 960px;
   height: 100px;
   border: 1px solid #DDDDDD; 
   border-radius: 10px;

@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router();
-var connection = require('../Database/dbinfo');
+var connection = require('../../Database/dbinfo');
 // const jwt = require('jsonwebtoken')
 // const multer = require('multer')
 const nodemailer = require('nodemailer');

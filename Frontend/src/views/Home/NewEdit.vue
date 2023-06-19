@@ -218,8 +218,6 @@ const editRealtime = () => {
         }
         });
         
-        //console.log(Array.from(ydoc.store.clients),":",ydoc.toJSON().default) 
-        
     })
 
 

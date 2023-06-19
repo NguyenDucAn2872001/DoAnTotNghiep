@@ -63,14 +63,19 @@ app.get('/',(req,res)=>{
 })
 
 
-app.use('/users', require('./Api/user'));
+app.use('/users', require('./Api/User/user'));
 
-app.use('/admin', require('./Api/admin'));
+app.use('/admin', require('./Api/User/admin'));
 
-app.use('/message', require('./Api/message'));
+app.use('/message', require('./Api/Message/message'));
 
-app.use('/document', require('./Api/document'));
+app.use('/document', require('./Api/Document/document'));
 
+app.use('/content', require('./Api/Document/content'));
+
+app.use('/editContent', require('./Api/Document/editContent'));
+
+app.use('/approval', require('./Api/Document/approval'));
 
 server.listen(process.env.PORT,()=>{
     console.log( `Server start running on ${process.env.PORT}`)

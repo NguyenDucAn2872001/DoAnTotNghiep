@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router();
-var connection = require('../Database/dbinfo');
+var connection = require('../../Database/dbinfo');
 
 router.get('/infoUser',  async(req, res)=> {
     //let sqlcheck="ALTER TABLE users ADD UNIQUE (email) "

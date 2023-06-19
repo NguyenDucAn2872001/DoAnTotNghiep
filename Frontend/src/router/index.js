@@ -8,6 +8,8 @@ import EditDocument from '../views/Home/EditDocument.vue'
 import TestConnectSocketIo from '../views/Home/TestConnectSocketIo.vue'
 import NewEdit from '../views/Home/NewEdit.vue'
 import NewEditOneUser from '../views/Home/NewEditOneUser.vue'
+import EditDocumentUser from '../views/Home/EditDocumentUser.vue'
+import DocumentApproval from '../views/Home/DocumentApproval.vue'
 // import { ref } from 'vue'
 
 // const check= ref(localStorage.getItem('id'))
@@ -58,6 +60,22 @@ const router = createRouter({
       path: '/Home/NewEditOneUser/:id',
       name: 'NewEditOneUser',
       component: NewEditOneUser,
+      meta: {
+        requiresAuth:true
+      }
+    },
+    {
+      path: '/Home/EditDocumentUser/:id',
+      name: 'EditDocumentUser',
+      component: EditDocumentUser,
+      meta: {
+        requiresAuth:true
+      }
+    },
+    {
+      path: '/Home/DocumentApproval/:id',
+      name: 'DocumentApproval',
+      component: DocumentApproval,
       meta: {
         requiresAuth:true
       }

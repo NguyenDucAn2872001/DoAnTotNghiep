@@ -27,8 +27,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="inf in info" :key="inf">
-                        <th scope="row">{{ inf.id*0 +1 }}</th>
+                        <tr v-for="(inf, index) in info"  :key="inf">
+                        <th>{{ index + 1 }}</th>
                         <td>{{ inf.email }}</td>
                         <td>{{ inf.name }}</td>
                         <td v-if="inf.state==true" scope="row" >
