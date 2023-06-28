@@ -1,14 +1,5 @@
 <template>
-    <div v-for="i in ListContentDocument[0]">
-        <div>{{ i }}</div>
-    </div>
-    <div v-for="i in ListInfoDocument">
-        <div @click="getidOnclickDocument(i.id)">{{ i }}</div>
-    </div>
-    <div v-for="i in ListContentDocument">
-        <div @click="getidOnclickDocument(i)">{{ i }}</div>
-    </div>
-    <div>
+    <div style="height: 100vh; ">
         <div class="mt-5" v-if="CloseForm==true">
             <section class="intro">
                 <div class="bg-image h-100" >
@@ -37,12 +28,21 @@
                                                 <td class="text-center">{{ i.merge_name }}</td>
                                                 <td class="text-center">
                                                 <div class="d-flex " style="justify-content: center;">
-                                                    <div class="bg-info me-2" title="Xem thành viên" @click="getUserIndocument(i.id)" style="cursor: pointer;width: 30px;height: 30px;display: flex;align-items: center;justify-content: space-around;border-radius: 50%;">
-                                                    <i class="fa-solid fa-user" style="color: #fff;"></i>
-                                                </div>
-                                                <div class="bg-danger me-2" @click="{getContentDocumnetbyid(i.id);CloseForm=false}" title="Chỉnh sửa văn bản" style="cursor: pointer;width: 30px;height: 30px;display: flex;align-items: center;justify-content: space-around;border-radius: 50%;">
-                                                    <i class="fa-solid fa-file-pen" style="color: #fff;"></i>
-                                                </div>
+                                                    <el-popover placement="right" :width="400" trigger="click">
+                                                        <template #reference>
+                                                        <div class="bg-info me-2" title="Thêm thành viên" @click="getUserIndocument(i.id)" style="cursor: pointer;width: 30px;height: 30px;display: flex;align-items: center;justify-content: space-around;border-radius: 50%;">
+                                                        <i class="fa-solid fa-user" style="color: #fff;"></i>
+                                                    </div>
+                                                    </template>
+                                                        <el-table :data="ListUserInDocument">
+                                                        <el-table-column width="100" property="name" label="Name" />
+                                                        <el-table-column width="300" property="email" label="Email" />
+                                                        </el-table>
+                                                    </el-popover>
+                                                    <div class="bg-danger me-2" @click="{getContentDocumnetbyid(i.id,i.idDocumentOwner);CloseForm=false}" title="Chỉnh sửa văn bản" style="cursor: pointer;width: 30px;height: 30px;display: flex;align-items: center;justify-content: space-around;border-radius: 50%;">
+                                                        <i class="fa-solid fa-file-pen" style="color: #fff;"></i>
+                                                    </div>
+                                                    
                                                 </div>
                                                 </td>
                                             </tr>
@@ -59,6 +59,9 @@
             </section>
         </div>
         <div  v-else class="nav">
+            <div class="data-container">
+                <span class="btn">Hover Me </span>
+            </div>
             <div style="margin: 100px;">
                 <button class="me-3" @click="SaveDocument">Save</button>
                 <button @click="PosttData">Lưu Văn Bản</button>
@@ -130,7 +133,7 @@ const GetDocumentIdEdit =async()=>{
         }).then(response =>
         {
             for (let i = 0; i < response.data.length; i++) {
-                ListDocumentIdEdit.value.push(response.data[i].documentId)
+                ListDocumentIdEdit.value.push(response.data[i])
             }
         })
     } catch (error) {
@@ -143,7 +146,7 @@ const GetInfoDocument =async()=>{
         try {
             await axios.get(import.meta.env.VITE_GET_INFO_DOCUMENT,{
             params:{
-                id:ListDocumentIdEdit.value[i]
+                id:ListDocumentIdEdit.value[i].documentId
             }
             }).then(response =>
             {
@@ -162,7 +165,8 @@ const GetContentDocument =async()=>{
         try {
             await axios.get(import.meta.env.VITE_GET_CONTENT_DOCUMENT,{
             params:{
-                documentid:ListDocumentIdEdit.value[i]
+                documentid:ListDocumentIdEdit.value[i].documentId,
+                userId:ListDocumentIdEdit.value[i].idDocumentOwner
             }
             }).then(response =>
             {
@@ -180,12 +184,13 @@ const GetContentDocument =async()=>{
     }
 }
 
-const getContentDocumnetbyid=async(id)=>{
+const getContentDocumnetbyid=async(id,idDocumentOwner)=>{
     items.value=[]
     try {
         await axios.get(import.meta.env.VITE_GET_CONTENT_DOCUMENT,{
         params:{
-            documentid:id
+            documentid:id,
+            userId:idDocumentOwner
         }
         }).then(response =>
         {

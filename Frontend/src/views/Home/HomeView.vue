@@ -1,21 +1,57 @@
 <template>
-  <div style="display: flex;width: 100%;background-color: #F8F8FF;">
-    <div class="center" >
-
+  <div v-if="viewDocument==false" style="display: flex;width: 100%;background-color: #F8F8FF;height: 100vh; ">
+    <div class="left" style="width: 20%; background-color: slategrey ;">
+      <div class="container">
+        <div class="top-elements">
+          <div style="display: flex;justify-content: center;margin-top: 20px;">
+            <img src="../../assets/LogoVienDien_preview_rev_1.png" alt="" style="width: 150px;height: 60px;">
+          </div>
+          <router-link class="button" to="/Home/EditDocument"  style="text-decoration: none;z-index: 1;margin-top: 60px;margin-left: 20px;display:flex; align-items: center;">
+            <i class="fa-solid fa-file-word me-3 bg-light " style="color: black;width: 30px;height: 30px;border-radius: 50%;display: flex;justify-content: center;align-items: center;font-size: 20px;" ></i>
+            <div  style="font-weight: 700;font-size: 16px;color: #fff;">Word</div>
+          </router-link>
+          <router-link class="button" :to="`/Home/NewEdit/${getid}`"  style="text-decoration: none;z-index: 1;margin-top: 50px;margin-left: 20px; display:flex; align-items: center;">    
+              <i class="fa-solid fa-book me-3 bg-light" style="color: black;width: 30px;height: 30px;border-radius: 50%;display: flex;justify-content: center;align-items: center;font-size: 20px;"></i>
+              <div style="font-weight: 700;font-size: 16px;color: #fff;">Document Online</div>   
+          </router-link>
+          <router-link class="button" :to="`/Home/EditDocumentUser/${getid}`"  style="text-decoration: none;z-index: 1;margin-top: 50px;margin-left: 20px; display:flex; align-items: center;">
+            <i class="fa-solid fa-pen me-3 bg-light" style="color: black;width: 30px;height: 30px;border-radius: 50%;display: flex;justify-content: center;align-items: center;font-size: 20px;"></i>
+            <div  style="font-weight: 700;font-size: 16px;color: #fff;">Chỉnh Sửa Văn bản</div>
+          </router-link>
+          <router-link class="button" :to="`/Home/DocumentApproval/${getid}`"  style="text-decoration: none;z-index: 1;margin-top: 50px; margin-left: 20px;display:flex; align-items: center;">
+            <i class="fa-solid fa-code-merge me-3 bg-light" style="color: black;width: 30px;height: 30px;border-radius: 50%;display: flex;justify-content: center;align-items: center;font-size: 20px;"></i>
+            <div  style="font-weight: 700;font-size: 16px;color: #fff;">Phê duyệt văn bản</div>
+          </router-link>
+          <router-link class="button" :to="`/Home/Community/${getid}`"  style="text-decoration: none;z-index: 1;margin-top: 50px;margin-left: 20px;display:flex; align-items: center;">
+            <i class="fa-solid fa-users-line me-3 bg-light" style="color: black;width: 30px;height: 30px;border-radius: 50%;display: flex;justify-content: center;align-items: center;font-size: 20px;"></i>
+            <div style="font-weight: 700;font-size: 16px;color: #fff;">Cộng đồng</div>
+          </router-link>
+        </div>
+        <div class="bottom-element">
+          <div @click="CheckOut" > 
+            <div class="line"></div>
+            <router-link to="/"  style="display: flex;align-items: center;text-decoration: none ;color: #fff;" >
+              <i class="fa-solid fa-circle-arrow-left me-3 ms-3" style="font-size: 30px;"></i>
+              <div style="padding-right: 20px;font-weight: 700;">Đăng xuất</div>
+            </router-link>  
+            <div class="line_2"></div>
+          </div>
+        </div>
+    </div>
     </div>
     <div class="right" style="width: 80%;">
       <div class="">
-        <nav class="navbar navbar-expand-lg navbar-light " style="background-color: #C6E2FF ;height: 80px; ">
+        <nav class="navbar navbar-expand-lg navbar-light " style="background-color: lightgray ;height: 80px; ">
           <div class="container-fluid">
             <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <i class="fas fa-bars"></i>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <a class="navbar-brand mt-2 mt-lg-0 me-5" href="#">
-                <img src="https://mdbcdn.b-cdn.net/img/logo/mdb-transaprent-noshadows.webp" height="15" alt="MDB Logo" loading="lazy"/>
-              </a>
-              <div style="display: flex;align-items: center;text-decoration: none ;cursor: pointer;">
+              <div >
+                <img src="../../assets/download_preview_rev_1.png" alt="" style="width: 60px;height: 60px;">
+              </div>
+              <div class="ms-5" style="display: flex;align-items: center;text-decoration: none ;cursor: pointer;">
                 <i class="fa-solid fa-user" style="padding-right: 10px;"></i>
                 <div style="font-weight: 700;">{{ name }}</div>
               </div>  
@@ -35,25 +71,23 @@
       </div>
       <div class="footer">
         <div class="d-flex">
-          <router-link :to="`/Home/NewEdit/${getid}`"  style="text-decoration: none">
-            <div class="btn btn-success" style="display: flex;align-items: center;width: 150px;margin-top: 30px; margin-left: 30px;">
-              <i class="fa-solid fa-plus me-2"></i>
-              <div>Thêm văn bản</div>
-            </div>
-          </router-link>
+          
           <router-link :to="`/Home/NewEditOneUser/${getid}`"  style="text-decoration: none">
-            <div class="btn" style="display: flex;align-items: center;width: 150px;margin-top: 30px; margin-left: 30px;background-color: orange;">
+            <div class="btn" style="display: flex;align-items: center;width: 174px;margin-top: 30px; margin-left: 30px;background-color: orange;">
               <i class="fa-solid fa-plus me-2"></i>
               <div>Thêm văn bản</div>
             </div>
           </router-link>
           <div class="d-flex">
-            <div class="btn btn-danger" @click="checkClickSee=!checkClickSee" style="display: flex;align-items: center;width: 150px;margin-top: 30px; margin-left: 30px;">
+            <div class="btn btn-danger" @click="checkClickSee=!checkClickSee" style="display: flex;align-items: center;width: 174px;margin-top: 30px; margin-left: 30px;">
 
               <i class="fa-regular fa-eye me-2"></i>
               <div>xem văn bản</div>
             </div>
-            <input v-if="checkClickSee" type="text" placeholder="Nhập mã văn bản" style="margin-top: 30px;margin-left: 16px;border-radius: 11px;padding-left: 6px;">
+            <form v-if="checkClickSee" @submit.prevent="OnSearchDocument()">
+              <input  v-model="passwordDocument" type="text" @submit.prevent="submitCreate()" placeholder="Nhập mã văn bản" style="margin-top: 30px;margin-left: 16px;border-radius: 11px;padding-left: 6px;height: 38px">
+              <input type="submit" style="display: none;">
+            </form>
           </div>
         </div>
         <div class="mt-5">
@@ -63,7 +97,7 @@
                 <div class="container">
                   <div class="row justify-content-center">
                     <div class="col-12">
-                      <div class="card">
+                      <div class="card" style="height: 500px;">
                         <div class="card-body">
                           <div class="table-responsive">
                             <table class="table table-hover mb-0">
@@ -71,27 +105,46 @@
                                 <tr>
                                     <th class="text-center">Số thứ tự</th>
                                     <th class="text-center">Tên văn bản</th>
-                                    <th class="text-center">Mật mã tài liệu</th>
+                                    <th class="text-center">Mã tài liệu</th>
                                     <th class="text-center">Action</th>
+                                    <th class="text-center">Công Khai</th>
                                 </tr>
                               </thead>
                               <tbody>
                                 <tr v-for="(i, index) in ListDocument">
                                   <td class="text-center">{{ index + 1 }}</td>
                                   <td class="text-center">{{ i.nameDocument }}</td>
-                                  <td class="text-center">{{ i.password }}</td>
+                                  <td class="text-center" style="cursor: pointer;">
+                                    <input type="checkbox" id="toggle">
+                                    <label for="toggle" >...</label>
+                                    <div class="content">{{ i.password }}</div>
+                                  </td>
                                   <td class="text-center">
                                     <div class="d-flex " style="justify-content: center;">
-                                      <div class="bg-info me-2" title="Thêm thành viên" @click="getUserIndocument(i.id)" style="cursor: pointer;width: 30px;height: 30px;display: flex;align-items: center;justify-content: space-around;border-radius: 50%;">
-                                      <i class="fa-solid fa-user" style="color: #fff;"></i>
+                                      <div class="bg-success me-2" @click="OnSearchDocumentbyOwner(i.id)" title="Xem văn bản" style="cursor: pointer;width: 30px;height: 30px;display: flex;align-items: center;justify-content: space-around;border-radius: 50%;">
+                                        <i class="fa-solid fa-eye" style="color: #fff;"></i>
+                                      </div>
+                                      <div class="bg-warning me-2" title="Gửi văn bản" style="cursor: pointer;width: 30px;height: 30px;display: flex;align-items: center;justify-content: space-around;border-radius: 50%;">
+                                        <i class="fa-solid fa-paper-plane" style="color: #fff;"></i>
+                                      </div>
+                                      <div class="bg-danger me-2" title="Xóa văn bản"  @click="deleteDocument(i.id)" style="cursor: pointer;width: 30px;height: 30px;display: flex;align-items: center;justify-content: space-around;border-radius: 50%;">
+                                        <i class="fa-solid fa-trash-arrow-up" style="color: #fff;"></i>
+                                      </div>
+                                      <el-popover placement="right" :width="400" trigger="click">
+                                        <template #reference>
+                                          <div class="bg-info me-2" title="Thêm thành viên" @click="getUserIndocument(i.id)" style="cursor: pointer;width: 30px;height: 30px;display: flex;align-items: center;justify-content: space-around;border-radius: 50%;">
+                                        <i class="fa-solid fa-user" style="color: #fff;"></i>
+                                      </div>
+                                      </template>
+                                        <el-table :data="ListUserInDocument">
+                                          <el-table-column width="100" property="name" label="Name" />
+                                          <el-table-column width="300" property="email" label="Email" />
+                                        </el-table>
+                                      </el-popover>
                                     </div>
-                                    <div class="bg-warning me-2" title="Gửi văn bản" style="cursor: pointer;width: 30px;height: 30px;display: flex;align-items: center;justify-content: space-around;border-radius: 50%;">
-                                      <i class="fa-solid fa-paper-plane" style="color: #fff;"></i>
-                                    </div>
-                                    <div class="bg-danger me-2" title="Xóa văn bản"  @click="deleteDocument(i.id)" style="cursor: pointer;width: 30px;height: 30px;display: flex;align-items: center;justify-content: space-around;border-radius: 50%;">
-                                      <i class="fa-solid fa-trash-arrow-up" style="color: #fff;"></i>
-                                    </div>
-                                    </div>
+                                  </td>
+                                  <td class="text-center">{{ i.public }}
+                                    <el-switch v-model="i.public " class="ml-2" @change="setPublic(i.id , i.public)"/>
                                   </td>
                                 </tr>
                               </tbody>
@@ -168,46 +221,28 @@
         
       </div>
     </div>
-    <div class="left" style="width: 20%; background-color: #026466 ;height: 739px; position: relative;">
-      <router-link to="/Home/EditDocument"  style="text-decoration: none;z-index: 1;margin-top: 50px; position: absolute;margin-left: 20px;">
-            <div  style="font-weight: 700;font-size: 16px;color: #fff;">Word online</div>
-      </router-link>
-
-      <!-- <router-link to="/TestConnectSocketIo"  style="display: flex;align-items: center;text-decoration: none ;color: black;" >
-          <div style="padding-right: 20px;font-weight: 700;">Test </div>
-      </router-link>  -->
-      
-      <router-link :to="`/Home/EditDocumentUser/${getid}`"  style="text-decoration: none;z-index: 1;margin-top: 100px; position: absolute;margin-left: 20px;">
-            <div  style="font-weight: 700;font-size: 16px;color: #fff;">Chỉnh Sửa Văn bản</div>
-      </router-link>
-      <router-link :to="`/Home/DocumentApproval/${getid}`"  style="text-decoration: none;z-index: 1;margin-top: 150px; position: absolute;margin-left: 20px;">
-            <div  style="font-weight: 700;font-size: 16px;color: #fff;">Phê duyệt văn bản</div>
-      </router-link>
-      <router-link to="/Home/EditDocument"  style="text-decoration: none;z-index: 1;margin-top: 200px; position: absolute;margin-left: 20px;">
-            <div style="font-weight: 700;font-size: 16px;color: #fff;">Quản lý thành viên</div>
-      </router-link>
-      <!-- <router-link to="/Home/EditDocument"  style="text-decoration: none;z-index: 1;margin-top: 200px; position: absolute;margin-left: 20px;">
-            <div class="text-black " style="font-weight: 700;font-size: 16px;color: #fff;">Quản lý thành viên</div>
-      </router-link> -->
-
-
-
-
-
-      <div class="line"></div>
-      <div @click="CheckOut" class="log-out" > 
-        <router-link to="/"  style="display: flex;align-items: center;text-decoration: none ;color: black;" >
-          <div style="padding-right: 20px;font-weight: 700;">Log out</div>
-          <i class="fa-solid fa-right-from-bracket"></i>
-        </router-link>  
+    
+  </div>
+  <div v-else>
+    <button @click="saveAsPdf">Lưu thành PDF</button>
+    <div class="col" style="border: 1px solid black;width: 50%;height: 100%;border-top-right-radius: 20px;border-bottom-right-radius: 20px;">
+      <div style="width: 100%;max-height: 20%;display: flex;justify-content: center;margin-top: 20px;">
+        <div for="">Bản xem trước</div>
+      </div>
+      <div class="scrollable-review">
+        
+        <div id="content-to-pdf">
+          <div class="mt-5" v-for="item in ListContentDocument" :key="item.id">
+            <h3>{{ item.title }}</h3>
+            <div class="ms-4">
+              <label class="form-check-label" for="">{{ item.textarea }}</label>
+            </div>
+          </div>
+        </div>  
       </div>
     </div>
   </div>
-  <!-- <div>
-    <h1 v-for="i in ListDocument">
-        <div>{{ i.id }}</div>
-    </h1>
-  </div> -->
+  
 </template>
 <script setup>
 import socket from '../../../plugins/socket'
@@ -215,6 +250,7 @@ import { onMounted,ref } from 'vue';
 import axios  from 'axios';
 import {useRoute} from 'vue-router'
 import Swal from "sweetalert2";
+import html2pdf from 'html2pdf.js';
 
 const route=useRoute()
 const dropdown=ref(false)
@@ -232,13 +268,33 @@ const ListUserInDocument=ref([])
 const users=ref([])
 const checkClickSee=ref(false)
 const selectUserToSend=ref()
-
+const passwordDocument=ref()
+const ListContentDocument=ref([])
+const viewDocument=ref(false)
+const value = ref(true)
 
 const onConnect=()=>{
     socket.auth={
         username:name.value,
     }
     socket.connect()
+}
+
+const setPublic=(id ,p)=>{
+  console.log(value.value);
+  try {
+    axios.put(import.meta.env.VITE_UPDATE_PUBLIC_DOCUMENT,{
+        id:id,
+        public:!p
+    }).then(response =>
+    {
+        console.log(response);
+    })
+  } catch (error) {
+    console.log(error);
+  } 
+  p=!p
+  
 }
 
 const OnSendMessage=()=>{
@@ -292,6 +348,20 @@ onMounted(async()=>{
         })
     })
 })
+
+const saveAsPdf = async () => {
+  const content = document.getElementById('content-to-pdf');
+
+  const opt = {
+    margin: 1,
+    filename: 'your-filename.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+  };
+
+  html2pdf().set(opt).from(content).save();
+};
 
 const chat=()=>{
   
@@ -349,7 +419,7 @@ const getDocument = async()=>{
     {
       for (let i = 0; i < response.data.length; i++) {
         ListDocument.value.push(response.data[i])
-        console.log(response.data[i]);
+        console.log("ListDocument",response.data[i]);
       }
     })
   } catch (error) {
@@ -357,9 +427,7 @@ const getDocument = async()=>{
   }
 }
 const getUserIndocument = async(id)=>{
-  console.log(id);
-  console.log(infoUser.value);
-
+  ListUserInDocument.value=[]
   try {
     await axios.get(import.meta.env.VITE_GETUSERINDOCUMENT_BYID,{
       params:{
@@ -399,6 +467,16 @@ const deleteDocument = async(id)=>{
             'Xoá tài liệu thành công .',
             'success'
             )
+            try {
+               axios.delete(import.meta.env.VITE_DELETE_CONTENT_DOCUMENT,{
+                params:{
+                  id:id
+                }
+              })
+            } catch (error) {
+              console.log(error);
+            }
+            
             try {
                axios.delete(import.meta.env.VITE_DELETEUSERINDOCUMENT,{
                 params:{
@@ -440,7 +518,6 @@ const CheckState = async()=>{
     console.log("error");
   }
 }
-
 const CheckOut = async()=>{
   try {
     await axios.post('http://localhost:8888/users/stateout',{
@@ -453,9 +530,113 @@ const CheckOut = async()=>{
     console.log("error");
   }
 }
+
+
+const OnSearchDocument= async()=>{
+  ListContentDocument.value=[]
+  console.log(passwordDocument.value);
+  var password=passwordDocument.value
+  try {
+    await axios.get(import.meta.env.VITE_GET_DOCUMENT_BY_PASSWORD,{
+    params:{
+      password: password
+    }
+    }).then(response =>
+    {
+      for (let i = 0; i < response.data.length; i++) {
+        ListContentDocument.value.push(response.data[i])
+      }
+    })
+  } catch (error) {
+      console.log(error);
+  }
+  viewDocument.value=true
+  console.log(ListContentDocument.value);
+}
+
+const OnSearchDocumentbyOwner= async(id)=>{
+  ListContentDocument.value=[]
+  console.log(passwordDocument.value);
+  try {
+    await axios.get(import.meta.env.VITE_GET_DOCUMENT_BY_DOCUMENTOWNER,{
+    params:{
+      idDocumentOwner: getid,
+      id:id
+    }
+    }).then(response =>
+    {
+      for (let i = 0; i < response.data.length; i++) {
+        ListContentDocument.value.push(response.data[i])
+      }
+    })
+  } catch (error) {
+      console.log(error);
+  }
+  viewDocument.value=true
+  console.log(ListContentDocument.value);
+}
 </script>
 
 <style >
+.button {
+  position: relative;
+  background-color: #9E9E9E;
+  -webkit-border-radius: 10px;
+  border: none;
+  border-radius: 10px;
+  -webkit-box-shadow: 0px 8px 0px #878787, 0px 8px 20px #000000;
+  box-shadow: 0px 8px 0px #878787, 0px 8px 20px #000000;
+  color: #FFFFFF;
+  display: inline-block;
+  font-size: 34px;
+  padding: 2px 10px;
+  text-align: center;
+cursor:pointer;
+  text-decoration: none;
+  -webkit-transition: all 200ms ease;
+  -moz-transition: all 200ms ease;
+  -ms-transition: all 200ms ease;
+  -o-transition: all 200ms ease;
+  transition: all 200ms ease;
+}
+ 
+.button:active {
+  -webkit-box-shadow: 0px 2px 0px #878787, 0px 2px 8px #000000;
+  box-shadow: 0px 2px 0px #878787, 0px 2px 8px #000000;
+  top: 7px;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%; /* Đảm bảo chiều cao của container đủ để chứa các phần tử con */
+}
+
+.top-elements {
+
+  justify-content: flex-start;
+}
+
+.bottom-element {
+  width: 100%;
+  padding-bottom: 10px;
+  align-self: flex-end;
+}
+#toggle {
+  display: none;
+}
+
+#toggle:checked ~ .content {
+  display: block;
+}
+
+#toggle:checked ~ label {
+  display: none;
+}
+
+.content {
+  display: none;
+}
   .intro {
   height: 100%;
 }
@@ -477,117 +658,122 @@ table th {
     align-items: stretch;
     width: 92%;
 }
-  .footer{
-    position: relative;
-  }
-  .dropdown-message{
-    top: 4px;
-    right: 10px;
-    position: absolute;
-    width: 280px;
-    height: 370px;
-    background-color: #fff;
-    border-radius: 20px;
-    z-index: 2;
-    border: 1px solid #C0C0C0;
-  }
-  .search-box{
-    position: relative;
-    border-radius: 18px;
-    border: 1px solid #C0C0C0;
-    margin-left: 10px;
-  }
-  .icon-search{
-    position: absolute;
-    right: 10px;
-    top: 11px;
-  }
-  .message{
-    padding: 10px;
-    font-weight: 700;
-    font-size: 21px;
-  }
-  .list-message{
-    padding-left: 10px; 
-    padding-top: 16px; 
-    display: flex; 
-    align-items: center;
-    scroll-snap-align: start;
-  }
-  .icon-users{
-    font-size: 36px; 
-    color: #CCCCCC;
-    padding-right: 10px;
-  }
-  .log-out{
-    position: absolute; 
-    bottom: 12px; 
-    left: 178px;
-  }
-  .line{
-    position: absolute; 
-    bottom: 50px; 
-    width: 100%;
-    height: 2px;
-    background-color: #fff;
-  }
-  .line-1{
-    width: 100%;
-    height: 2px;
-    background-color: #CCCCCC;
-  }
-  .message-user{
-    top: 4px;
-    right: 10px;
-    position: absolute;
-    width: 280px;
-    height: 370px;
-    background-color: #fff;
-    border-radius: 20px;
-    z-index: 2;
-    border: 1px solid #C0C0C0;
-  }
-  .icon-close{
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    font-size: 20px;
-    cursor: pointer;
-  }
-  .guest-message{
-    padding: 10px;
-    background-color: #EEEEEE; 
-    width: 70%;
-    border-radius: 20px;
-    color: #000; 
-    font-weight: 700; 
-    margin: 10px;
-    scroll-snap-align: start;
-  }
-  .you-message{
-    padding: 10px;
-    background-color: #0066FF; 
-    width: 70%;
-    border-radius: 20px;
-    color: #fff; 
-    font-weight: 700;
-    margin-top: 10px; 
-    margin-left: 72px;
-    scroll-snap-align: start;
-  }
-  .send-message{
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    padding: 10px;
-    display: flex;
-  }
-  .scroll-snap{
-    width: 100%;
-    height: 68%;
-    display: flex;
-    overflow-y: auto;
-    scroll-snap-type: y mandatory;
-    flex-direction: column;
-  }
+.footer{
+  position: relative;
+}
+.dropdown-message{
+  top: 4px;
+  right: 10px;
+  position: absolute;
+  width: 280px;
+  height: 370px;
+  background-color: #fff;
+  border-radius: 20px;
+  z-index: 2;
+  border: 1px solid #C0C0C0;
+}
+.search-box{
+  position: relative;
+  border-radius: 18px;
+  border: 1px solid #C0C0C0;
+  margin-left: 10px;
+}
+.icon-search{
+  position: absolute;
+  right: 10px;
+  top: 11px;
+}
+.message{
+  padding: 10px;
+  font-weight: 700;
+  font-size: 21px;
+}
+.list-message{
+  padding-left: 10px; 
+  padding-top: 16px; 
+  display: flex; 
+  align-items: center;
+  scroll-snap-align: start;
+}
+.icon-users{
+  font-size: 36px; 
+  color: #CCCCCC;
+  padding-right: 10px;
+}
+.log-out{
+  position: absolute; 
+  bottom: 12px; 
+  left: 178px;
+}
+.line{
+  width: 100%;
+  height: 2px;
+  background-color: #fff;
+  margin-bottom: 10px;
+}
+.line_2{
+  width: 100%;
+  height: 2px;
+  background-color: #fff;
+  margin-top: 10px;
+}
+.line-1{
+  width: 100%;
+  height: 2px;
+  background-color: #CCCCCC;
+}
+.message-user{
+  top: 4px;
+  right: 10px;
+  position: absolute;
+  width: 280px;
+  height: 370px;
+  background-color: #fff;
+  border-radius: 20px;
+  z-index: 2;
+  border: 1px solid #C0C0C0;
+}
+.icon-close{
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+.guest-message{
+  padding: 10px;
+  background-color: #EEEEEE; 
+  width: 70%;
+  border-radius: 20px;
+  color: #000; 
+  font-weight: 700; 
+  margin: 10px;
+  scroll-snap-align: start;
+}
+.you-message{
+  padding: 10px;
+  background-color: #0066FF; 
+  width: 70%;
+  border-radius: 20px;
+  color: #fff; 
+  font-weight: 700;
+  margin-top: 10px; 
+  margin-left: 72px;
+  scroll-snap-align: start;
+}
+.send-message{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 10px;
+  display: flex;
+}
+.scroll-snap{
+  width: 100%;
+  height: 68%;
+  display: flex;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  flex-direction: column;
+}
 </style>

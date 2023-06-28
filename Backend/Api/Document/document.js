@@ -19,6 +19,7 @@ var connection = require('../../Database/dbinfo');
 //     }
 // });
 
+
 router.get('/getNameDocument',  async(req, res)=> {
     const idDocumentOwner = req.query.idDocumentOwner;
     let sql = `SELECT * FROM document where idDocumentOwner = ${idDocumentOwner} `;
@@ -79,10 +80,21 @@ router.post('/saveUserDocument', async(req, res) => {
     })
 });
 
+router.delete('/deleteContentDocument', async (req, res) => {
+    const { id } = req.query;
+    let sql = `DELETE FROM content_document WHERE documentid = ${id}`;
+    connection.query(sql, (err, result) => {
+      if (err) {
+        return res.json(err);
+      } else {
+        return res.json(result);
+      }
+    });
+});
+
 router.delete('/deleteUserDocument', async (req, res) => {
     const { id } = req.query;
     let sql = `DELETE FROM userindocument WHERE documentId = ${id}`;
-  
     connection.query(sql, (err, result) => {
       if (err) {
         return res.json(err);
@@ -105,19 +117,51 @@ router.delete('/deleteDocument', async (req, res) => {
     });
 });
 
-// router.get('/messages/user',  async(req, res)=> {
-//     const { sender, receiver } = req.query;
-//     let sql = `SELECT content FROM messages where sender = ${sender} and   receiver =${receiver}`;
-//     //sql = `SELECT content FROM messages `;
+router.get('/getContentDocument',  async(req, res)=> {
+    const password = req.query.password;
+    let sql = `SELECT content_document.*
+    FROM document
+    JOIN content_document ON document.id = content_document.documentid
+    WHERE document.password = ${password} AND content_document.pick = 1  `;
+    connection.query(sql,(err,result)=>{
+        if(err){
+            return res.json(err)
+        }else{
+            console.log(result)
+            return(res.json(result))
+        }
+    })
+})
 
-//     connection.query(sql,(err,result)=>{
-//         if(err){
-//             return res.json(err)
-//         }else{
-//             console.log(result)
-//             return(res.send(result))
-//         }
-//     })
-// })
+router.get('/getContentDocumentbyDocumentOwner',  async(req, res)=> {
+    const idDocumentOwner = req.query.idDocumentOwner;
+    const id = req.query.id;
+    let sql = `SELECT content_document.*
+    FROM document
+    JOIN content_document ON document.id = content_document.documentid
+    WHERE document.idDocumentOwner = ${idDocumentOwner} AND document.id = ${id} AND content_document.pick = 1  `;
+    connection.query(sql,(err,result)=>{
+        if(err){
+            return res.json(err)
+        }else{
+            console.log(result)
+            return(res.json(result))
+        }
+    })
+})
+
+router.put('/updatePublic', (req, res) => {
+    const id = req.body.id; 
+    const public = req.body.public; 
+    connection.query(
+      `UPDATE document SET public = ${public} WHERE id = ${id}`,(err, result) => {
+        if (err) {
+            return res.json(err)
+        } else {
+            return(res.json(result))
+        }
+      }
+    );
+  });
 
 module.exports= router

@@ -1,6 +1,6 @@
 <template>
-   <div >
-    <div v-if="CloseForm==true">
+   <div style="height: 100vh; ">
+    <div v-if="CloseForm==true" >
         <section class="vh-100 bg-image"
             style="background-image: url('https://hainh2k3.com/wp-content/uploads/2018/11/CSS-Particles.gif');">
             <div class="mask d-flex align-items-center h-100 gradient-custom-3">
@@ -27,7 +27,7 @@
 
                             <div class="form-outline mb-4" style="display: grid;">
                                 <label class="form-label" for="form3Example3cg">Người Chỉnh Sửa Văn Bản</label>
-                                <el-select-v2 v-model="info.ListUserInDocument" filterable :options="infoUser.map(name => ({ value: name.id, label: name.name }))" placeholder=" " style="width: 538.4px;" multiple />
+                                <el-select-v2 v-model="info.ListUserInDocument" filterable :options="infoUser.map(name => ({ value: name.id, label: name.name }))" placeholder=" "  multiple />
                                 <span class="text-danger" v-for="error in v$.ListUserInDocument.$errors" :key="error.$uid">
                                     {{ error.$message }}
                                 </span>

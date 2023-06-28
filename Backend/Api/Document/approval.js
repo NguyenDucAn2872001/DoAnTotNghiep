@@ -51,4 +51,19 @@ router.get('/getContentDocument',  async(req, res)=> {
     })
 })
 
+router.put('/updateDocument', (req, res) => {
+    const id = req.body.id; // Lấy id từ URL
+  
+    // Thực hiện truy vấn SQL để cập nhật selected thành true
+    connection.query(
+      `UPDATE content_document SET pick = true WHERE id = ${id}`,(err, result) => {
+        if (err) {
+            return res.json(err)
+        } else {
+            return(res.json(result))
+        }
+      }
+    );
+  });
+
 module.exports= router

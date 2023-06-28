@@ -48,55 +48,48 @@
             </section>
         </div>
         <div v-else >
-            <div style="display: flex;justify-content: center;">
-                <div class="row" style="width: 90%; height: 600px; background-color: #fff; margin-top: 80px;border: 1px solid black;border-radius: 20px; ">
-                    <div class="col" style="border: 1px solid black;width: 50%;border-top-left-radius: 20px;border-bottom-left-radius: 20px;">
-                        <div style="width: 100%;display: flex;justify-content: center;margin-top: 20px;">
-                            <label for="">Lựa chọn văn bản</label>
-                        </div>
-                        <div v-for="(text, title) in textareaByTitle" :key="title">
+            <div style="display: flex;justify-content: center; margin-bottom: 10px;margin-top: 50px;">
+          <div class="row" style="width: 90%; height: 600px; background-color: #fff;border: 1px solid black;border-radius: 20px; ">
+              <div class="col" style="border: 1px solid black;width: 50%;height: 100%;border-top-left-radius: 20px;border-bottom-left-radius: 20px;">
+                  <div style="width: 100%;max-height: 20%;display: flex;justify-content: center;margin-top: 20px;">
+                      <div for="">Lựa chọn văn bản</div>
+                  </div >
+                  <div class="mt-5 scrollable-div">
+                    <div class="mt-4" v-for="(text, title) in textareaByTitle" :key="title">                     
+                      <div>
                         <h3>{{ title }}</h3>
-                        <ul>
-                            <li v-for="item in text" :key="item.id">
-                            <label>
-                                <input type="checkbox" @click="showPreview(item,item.id)">
-                                {{item.name }}:{{item.textarea }}
-                            </label>
-                            </li>
-                        </ul>
-                        </div>
-                            <!-- <div v-for="(text, title) in textareaByTitle" :key="title">
-                                <h3>{{ title }}</h3>
-                                <ul>
-                                    <li v-for="item in text" :key="item.id">
-                                    <div @click="showPreview(item,item.id)">{{ item.textarea }}</div>
-                                    </li>
-                                </ul>
-                            </div> -->
-                        <!-- <div>
-                            <div v-for="(text, title) in textareaByTitle" :key="title">
-                            <h3>{{ title }}</h3>
-                            <ul>
-                                <li v-for="item in text" :key="item.id">
-                                <div @click="logTextareaId(item.id)">{{ item.textarea }}</div>
-                                </li>
-                            </ul>
+                      </div>
+                      <div>
+                          <div class="ms-4" v-for="item in text" :key="item.id">
+                            <div class="d-flex">
+                              <input class="form-check-input me-2 col-2" @click="showPreview(item,item.id)" type="radio" :name="title" :id="item.id" :value="item.id">
+                              <label class="form-check-label highlightable" :for="item.id">{{ item.name }} : {{ item.textarea }}</label>
                             </div>
-                        </div> -->
+                          </div>
+                        </div>                       
                     </div>
-                    <div class="col" style="border: 1px solid black;width: 50%;border-top-right-radius: 20px;border-bottom-right-radius: 20px;">
-                        <div style="width: 100%;display: flex;justify-content: center;margin-top: 20px;">
-                            <label for="">Bản xem trước</label>
+                  </div>
+              </div>
+              <div class="col" style="border: 1px solid black;width: 50%;height: 100%;border-top-right-radius: 20px;border-bottom-right-radius: 20px;">
+                  <div style="width: 100%;max-height: 20%;display: flex;justify-content: center;margin-top: 20px;">
+                      <div for="">Bản xem trước</div>
+                  </div>
+                  <div class="scrollable-review">
+                    <div class="mt-5 " v-for="item in selectedTextareas" :key="item.id">
+                        <h3>{{ item.title }}</h3>
+                        <div class="ms-4">
+                          <label class="form-check-label" for="">{{ item.textarea }}</label>
                         </div>
-                        <div class="preview" v-for="item in selectedTextareas" :key="item.id">
-                            <h3>{{ item.title }}</h3>
-                            <div>{{ item.textarea }}</div>
-                        </div>
-                        
                     </div>
-                </div>
-            </div>
-        </div>
+                  </div>
+                  
+              </div>
+          </div>
+      </div>
+      <div class="mb-5" style="display: flex;justify-content: flex-end;margin-right: 60px;">
+        <button type="button" class="btn btn-success" @click="saveDocument" style="padding: 5px 20px 5px;">Save</button>
+      </div>
+    </div>
     </div>
 </template>
 <script setup>
@@ -180,7 +173,79 @@ function showPreview(item,id) {
     selectedTextareas.value.splice(existingIndex, 1, { ...item });
   }
 }
+const saveDocument=()=>{
+  console.log(selectedTextareas.value);
+  for (let i = 0; i < selectedTextareas.value.length; i++) {
+    try {
+        axios.put(import.meta.env.VITE_UPDATE_PICK_DOCUMENT_MERGE,{
+            id:selectedTextareas.value[i].id,
+        }).then(response =>
+        {
+            console.log(response);
+        })
+    } catch (error) {
+        console.log(error);
+    } 
+    
+  }
+  Swal.fire({
+    icon: 'success',
+    title: 'Lưu nội dung văn bản thành công',
+    showConfirmButton: false,
+    timer: 1000
+  })
+  CloseForm.value=!CloseForm.value
+  ListContentDocumentMerge.value=[]
+}
 </script>
 <style>
+.highlightable:hover {
+  /* Style when hovered */
+  background-color: #EEEEEE;
+}
+.scrollable-div {
+  overflow: auto;
+  max-height: 80%;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
 
+.scrollable-div::-webkit-scrollbar {
+  width: 8px;
+  background-color: transparent;
+}
+.scrollable-div::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+.scrollable-review {
+  overflow: auto;
+  max-height: 88%; 
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+.scrollable-review::-webkit-scrollbar {
+  width: 8px;
+  background-color: transparent;
+}
+
+.scrollable-review::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+.form-check-input{
+  
+  border-color: #333333;
+}
+.form-check-input:checked {
+    background-color: #DD0000;
+    border-color: #DD0000;
+}
+.form-check-input:hover {
+  border-color: #DD0000;
+}
+input[type="radio"]:checked {
+    outline: none;
+    box-shadow: none;
+  }
 </style>
