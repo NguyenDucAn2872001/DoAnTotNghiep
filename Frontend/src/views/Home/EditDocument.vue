@@ -1,7 +1,7 @@
 <template>
-    <div>
-      <!-- <HeaderView  /> -->
-        <div ref="de_titlebar" id="documenteditor_titlebar" class="e-de-ctn-title">
+    <HeaderView style="position: fixed;width: 100%" ></HeaderView>
+    <div>      
+        <div ref="de_titlebar" id="documenteditor_titlebar" class="e-de-ctn-title" style="padding-top: 100px;">
             <div v-on:keydown="titleBarKeydownEvent" v-on:click="titleBarClickEvent" class="single-line"
                 id="documenteditor_title_contentEditor" title="Document Name. Click or tap to rename this document."
                 contenteditable="false">
@@ -24,7 +24,7 @@
   import { DropDownButtonComponent } from '@syncfusion/ej2-vue-splitbuttons';
   import { ButtonComponent } from '@syncfusion/ej2-vue-buttons';
   
-  //Component registeration
+
   export default {
     components: {
       // Declaring component

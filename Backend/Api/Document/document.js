@@ -117,12 +117,25 @@ router.delete('/deleteDocument', async (req, res) => {
     });
 });
 
+router.delete('/finalDocument', async (req, res) => {
+    const { id } = req.query;
+    let sql = `DELETE FROM final_document WHERE documentid = ${id}`;
+  
+    connection.query(sql, (err, result) => {
+      if (err) {
+        return res.json(err);
+      } else {
+        return res.json(result);
+      }
+    });
+});
 router.get('/getContentDocument',  async(req, res)=> {
     const password = req.query.password;
-    let sql = `SELECT content_document.*
-    FROM document
-    JOIN content_document ON document.id = content_document.documentid
-    WHERE document.password = ${password} AND content_document.pick = 1  `;
+    const version1 = req.query.version1;
+    let sql = `SELECT final_document.*
+    FROM final_document
+    JOIN document ON final_document.documentid = document.id
+    WHERE document.password = ${password} AND version1 = ${version1}`;
     connection.query(sql,(err,result)=>{
         if(err){
             return res.json(err)
@@ -133,13 +146,41 @@ router.get('/getContentDocument',  async(req, res)=> {
     })
 })
 
+router.get('/getIdDocumentbyPassword',  async(req, res)=> {
+    const password = req.query.password;
+    let sql = `SELECT id from document where password = ${password}`;
+    connection.query(sql,(err,result)=>{
+        if(err){
+            return res.json(err)
+        }else{
+            console.log(result)
+            return(res.json(result))
+        }
+    })
+})
+
+// router.get('/getContentDocumentbyDocumentOwner',  async(req, res)=> {
+//     const idDocumentOwner = req.query.idDocumentOwner;
+//     const id = req.query.id;
+//     let sql = `SELECT content_document.*
+//     FROM document
+//     JOIN content_document ON document.id = content_document.documentid
+//     WHERE document.idDocumentOwner = ${idDocumentOwner} AND document.id = ${id} AND content_document.pick = 1  `;
+//     connection.query(sql,(err,result)=>{
+//         if(err){
+//             return res.json(err)
+//         }else{
+//             console.log(result)
+//             return(res.json(result))
+//         }
+//     })
+// })
+
 router.get('/getContentDocumentbyDocumentOwner',  async(req, res)=> {
-    const idDocumentOwner = req.query.idDocumentOwner;
     const id = req.query.id;
-    let sql = `SELECT content_document.*
-    FROM document
-    JOIN content_document ON document.id = content_document.documentid
-    WHERE document.idDocumentOwner = ${idDocumentOwner} AND document.id = ${id} AND content_document.pick = 1  `;
+    const version1 = req.query.version1;
+
+    let sql = `SELECT * FROM textcompletion.final_document where documentid = ${id} and version1 = ${version1}`;
     connection.query(sql,(err,result)=>{
         if(err){
             return res.json(err)
@@ -162,6 +203,21 @@ router.put('/updatePublic', (req, res) => {
         }
       }
     );
-  });
+});
+
+router.delete('/deleteUserInDocument', async (req, res) => {
+    const { id } = req.query;
+    let sql = `DELETE userindocument, content_document
+    FROM userindocument
+    LEFT JOIN content_document ON userindocument.userId = content_document.userId
+    WHERE userindocument.userId = ${id}`;
+    connection.query(sql, (err, result) => {
+      if (err) {
+        return res.json(err);
+      } else {
+        return res.json(result);
+      }
+    });
+});
 
 module.exports= router

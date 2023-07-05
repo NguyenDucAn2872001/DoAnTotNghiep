@@ -8,16 +8,21 @@
             <div class="card-body" v-if="check==true">
               <div class="mb-4">
                 <h5>Forgot Password?</h5>
-                <p class="mb-2">Vui lòng nhập địa chỉ email để lấy lại mật khẩu
+                <p class="mb-2">Vui lòng nhập địa chỉ email và mssv để lấy lại mật khẩu
                 </p>
               </div>
               <form @submit.prevent="submitCreate()">
                 <div class="mb-3">
                   <label for="email" class="form-label">Email</label>
-                  <input type="email" id="email" class="form-control" v-model="info.email" name="email" placeholder="Enter Your Email">
+                  <input type="email" id="email" class="form-control" v-model="info.email" name="email" placeholder="Nhập Email">
+                </div>
+
+                <div class="mb-3">
+                  <label for="text" class="form-label">Mã số sinh viên</label>
+                  <input type="text" id="text" class="form-control" v-model="info.role"  placeholder="Nhập mã số sinh viên">
                 </div>
                 <div class="mb-3 d-grid" >
-                  <input type="submit" value="Đăng Nhập" class="btn btn-primary ">
+                  <input type="submit" value="Lấy lại mật khẩu" class="btn btn-primary ">
                 </div>
                 <span >Bạn chưa có tài khoản ? 
                   <router-link to="/Login/NewLogin" >

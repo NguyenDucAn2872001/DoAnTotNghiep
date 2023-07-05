@@ -12,8 +12,8 @@
                             <div class="d-flex flex-row align-items-center mb-4">
                                 <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
                                 <div class="form-outline flex-fill mb-0">
-                                    <label class="form-label" for="form3Example3c">Your Email</label>
-                                    <input type="text"  v-model="info.email"  id="form3Example3c" class="form-control" />
+                                    <label class="form-label" for="form3Example3c">Email</label>
+                                    <input type="text"  v-model="info.email"  id="form3Example3c" class="form-control" placeholder="Nhập Email"/>
                                     <span class="text-danger" v-for="error in v$.email.$errors" :key="error.$uid">
                                         {{ error.$message }}
                                     </span>
@@ -23,8 +23,8 @@
                             <div class="d-flex flex-row align-items-center mb-4">
                                 <i class="fas fa-user fa-lg me-3 fa-fw"></i>
                                 <div class="form-outline flex-fill mb-0">
-                                    <label class="form-label" for="form3Example1c">Your Username</label>
-                                    <input type="text"  id="form3Example1c" v-model="info.username" class="form-control" />
+                                    <label class="form-label" for="form3Example1c">Tên người dùng</label>
+                                    <input type="text"  id="form3Example1c" v-model="info.username" class="form-control" placeholder="Nhập tên người dùng"/>
                                     <span class="text-danger" v-for="error in v$.username.$errors" :key="error.$uid">
                                         {{ error.$message }}
                                     </span>
@@ -33,25 +33,26 @@
                             <div class="d-flex flex-row align-items-center mb-4">
                                 <i class="fas fa-user fa-lg me-3 fa-fw"></i>
                                 <div class="form-outline flex-fill mb-0">
-                                    <label class="form-label" for="form3Example1c">Your Name</label>
-                                    <input type="text"  id="form3Example1c" v-model="info.name" class="form-control" />
+                                    <label class="form-label" for="form3Example1c">Tên</label>
+                                    <input type="text"  id="form3Example1c" v-model="info.name" class="form-control" placeholder="Nhập tên của bạn"/>
                                     <span class="text-danger" v-for="error in v$.name.$errors" :key="error.$uid">
                                         {{ error.$message }}
                                     </span>
                                 </div>
                             </div>
                             <div class="d-flex flex-row align-items-center mb-4">
-                                <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                                <i class="fas fa-user fa-lg me-3 fa-fw"></i>                              
                                 <div class="form-outline flex-fill mb-0">
-                                    <label class="form-label" for="form3Example1c">Your role</label>
-                                    <input type="text"  id="form3Example1c" v-model="info.role" class="form-control" />
+                                    <label class="form-label" for="form3Example1c">Mã số sinh viên</label>
+                                    <input type="text"  id="form3Example1c" v-model="info.role" class="form-control" placeholder="Nhập mã số sinh viên"/>
                                     <span class="text-danger" v-for="error in v$.role.$errors" :key="error.$uid">
                                         {{ error.$message }}
                                     </span>
                                 </div>
                             </div>
                             <div class="d-flex flex-row align-items-center mb-4">
-                                <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                                <!-- <i class="fas fa-user fa-lg me-3 fa-fw" ></i> -->
+                                <i class="fa-solid fa-image me-3 fa-fw" style="font-size: 20px;"></i>
                                 <div class="form-outline flex-fill mb-0">
                                     <label class="form-label" for="form3Example1c">Your avatar</label>
                                     <input type="text"  id="form3Example1c" v-model="info.avata" class="form-control" />
@@ -63,8 +64,8 @@
                             <div class="d-flex flex-row align-items-center mb-4">
                                 <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
                                 <div class="form-outline flex-fill mb-0">
-                                    <label class="form-label" for="form3Example4c">Password</label>
-                                    <input type="password"   id="form3Example4c" v-model="info.password" class="form-control" />
+                                    <label class="form-label" for="form3Example4c">Mật khẩu</label>
+                                    <input type="password"   id="form3Example4c" v-model="info.password" class="form-control" placeholder="Nhập mật khẩu"/>
                                     <span class="text-danger" v-for="error in v$.password.$errors" :key="error.$uid">
                                         {{ error.$message }}
                                     </span>
@@ -74,21 +75,14 @@
                             <div class="d-flex flex-row align-items-center mb-4">
                                 <i class="fas fa-key fa-lg me-3 fa-fw"></i>
                                 <div class="form-outline flex-fill mb-0">
-                                    <label class="form-label" for="form3Example4cd">Repeat your password</label>
-                                    <input type="password"  id="form3Example4cd" class="form-control" />
+                                    <label class="form-label" for="form3Example4cd">Nhập lại mật khẩu</label>
+                                    <input type="password"  id="form3Example4cd" class="form-control" placeholder="Nhập mật khẩu"/>
                                     <!-- <span class="text-danger" v-for="error in v$.repeatPassword.$errors" :key="error.$uid">
                                         {{ error.$message }}
                                     </span> -->
                                 </div>
                             </div>
 
-                            <div class="form-check d-flex justify-content-center mb-5">
-                                <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3c" />
-                                <label class="form-check-label" for="form2Example3">
-                                    I agree all statements in 
-                                    <a href="#!">Terms of service</a>
-                                </label>
-                            </div>
                             <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4" style="padding-left: 20px;">
                                 <router-link class="me-3" to="/" style="width: 40%;">         
                                     <button class="btn btn-danger btn-lg " style="width: 100%;">

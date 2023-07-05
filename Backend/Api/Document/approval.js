@@ -64,6 +64,38 @@ router.put('/updateDocument', (req, res) => {
         }
       }
     );
-  });
+});
+
+router.post('/finalDocument', async(req, res) => {
+    let sql = "INSERT INTO final_document (title,textarea, documentid,version1) values (?) ";
+    const values= [
+        req.body.title,
+        req.body.textarea,
+        req.body.documentid,
+        req.body.version1,
+    ]
+    connection.query(sql,[values],(err,result)=>{
+        if(err){
+            return res.json(err)
+        }else{
+            console.log(result)
+            return(res.json(result))
+        }
+    })
+});
+
+router.get('/getVersion',  async(req, res)=> {
+    const documentid = req.query.documentid;
+
+    let sql = `SELECT * FROM textcompletion.final_document where documentid = ${documentid}`
+    connection.query(sql,(err,result)=>{
+        if(err){
+            return res.json(err)
+        }else{
+            console.log(result)
+            return(res.json(result))
+        }
+    })
+})
 
 module.exports= router

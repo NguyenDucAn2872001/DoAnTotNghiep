@@ -47,48 +47,57 @@
                 </div>
             </section>
         </div>
-        <div v-else >
-            <div style="display: flex;justify-content: center; margin-bottom: 10px;margin-top: 50px;">
-          <div class="row" style="width: 90%; height: 600px; background-color: #fff;border: 1px solid black;border-radius: 20px; ">
-              <div class="col" style="border: 1px solid black;width: 50%;height: 100%;border-top-left-radius: 20px;border-bottom-left-radius: 20px;">
-                  <div style="width: 100%;max-height: 20%;display: flex;justify-content: center;margin-top: 20px;">
-                      <div for="">Lựa chọn văn bản</div>
-                  </div >
-                  <div class="mt-5 scrollable-div">
-                    <div class="mt-4" v-for="(text, title) in textareaByTitle" :key="title">                     
-                      <div>
-                        <h3>{{ title }}</h3>
-                      </div>
-                      <div>
-                          <div class="ms-4" v-for="item in text" :key="item.id">
-                            <div class="d-flex">
-                              <input class="form-check-input me-2 col-2" @click="showPreview(item,item.id)" type="radio" :name="title" :id="item.id" :value="item.id">
-                              <label class="form-check-label highlightable" :for="item.id">{{ item.name }} : {{ item.textarea }}</label>
-                            </div>
-                          </div>
-                        </div>                       
-                    </div>
-                  </div>
+        <div v-else style="">
+          <HeaderView />
+          <div style="display: flex;justify-content: center; ;padding-top: 80px;width: 100%;height: 100vh;">
+            <div style="width: 20%;background-color: #9C9C9C;">
+              <div class="mb-5" style="display: flex;justify-content: flex-end;margin-right: 60px;">
+                <button type="button" class="btn btn-success" @click="saveDocument" style="padding: 5px 20px 5px;">Cập nhât phiên bản mới</button>
               </div>
-              <div class="col" style="border: 1px solid black;width: 50%;height: 100%;border-top-right-radius: 20px;border-bottom-right-radius: 20px;">
-                  <div style="width: 100%;max-height: 20%;display: flex;justify-content: center;margin-top: 20px;">
-                      <div for="">Bản xem trước</div>
-                  </div>
-                  <div class="scrollable-review">
-                    <div class="mt-5 " v-for="item in selectedTextareas" :key="item.id">
-                        <h3>{{ item.title }}</h3>
-                        <div class="ms-4">
-                          <label class="form-check-label" for="">{{ item.textarea }}</label>
+              <div class="mb-5" style="display: flex;justify-content: flex-end;margin-right: 60px;">
+                <button type="button" class="btn btn-success" @click="saveDocument" style="padding: 5px 20px 5px;">Giữ lại phiên bản cũ</button>
+              </div>
+            </div>
+            <div style="width: 80%;display: flex;justify-content: center;background-color: #4F4F4F;">
+              <div class="row" style="width: 90%; height: 600px; background-color: #fff;border: 1px solid black;margin-top: 20px;">
+                <div class="col" style="border: 1px solid black;width: 50%;height: 100%;">
+                    <div style="width: 100%;max-height: 20%;display: flex;justify-content: center;margin-top: 20px;">
+                        <div for="">Lựa chọn văn bản</div>
+                    </div >
+                    <div class="mt-5 scrollable-div">
+                      <div class="mt-4" v-for="(text, title) in textareaByTitle" :key="title">                     
+                        <div>
+                          <h3>{{ title }}</h3>
                         </div>
+                        <div>
+                            <div class="ms-4" v-for="item in text" :key="item.id">
+                              <div class="d-flex">
+                                <input class="form-check-input me-2 col-2" @click="showPreview(item,item.id)" type="radio" :name="title" :id="item.id" :value="item.id">
+                                <label class="form-check-label highlightable" :for="item.id">{{ item.name }} : {{ item.textarea }}</label>
+                              </div>
+                            </div>
+                          </div>                       
+                      </div>
                     </div>
-                  </div>
-                  
-              </div>
+                </div>
+                <div class="col" style="border: 1px solid black;width: 50%;height: 100%;">
+                    <div style="width: 100%;max-height: 20%;display: flex;justify-content: center;margin-top: 20px;">
+                        <div for="">Bản xem trước</div>
+                    </div>
+                    <div class="scrollable-review">
+                      <div class="mt-5 " v-for="item in selectedTextareas" :key="item.id">
+                          <h3>{{ item.title }}</h3>
+                          <div class="ms-4">
+                            <label class="form-check-label" for="">{{ item.textarea }}</label>
+                          </div>
+                      </div>
+                    </div>
+                    
+                </div>
+            </div>
           </div>
       </div>
-      <div class="mb-5" style="display: flex;justify-content: flex-end;margin-right: 60px;">
-        <button type="button" class="btn btn-success" @click="saveDocument" style="padding: 5px 20px 5px;">Save</button>
-      </div>
+      
     </div>
     </div>
 </template>
@@ -99,13 +108,17 @@ import useVuelidate from "@vuelidate/core"
 import axios  from 'axios';
 import {useRoute} from 'vue-router'
 import Swal from "sweetalert2";
+import HeaderView from '../../components/HeaderView.vue'
 
+
+const props = defineProps(['foo'])
 const route=useRoute()
 const getid=route.params.id 
 const ListDocumentMerge =ref([]) // danh sách các document được quyền merge
 const ListContentDocumentMerge =ref([]) // danh sách các content ứng với các document được quyền merge
-
+const version=ref()
 const CloseForm =ref(true)
+const DocumentID=ref()
 
 onMounted(async()=>{
     await GetInfoDocument()
@@ -129,6 +142,7 @@ const GetInfoDocument =async()=>{
 }
 
 const getAllContentDocument=async(idOwner,idDocument)=>{
+  DocumentID.value=idDocument
     try {
         await axios.get(import.meta.env.VITE_GET_CONTENT_DOCUMENT_MERGE,{
         params:{
@@ -156,9 +170,6 @@ const textareaByTitle = computed(() => {
   return grouped;
 });
 
-// function logTextareaId(id) {
-//   console.log('Textarea ID:', id);
-// }
 const selectedTextareas = ref([]);
 
 // Hiển thị bản xem trước của textarea được chọn
@@ -173,20 +184,50 @@ function showPreview(item,id) {
     selectedTextareas.value.splice(existingIndex, 1, { ...item });
   }
 }
-const saveDocument=()=>{
+const saveDocument= async()=>{
   console.log(selectedTextareas.value);
-  for (let i = 0; i < selectedTextareas.value.length; i++) {
-    try {
-        axios.put(import.meta.env.VITE_UPDATE_PICK_DOCUMENT_MERGE,{
-            id:selectedTextareas.value[i].id,
+  try {
+        await axios.get(import.meta.env.VITE_GET_VERSION,{
+        params:{
+          documentid:DocumentID.value,
+        }
         }).then(response =>
         {
-            console.log(response);
+          if(response.data[response.data.length-1]==null){
+            version.value=1
+          }
+          else{
+            version.value = response.data[response.data.length-1].version1 +1
+          }
+            console.log(response.data[response.data.length-1].version1);
         })
     } catch (error) {
         console.log(error);
     } 
-    
+
+  for (let i = 0; i < selectedTextareas.value.length; i++) {
+    try {
+      axios.post(import.meta.env.VITE_POST_FINAL_DOCUMENT,{
+        title:selectedTextareas.value[i].title,
+        textarea:selectedTextareas.value[i].textarea,
+        documentid:selectedTextareas.value[i].documentId,
+        version1:version.value
+    }
+    ).then (response => {
+    })
+    } catch (error) {
+        console.log(error);
+    }
+    // try {
+    //     axios.put(import.meta.env.VITE_UPDATE_PICK_DOCUMENT_MERGE,{
+    //         id:selectedTextareas.value[i].id,
+    //     }).then(response =>
+    //     {
+    //         console.log(response);
+    //     })
+    // } catch (error) {
+    //     console.log(error);
+    // } 
   }
   Swal.fire({
     icon: 'success',
@@ -196,6 +237,9 @@ const saveDocument=()=>{
   })
   CloseForm.value=!CloseForm.value
   ListContentDocumentMerge.value=[]
+  version.value=""
+  DocumentID.value=""
+  window.location.reload();
 }
 </script>
 <style>

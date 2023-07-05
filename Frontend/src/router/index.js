@@ -10,7 +10,7 @@ import NewEdit from '../views/Home/NewEdit.vue'
 import NewEditOneUser from '../views/Home/NewEditOneUser.vue'
 import EditDocumentUser from '../views/Home/EditDocumentUser.vue'
 import DocumentApproval from '../views/Home/DocumentApproval.vue'
-import Community from '../views/Home/Community.vue'
+import Community from '../views/Client/Community.vue'
 
 // import { ref } from 'vue'
 

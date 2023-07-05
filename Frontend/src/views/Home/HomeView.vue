@@ -6,23 +6,23 @@
           <div style="display: flex;justify-content: center;margin-top: 20px;">
             <img src="../../assets/LogoVienDien_preview_rev_1.png" alt="" style="width: 150px;height: 60px;">
           </div>
-          <router-link class="button" to="/Home/EditDocument"  style="text-decoration: none;z-index: 1;margin-top: 60px;margin-left: 20px;display:flex; align-items: center;">
+          <router-link class="button1" to="/Home/EditDocument"  style="text-decoration: none;z-index: 1;margin-top: 60px;margin-left: 20px;display:flex; align-items: center;">
             <i class="fa-solid fa-file-word me-3 bg-light " style="color: black;width: 30px;height: 30px;border-radius: 50%;display: flex;justify-content: center;align-items: center;font-size: 20px;" ></i>
             <div  style="font-weight: 700;font-size: 16px;color: #fff;">Word</div>
           </router-link>
-          <router-link class="button" :to="`/Home/NewEdit/${getid}`"  style="text-decoration: none;z-index: 1;margin-top: 50px;margin-left: 20px; display:flex; align-items: center;">    
+          <router-link class="button1" :to="`/Home/NewEdit/${getid}`"  style="text-decoration: none;z-index: 1;margin-top: 50px;margin-left: 20px; display:flex; align-items: center;">    
               <i class="fa-solid fa-book me-3 bg-light" style="color: black;width: 30px;height: 30px;border-radius: 50%;display: flex;justify-content: center;align-items: center;font-size: 20px;"></i>
               <div style="font-weight: 700;font-size: 16px;color: #fff;">Document Online</div>   
           </router-link>
-          <router-link class="button" :to="`/Home/EditDocumentUser/${getid}`"  style="text-decoration: none;z-index: 1;margin-top: 50px;margin-left: 20px; display:flex; align-items: center;">
+          <router-link class="button1" :to="`/Home/EditDocumentUser/${getid}`"  style="text-decoration: none;z-index: 1;margin-top: 50px;margin-left: 20px; display:flex; align-items: center;">
             <i class="fa-solid fa-pen me-3 bg-light" style="color: black;width: 30px;height: 30px;border-radius: 50%;display: flex;justify-content: center;align-items: center;font-size: 20px;"></i>
             <div  style="font-weight: 700;font-size: 16px;color: #fff;">Chỉnh Sửa Văn bản</div>
           </router-link>
-          <router-link class="button" :to="`/Home/DocumentApproval/${getid}`"  style="text-decoration: none;z-index: 1;margin-top: 50px; margin-left: 20px;display:flex; align-items: center;">
+          <router-link class="button1" :to="`/Home/DocumentApproval/${getid}`"  style="text-decoration: none;z-index: 1;margin-top: 50px; margin-left: 20px;display:flex; align-items: center;">
             <i class="fa-solid fa-code-merge me-3 bg-light" style="color: black;width: 30px;height: 30px;border-radius: 50%;display: flex;justify-content: center;align-items: center;font-size: 20px;"></i>
             <div  style="font-weight: 700;font-size: 16px;color: #fff;">Phê duyệt văn bản</div>
           </router-link>
-          <router-link class="button" :to="`/Home/Community/${getid}`"  style="text-decoration: none;z-index: 1;margin-top: 50px;margin-left: 20px;display:flex; align-items: center;">
+          <router-link class="button1" :to="`/Home/Community/${getid}`"  style="text-decoration: none;z-index: 1;margin-top: 50px;margin-left: 20px;display:flex; align-items: center;">
             <i class="fa-solid fa-users-line me-3 bg-light" style="color: black;width: 30px;height: 30px;border-radius: 50%;display: flex;justify-content: center;align-items: center;font-size: 20px;"></i>
             <div style="font-weight: 700;font-size: 16px;color: #fff;">Cộng đồng</div>
           </router-link>
@@ -30,10 +30,13 @@
         <div class="bottom-element">
           <div @click="CheckOut" > 
             <div class="line"></div>
-            <router-link to="/"  style="display: flex;align-items: center;text-decoration: none ;color: #fff;" >
-              <i class="fa-solid fa-circle-arrow-left me-3 ms-3" style="font-size: 30px;"></i>
-              <div style="padding-right: 20px;font-weight: 700;">Đăng xuất</div>
-            </router-link>  
+            <div  style="display: flex;align-items: center;text-decoration: none ;color: #fff;" >
+              <button type="button" class="btn btn-light" @click="LogOut" style="display: flex;align-items: center;">
+                <i class="fa-solid fa-circle-arrow-left me-3 ms-3" style="font-size: 30px;"></i>
+                <div style="padding-right: 20px;font-weight: 700;">Đăng xuất</div>
+              </button>
+              
+            </div>  
             <div class="line_2"></div>
           </div>
         </div>
@@ -100,9 +103,9 @@
                       <div class="card" style="height: 500px;">
                         <div class="card-body">
                           <div class="table-responsive">
-                            <table class="table table-hover mb-0">
-                              <thead>
-                                <tr>
+                            <table class="table table-hover mb-0" >
+                              <thead >
+                                <tr >
                                     <th class="text-center">Số thứ tự</th>
                                     <th class="text-center">Tên văn bản</th>
                                     <th class="text-center">Mã tài liệu</th>
@@ -115,31 +118,80 @@
                                   <td class="text-center">{{ index + 1 }}</td>
                                   <td class="text-center">{{ i.nameDocument }}</td>
                                   <td class="text-center" style="cursor: pointer;">
-                                    <input type="checkbox" id="toggle">
-                                    <label for="toggle" >...</label>
-                                    <div class="content">{{ i.password }}</div>
+                                    <div >{{ i.password }}</div>
                                   </td>
                                   <td class="text-center">
                                     <div class="d-flex " style="justify-content: center;">
-                                      <div class="bg-success me-2" @click="OnSearchDocumentbyOwner(i.id)" title="Xem văn bản" style="cursor: pointer;width: 30px;height: 30px;display: flex;align-items: center;justify-content: space-around;border-radius: 50%;">
+                                      <!-- <div class="bg-success me-2" @click="OnSearchDocumentbyOwner(i.id,i.nameDocument )" title="Xem văn bản" style="cursor: pointer;width: 30px;height: 30px;display: flex;align-items: center;justify-content: space-around;border-radius: 50%;">
                                         <i class="fa-solid fa-eye" style="color: #fff;"></i>
-                                      </div>
+                                      </div> -->
+                                      <el-popover placement="top" :width="250" trigger="click">
+                                        <template #reference>
+                                          <div class="bg-success me-2" @click="OnSearchDocumentbyOwner(i.id )" title="Xem văn bản" style="cursor: pointer;width: 30px;height: 30px;display: flex;align-items: center;justify-content: space-around;border-radius: 50%;">
+                                            <i class="fa-solid fa-eye" style="color: #fff;"></i>
+                                          </div>
+                                        </template>
+                                        <div>
+                                          <el-table :data="ListVersion" style="display: flex;justify-content: center;">
+                                            <el-table-column width="90" property="version1" label="Phiên bản"/>
+                                            <el-table-column width="70" label="Xem">
+                                              <template #default="{row}">
+                                                <i class="fa-solid fa-eye" style="color: #000;" @click="SeeDocumentWithVersion(row.version1,i.id,i.nameDocument)"></i>
+                                              </template>
+                                            </el-table-column>
+                                            <el-table-column width="70" label="Xóa">
+                                              <template #default="{row}">
+                                                <i class="fa-solid fa-trash-can" style="color: red;" @click="DeleteVersionDocument(row.version1,i.id)"></i>
+                                              </template>
+                                            </el-table-column>                                      
+                                          </el-table>
+                                        </div>
+                                      </el-popover>
                                       <div class="bg-warning me-2" title="Gửi văn bản" style="cursor: pointer;width: 30px;height: 30px;display: flex;align-items: center;justify-content: space-around;border-radius: 50%;">
                                         <i class="fa-solid fa-paper-plane" style="color: #fff;"></i>
                                       </div>
                                       <div class="bg-danger me-2" title="Xóa văn bản"  @click="deleteDocument(i.id)" style="cursor: pointer;width: 30px;height: 30px;display: flex;align-items: center;justify-content: space-around;border-radius: 50%;">
                                         <i class="fa-solid fa-trash-arrow-up" style="color: #fff;"></i>
                                       </div>
-                                      <el-popover placement="right" :width="400" trigger="click">
+                                      <el-popover placement="top" :width="300" trigger="click">
                                         <template #reference>
-                                          <div class="bg-info me-2" title="Thêm thành viên" @click="getUserIndocument(i.id)" style="cursor: pointer;width: 30px;height: 30px;display: flex;align-items: center;justify-content: space-around;border-radius: 50%;">
-                                        <i class="fa-solid fa-user" style="color: #fff;"></i>
-                                      </div>
-                                      </template>
-                                        <el-table :data="ListUserInDocument">
-                                          <el-table-column width="100" property="name" label="Name" />
-                                          <el-table-column width="300" property="email" label="Email" />
-                                        </el-table>
+                                          <div class="bg-info me-2" title="Xem thành viên" @click="getUserIndocument(i.id)" style="cursor: pointer;width: 30px;height: 30px;display: flex;align-items: center;justify-content: space-around;border-radius: 50%;">
+                                            <i class="fa-solid fa-user" style="color: #fff;"></i>
+                                          </div>
+                                        </template>
+                                        <div>
+                                          <el-table :data="ListUserInDocument">
+                                            <el-table-column width="80" property="name" label="Name" />
+                                            <el-table-column width="150" property="email" label="Email"/>
+                                            <el-table-column width="40" property="id" label="" >
+                                              <template #default="{row}">
+                                                <i class="fa-solid fa-circle-xmark" @click="getIdDeleteUser(row.id)"></i>
+                                              </template>
+                                            </el-table-column>                                            
+                                          </el-table>
+                                          <div style="display: flex;justify-content: center;">                                          
+                                            <el-popover placement="bottom" :width="300" trigger="click">
+                                              <template #reference>
+                                                <div class="bg-secondary me-2 mt-2" title="Thêm thành viên"  @click="AddUserDocument()" style="cursor: pointer;width: 30px;height: 30px;display: flex;align-items: center;justify-content: space-around;border-radius: 50%;">                         
+                                              <i class="fa-solid fa-user-plus" style="color: #fff;"></i>
+                                            </div>
+                                              </template>
+                                              <div>
+                                                <div style="display: flex;justify-content: center;">Thêm người dùng vào văn bản</div>
+                                                <el-table :data="AddUser">
+                                                  <el-table-column width="80" property="name" label="Name" />
+                                                  <el-table-column width="150" property="email" label="Email"/>
+                                                  <el-table-column width="40" property="id" label="" >
+                                                    <template #default="{row}">
+                                                      <i class="fa-solid fa-circle-plus" @click="AddNewUser(row.id,i.id)"></i>
+                                                    </template>
+                                                  </el-table-column>
+                                                  
+                                                </el-table>
+                                              </div>
+                                            </el-popover>
+                                          </div>
+                                        </div>
                                       </el-popover>
                                     </div>
                                   </td>
@@ -167,7 +219,6 @@
             <i class="fa fa-search icon-search"></i>
           </div>
           <div class="scroll-snap">
-
             <!-- danh sách các thành viên trong db -->
             <div v-for="i in users"  @click="chat()">
               <div v-if="i.username==name"></div>
@@ -178,39 +229,31 @@
                 </div>
               </div>
             </div>
-          </div>
-          
+          </div>          
         </div>
         <div v-if="dropdownRp==true " class="dropdown-message " >
           <i class="fa-solid fa-circle-xmark icon-close" @click="dropdownRp=!dropdownRp"></i>
-          <div class="message">Thông báo </div>
-          
+          <div class="message">Thông báo </div>         
         </div>
         <div v-if="openchat==true " class="message-user" >
           <div style="position: relative; height: 100%;">
             <!-- icon tắt chat -->
             <i class="fa-solid fa-circle-xmark icon-close" @click="openchat=!openchat"></i>
-
             <!-- hiển thị tên và avatar -->
             <div style="height: 50px;display: flex;align-items: center;padding: 10px;">
               <i class="fa-solid fa-circle-user icon-users" style="cursor: pointer;"></i>
               <label for="" style="font-weight: 700;cursor: pointer;">{{ useridGues }}</label>
             </div>
             <div class="line-1"></div>
-
-
             <!-- Hiện tin nhắn  -->
             <div class="scroll-snap" >
               <div v-for="messagee in listMessage" >
                 
                   <div class=" you-message"  v-if="messagee.to==1">{{ messagee.message }} </div>
                   <!-- <div class="guest-message" v-if="messagee.to==useridGues"> {{ usernameGues }} :{{ messagee.message }}</div> -->
-                  <div class="guest-message" v-else>{{ messagee.message }}</div>
-                
-
+                  <div class="guest-message" v-else>{{ messagee.message }}</div>               
               </div>
             </div>
-
             <!-- nhắn tin lên thanh chat -->
             <div class="form-outline send-message">
               <input type="email" id="typeEmail" v-model="message" @keydown.enter="OnSendMessage()" class="form-control " placeholder="input message" style="border-radius: 20px;margin-right: 10px;"/>
@@ -223,22 +266,55 @@
     </div>
     
   </div>
-  <div v-else>
-    <button @click="saveAsPdf">Lưu thành PDF</button>
-    <div class="col" style="border: 1px solid black;width: 50%;height: 100%;border-top-right-radius: 20px;border-bottom-right-radius: 20px;">
-      <div style="width: 100%;max-height: 20%;display: flex;justify-content: center;margin-top: 20px;">
-        <div for="">Bản xem trước</div>
+  <div v-else style="width: 100%;height: 100vh ;" >
+    <nav class="navbar navbar-expand-lg navbar-light " style="background-color: #444444;position: fixed;width: 100%">
+      <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <a class="navbar-brand mt-2 mt-lg-0" href="#">
+            <i class="fa-solid fa-bars" style="color: #fff;"></i>
+          </a>
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <div class="text-light">{{ nameDocument }}</div>
+            </li>
+          </ul>
+        </div>
+        <div class="d-flex align-items-center">
+          <button type="button" class="btn btn-light d-flex me-3" @click="viewDocument=false" style="align-items: center;">
+            <div class="me-2">Trang Chủ</div>
+            <i class="fa-solid fa-house"></i>
+          </button>
+          <button type="button" class="btn btn-light d-flex" @click="saveAsPdf" style="align-items: center;">
+            <div class="me-2">Tải xuống</div>
+            <i class="fa-solid fa-download"></i>
+          </button>
+        </div>
       </div>
-      <div class="scrollable-review">
-        
-        <div id="content-to-pdf">
-          <div class="mt-5" v-for="item in ListContentDocument" :key="item.id">
-            <h3>{{ item.title }}</h3>
-            <div class="ms-4">
-              <label class="form-check-label" for="">{{ item.textarea }}</label>
+    </nav>
+    <div class="row" style="display: flex;justify-content: center;height: 100%; ">
+      <div style="width: 20%;background-color: #666666;">
+        <div class="scrollable-review mt-1" style="border: 1px solid black;width: 19%;height: 50%; top: 30px;background-color: #fff; transform: scale(0.7);position: fixed">
+          <div id="content-to-pdf1">
+            <div class="mt-1" v-for="item in ListContentDocument" :key="item.id" style="transform: scale(0.5)">
+              <h3>{{ item.title }}</h3>
+              <div class="ms-4">
+                <label class="form-check-label" for="">{{ item.textarea }}</label>
+              </div>
             </div>
-          </div>
-        </div>  
+          </div>  
+        </div>
+      </div>
+      <div  style="width: 80%;height: 1300px; background-color: #DDDDDD; display: flex;justify-content: space-evenly;padding-top: 50px;">
+        <div class="scrollable-review mt-5" style="border: 1px solid black;width: 85%;height: 150%; background-color: #fff; ">
+          <div id="content-to-pdf">
+            <div class="mt-5 ms-5" v-for="item in ListContentDocument" :key="item.id">
+              <h3>{{ item.title }}</h3>
+              <div class="ms-4">
+                <label class="form-check-label" for="">{{ item.textarea }}</label>
+              </div>
+            </div>
+          </div>  
+        </div>
       </div>
     </div>
   </div>
@@ -248,11 +324,12 @@
 import socket from '../../../plugins/socket'
 import { onMounted,ref } from 'vue';
 import axios  from 'axios';
-import {useRoute} from 'vue-router'
+import {useRoute ,useRouter} from 'vue-router'
 import Swal from "sweetalert2";
 import html2pdf from 'html2pdf.js';
 
 const route=useRoute()
+const router = useRouter()
 const dropdown=ref(false)
 const dropdownRp=ref(false)
 const openchat=ref(false)
@@ -266,12 +343,15 @@ const message=ref("")
 const ListDocument=ref([])
 const ListUserInDocument=ref([])
 const users=ref([])
+const AddUser=ref([])// thêm user vào văn bản
 const checkClickSee=ref(false)
 const selectUserToSend=ref()
 const passwordDocument=ref()
 const ListContentDocument=ref([])
 const viewDocument=ref(false)
 const value = ref(true)
+const nameDocument=ref()
+const ListVersion =ref([])
 
 const onConnect=()=>{
     socket.auth={
@@ -281,20 +361,74 @@ const onConnect=()=>{
 }
 
 const setPublic=(id ,p)=>{
-  console.log(value.value);
   try {
     axios.put(import.meta.env.VITE_UPDATE_PUBLIC_DOCUMENT,{
         id:id,
         public:!p
     }).then(response =>
     {
-        console.log(response);
     })
   } catch (error) {
     console.log(error);
   } 
   p=!p
   
+}
+
+const getIdDeleteUser=(id)=>{
+  Swal.fire({
+    title: 'Xóa ',
+    text: "Bạn có muốn xóa người dùng này khỏi văn bản không!",
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Xóa!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        ListUserInDocument.value.forEach(element => {
+          if(element.id==id){
+            ListUserInDocument.value.pop(element)
+          }
+        });
+        try {axios.delete(import.meta.env.VITE_DELETE_USER_IN_DOCUMENT,{params:{id:id}})
+        } catch (error) {console.log(error);} 
+        Swal.fire({
+          icon: 'success',
+          title: 'Xóa thành công',
+          showConfirmButton: false,
+          timer: 1000})
+        window.location.reload();
+      }
+  })
+}
+
+const AddUserDocument=()=>{
+  AddUser.value = infoUser.value.filter(item => !ListUserInDocument.value.some(obj => obj.id === item.id) && item.id != getid);
+}
+
+const AddNewUser=(id,documentId)=>{
+  Swal.fire({
+    title: 'Thêm người dùng  ',
+    text: "Bạn có muốn thêm người dùng này vào văn bản không!",
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Thêm!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        try {axios.post(import.meta.env.VITE_POSTUSERINDOCUMENT,{documentId:documentId,userId :id,}).then (response => {})
+        }catch (error) {console.log(error);}
+        Swal.fire({
+            icon: 'success',
+            title: 'Thêm thành công',
+            showConfirmButton: false,
+            timer: 1000
+        })
+        window.location.reload();
+      }
+  })
 }
 
 const OnSendMessage=()=>{
@@ -314,14 +448,12 @@ const onselectedtosend=(user)=>{
     selectUserToSend.value=user
     usernameGues.value=user.userId
     useridGues.value=user.username
-    console.log(usernameGues.value);
 }
 
 onMounted(async()=>{
   await getInfoUser()
   await CheckState()
   await getDocument()
-  console.log(users.value);
   onConnect()
   socket.on('getUsers',(data)=>{
       data.forEach(user => {
@@ -333,15 +465,12 @@ onMounted(async()=>{
           if(a.username<b.username) return-1
           return a.username>b.username?1:0;
       })
-      console.log(users.value);
   })
   
   socket.on("userJustConnected",(data)=>{
         users.value.push(data)
-        console.log("user Just Connected",users.value);
     })
     socket.on("privateMessageToReceiver",({message,from})=>{
-        console.log("tesst ",from,":",message);
         listMessage.value.push({
             message:message,
             to:from
@@ -351,7 +480,6 @@ onMounted(async()=>{
 
 const saveAsPdf = async () => {
   const content = document.getElementById('content-to-pdf');
-
   const opt = {
     margin: 1,
     filename: 'your-filename.pdf',
@@ -419,7 +547,6 @@ const getDocument = async()=>{
     {
       for (let i = 0; i < response.data.length; i++) {
         ListDocument.value.push(response.data[i])
-        console.log("ListDocument",response.data[i]);
       }
     })
   } catch (error) {
@@ -442,7 +569,6 @@ const getUserIndocument = async(id)=>{
           }       
         }
       }
-      console.log(ListUserInDocument.value);
     })
   } catch (error) {
       console.log(error);
@@ -450,8 +576,6 @@ const getUserIndocument = async(id)=>{
 }
 
 const deleteDocument = async(id)=>{
-  // console.log(id,ListDocument.value);
-  // ListDocument.value.splice(id-1, 1);
   await Swal.fire({
         title: 'Xóa Tài Liệu',
         text: "Bạn có muốn xóa tài liệu này không ?",
@@ -467,118 +591,158 @@ const deleteDocument = async(id)=>{
             'Xoá tài liệu thành công .',
             'success'
             )
-            try {
-               axios.delete(import.meta.env.VITE_DELETE_CONTENT_DOCUMENT,{
-                params:{
-                  id:id
-                }
-              })
-            } catch (error) {
-              console.log(error);
-            }
-            
-            try {
-               axios.delete(import.meta.env.VITE_DELETEUSERINDOCUMENT,{
-                params:{
-                  id:id
-                }
-              })
-            } catch (error) {
-              console.log(error);
-            }
-
-            try {
-               axios.delete(import.meta.env.VITE_DELETEDOCUMENT,{
-                params:{
-                  id:id
-                }
-              })
-            } catch (error) {
-              console.log(error);
-            }
-
+            try {axios.delete(import.meta.env.VITE_DELETE_FINAL_DOCUMENT,{params:{id:id}})
+            } catch (error) {console.log(error);}
+            try {axios.delete(import.meta.env.VITE_DELETE_CONTENT_DOCUMENT,{params:{id:id}})
+            } catch (error) {console.log(error);}         
+            try {axios.delete(import.meta.env.VITE_DELETEUSERINDOCUMENT,{params:{id:id}})
+            } catch (error) {console.log(error);}
+            try {axios.delete(import.meta.env.VITE_DELETEDOCUMENT,{params:{id:id}})
+            } catch (error) {console.log(error);}
             window.location.reload();
-
         }
     })
-
-
-  
 }
 
 const CheckState = async()=>{
-  try {
-    await axios.post('http://localhost:8888/users/state',{
-        id:localStorage.getItem('iduser')
-    }
-    ).then(response =>{
-    })
-  } 
-  catch (error) {
-    console.log("error");
-  }
-}
-const CheckOut = async()=>{
-  try {
-    await axios.post('http://localhost:8888/users/stateout',{
-        id:getid
-    }
-    ).then(response =>{
-    })
-  } 
-  catch (error) {
-    console.log("error");
-  }
+  try {await axios.post('http://localhost:8888/users/state',{id:localStorage.getItem('iduser')}).then(response =>{})} 
+  catch (error) {console.log("error");}
 }
 
+const CheckOut = async()=>{
+  try {await axios.post('http://localhost:8888/users/stateout',{id:getid}).then(response =>{})} 
+  catch (error) {console.log("error");}
+}
 
 const OnSearchDocument= async()=>{
   ListContentDocument.value=[]
-  console.log(passwordDocument.value);
   var password=passwordDocument.value
-  try {
-    await axios.get(import.meta.env.VITE_GET_DOCUMENT_BY_PASSWORD,{
-    params:{
-      password: password
-    }
-    }).then(response =>
-    {
+  var version =""
+  var id =" "
+  try {await axios.get(import.meta.env.VITE_GET_ID_DOCUMENT_BY_PASSWORD,{
+    params:{password:password}
+    }).then(response =>{id= response.data[0].id})
+  } catch (error) {console.log(error);} 
+
+  try {await axios.get(import.meta.env.VITE_GET_VERSION,{
+    params:{documentid:id,}
+    }).then(response =>{version= response.data[response.data.length-1].version1})
+  } catch (error) {console.log(error);} 
+  console.log(version);
+
+  try {await axios.get(import.meta.env.VITE_GET_DOCUMENT_BY_PASSWORD,{    
+    params:{password: password,version1: version}
+    }).then(response =>{   
       for (let i = 0; i < response.data.length; i++) {
         ListContentDocument.value.push(response.data[i])
       }
     })
-  } catch (error) {
-      console.log(error);
-  }
+  } catch (error) {console.log(error)}
   viewDocument.value=true
-  console.log(ListContentDocument.value);
+  passwordDocument.value=""
+  checkClickSee.value=!checkClickSee.value
 }
 
-const OnSearchDocumentbyOwner= async(id)=>{
+
+const OnSearchDocumentbyOwner= async(id,name)=>{
   ListContentDocument.value=[]
-  console.log(passwordDocument.value);
+  ListVersion.value=[]
+  var version =""
   try {
-    await axios.get(import.meta.env.VITE_GET_DOCUMENT_BY_DOCUMENTOWNER,{
+    await axios.get(import.meta.env.VITE_GET_VERSION,{
     params:{
-      idDocumentOwner: getid,
-      id:id
+      documentid:id,
     }
     }).then(response =>
     {
-      for (let i = 0; i < response.data.length; i++) {
-        ListContentDocument.value.push(response.data[i])
+      version= response.data[response.data.length-1].version1
+      for (let i = 1; i < version+1; i++) {
+        ListVersion.value.push({version1:i})
       }
     })
   } catch (error) {
       console.log(error);
-  }
-  viewDocument.value=true
-  console.log(ListContentDocument.value);
+  } 
+}
+
+const SeeDocumentWithVersion=async(version,id,name)=>{
+    try {
+      await axios.get(import.meta.env.VITE_GET_DOCUMENT_BY_DOCUMENTOWNER,{
+      params:{
+        id:id,
+        version1: version,
+      }
+      }).then(response =>
+      {
+        for (let i = 0; i < response.data.length; i++) {
+          ListContentDocument.value.push(response.data[i])
+        }
+      })
+    } catch (error) {
+        console.log(error);
+    }
+    nameDocument.value=name
+    viewDocument.value=true
+}
+
+const DeleteVersionDocument=()=>{
+  Swal.fire({
+        title: 'Xóa Phiên bản',
+        text: "Bạn có muốn xóa phiên bản này khỏi hệ thống văn bản không ?",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Tiếp tục!'
+        }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire(
+            'Deleted!',
+            'Xoá phiên bản thành công .',
+            'success'
+            )
+        }
+    })
+
+}
+
+const LogOut =()=>{
+  Swal.fire({
+  title: 'Đăng xuất?',
+  text: "Bạn có muốn đăng xuất không!",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Đăng xuất!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire({
+          icon: 'success',
+          title: 'Đăng xuất thành công',
+          showConfirmButton: false,
+          timer: 1000
+      })
+      setTimeout(function(){   
+        router.push("/")
+      }, 1000);
+    }
+  })
 }
 </script>
 
 <style >
-.button {
+.el-table .cell {
+  text-align: center;
+}
+.el-popper.is-light {
+    background-color: lavender;
+    border: 1px solid var(--el-border-color-light);
+}
+.el-popover.el-popper {
+  margin-top: 20px;
+}
+.button1 {
   position: relative;
   background-color: #9E9E9E;
   -webkit-border-radius: 10px;
@@ -591,7 +755,7 @@ const OnSearchDocumentbyOwner= async(id)=>{
   font-size: 34px;
   padding: 2px 10px;
   text-align: center;
-cursor:pointer;
+  cursor:pointer;
   text-decoration: none;
   -webkit-transition: all 200ms ease;
   -moz-transition: all 200ms ease;
@@ -599,21 +763,21 @@ cursor:pointer;
   -o-transition: all 200ms ease;
   transition: all 200ms ease;
 }
- 
-.button:active {
+.button1:active {
   -webkit-box-shadow: 0px 2px 0px #878787, 0px 2px 8px #000000;
   box-shadow: 0px 2px 0px #878787, 0px 2px 8px #000000;
   top: 7px;
+}
+.button1:hover {
+  background: darkgray;
 }
 .container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100%; /* Đảm bảo chiều cao của container đủ để chứa các phần tử con */
+  height: 100%; 
 }
-
 .top-elements {
-
   justify-content: flex-start;
 }
 
