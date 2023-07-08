@@ -31,4 +31,43 @@ router.post('/deleteUser', async(req, res) => {
     }
 });
 
+router.get('/contributionStatistics',  async(req, res)=> {
+    //let sqlcheck="ALTER TABLE users ADD UNIQUE (email) "
+    let sql = " SELECT users.name, COUNT(document.id) AS document_count FROM users LEFT JOIN document ON users.id = document.idDocumentOwner GROUP BY users.id, users.name;";
+    connection.query(sql,(err,result)=>{
+        if(err){
+            return res.json(err)
+        }else{
+            console.log(result)
+            return(res.json(result))
+        }
+    })
+})
+
+router.get('/numberOfDocuments',  async(req, res)=> {
+    //let sqlcheck="ALTER TABLE users ADD UNIQUE (email) "
+    let sql = " SELECT COUNT(*) AS document_count FROM document; ";
+    connection.query(sql,(err,result)=>{
+        if(err){
+            return res.json(err)
+        }else{
+            console.log(result)
+            return(res.json(result))
+        }
+    })
+})
+
+router.get('/accountStatistics',  async(req, res)=> {
+    //let sqlcheck="ALTER TABLE users ADD UNIQUE (email) "
+    let sql = "SELECT classify_document.name, COUNT(document.id) AS document_count FROM classify_document LEFT JOIN document ON classify_document.name = document.classify GROUP BY classify_document.name;";
+    connection.query(sql,(err,result)=>{
+        if(err){
+            return res.json(err)
+        }else{
+            console.log(result)
+            return(res.json(result))
+        }
+    })
+})
+
 module.exports= router

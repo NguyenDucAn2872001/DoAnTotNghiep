@@ -1,71 +1,78 @@
 <template>
-    <section class="vh-100 mb-5" >
-        <div class="container py-5 h-100">
-            <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col col-lg-9 col-xl-7" style="width: 100%;">
-                <div class="card rounded-3">
-                <div class="card-body p-4">
-
-                    <h4 class="text-center my-3 pb-3">Quản lý tài khoản người dùng</h4>
-                    <div class="input-group rounded" style="width: 400px;">
-                        <input type="search" class="form-control rounded" placeholder="Vui lòng nhập tên " aria-label="Search" aria-describedby="search-addon"  />
-                        <i class="fa-solid fa-magnifying-glass icon-search"></i>
-                        <!-- <span class="input-group-text border-0" id="search-addon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-                            </svg>
-                        </span> -->
-                    </div>
-                    <table class="table mb-4">
-                    <thead>
-                        <tr>
-                        <th scope="col">Stt</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Tên</th>
-                        <th scope="col">Trạng thái</th>
-                        <th scope="col">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(inf, index) in info"  :key="inf">
-                        <th>{{ index + 1 }}</th>
-                        <td>{{ inf.email }}</td>
-                        <td>{{ inf.name }}</td>
-                        <td v-if="inf.state==true" scope="row" >
-                            <div style="display: flex;align-items: center;">
-                                <div style="width: 7px;height: 7px;background-color: green;border-radius: 50%;"></div>
-                                <div style="padding-left: 6px;">Online</div>
-                            </div>                            
-                        </td>
-                        <td v-else scope="row">
-                            <div style="display: flex;align-items: center;">
-                                <div style="width: 7px;height: 7px;background-color: red;border-radius: 50%;"></div>
-                                <div style="padding-left: 6px;">Offline</div>
-                            </div>     
-                        </td>
-                        <td>
-                            <button type="submit" class="btn btn-danger" @click="DeleteUser(inf,inf.id)"><i class="fa-regular fa-trash-can"></i></button>
-                            <button type="submit" class="btn btn-success ms-1"><i class="fa-regular fa-eye"></i></button>
-                            <button type="submit" class="btn btn-warning ms-1"><i class="fa-regular fa-comments"></i></button>
-                        </td>
-                        </tr>
-                    </tbody>
-                    </table>
-
-                </div>
-                </div>
-            </div>
-            </div>
+    <div class="d-flex" style="height: 100vh;">
+        <div class="col-2 bg-light  border">
+            <MenuBarAdmin/>
         </div>
-    </section>
+        <div class="col-10">
+            <HeaderAdmin/>
+            <h4 class="text-center fw-bold" style="padding-top: 100px;">Quản lý tài khoản người dùng</h4>
+            <section class=" " style="padding-top: 10px;width: 100%;">
+                <div class="container py-5 h-100 d-flex justify-content-center">
+                    <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col col-lg-9 col-xl-7" style="width: 100%;">
+                        <div class="card rounded-3">
+                        <div class="card-body p-4">
+
+                            
+                            <!-- <div class="input-group rounded" style="width: 400px;">
+                                <input type="search" class="form-control rounded" placeholder="Vui lòng nhập tên " aria-label="Search" aria-describedby="search-addon"  />
+                                <i class="fa-solid fa-magnifying-glass icon-search"></i>
+                            </div> -->
+                            <table class="table mb-4">
+                            <thead>
+                                <tr>
+                                <th scope="col">Stt</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Tên</th>
+                                <th scope="col">Trạng thái</th>
+                                <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(inf, index) in info"  :key="inf">
+                                <th>{{ index + 1 }}</th>
+                                <td>{{ inf.email }}</td>
+                                <td>{{ inf.name }}</td>
+                                <td v-if="inf.state==true" scope="row" >
+                                    <div style="display: flex;align-items: center;">
+                                        <div style="width: 7px;height: 7px;background-color: green;border-radius: 50%;"></div>
+                                        <div style="padding-left: 6px;">Online</div>
+                                    </div>                            
+                                </td>
+                                <td v-else scope="row">
+                                    <div style="display: flex;align-items: center;">
+                                        <div style="width: 7px;height: 7px;background-color: red;border-radius: 50%;"></div>
+                                        <div style="padding-left: 6px;">Offline</div>
+                                    </div>     
+                                </td>
+                                <td>
+                                    <button type="submit" class="btn btn-danger" @click="DeleteUser(inf,inf.id)"><i class="fa-regular fa-trash-can"></i></button>
+                                    <button type="submit" class="btn btn-success ms-1"><i class="fa-regular fa-eye"></i></button>
+                                    <button type="submit" class="btn btn-warning ms-1"><i class="fa-regular fa-comments"></i></button>
+                                </td>
+                                </tr>
+                            </tbody>
+                            </table>
+
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
 </template>
 
 <script setup>
 import {ref ,onMounted} from 'vue'
 import axios  from 'axios';
 import Swal from "sweetalert2";
+import HeaderAdmin from '../../components/HeaderAdmin.vue'
+import MenuBarAdmin from '../../components/MenuBarAdmin.vue'
 
 const info= ref([])
+const AdminAcc=ref({id:0,email:"admin@admin.com",username:"admin",name:'admin',password:"admin"})
 
 onMounted( async() => {
     try {

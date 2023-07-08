@@ -8,6 +8,7 @@ import './assets/main.css'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import "bootstrap/dist/css/bootstrap.min.css"
+import 'chart.js'
 
 
 const app = createApp(App)

@@ -4,6 +4,9 @@ import NewLogin from '../views/Login/NewLogin.vue'
 import Home from '../views/Home/HomeView.vue'
 import ForgotPassword from '../views/Login/ForgotPassword.vue'
 import ManageClient from '../views/Admin/ManageClient.vue'
+import ContributionStatistics from '../views/Admin/ContributionStatistics.vue'
+import ManageDocument from '../views/Admin/ManageDocument.vue'
+import AccountStatistics from '../views/Admin/AccountStatistics.vue'
 import EditDocument from '../views/Home/EditDocument.vue'
 import TestConnectSocketIo from '../views/Home/TestConnectSocketIo.vue'
 import NewEdit from '../views/Home/NewEdit.vue'
@@ -37,6 +40,30 @@ const router = createRouter({
       path: '/ManageClient',
       name: 'ManageClient',
       component: ManageClient,    
+      meta: {
+        requiresAuth:true
+      }       
+    },
+    {
+      path: '/ManageClient/ContributionStatistics',
+      name: 'ContributionStatistics',
+      component: ContributionStatistics,    
+      meta: {
+        requiresAuth:true
+      }       
+    },
+    {
+      path: '/ManageClient/ManageDocument',
+      name: 'ManageDocument',
+      component: ManageDocument,    
+      meta: {
+        requiresAuth:true
+      }       
+    },
+    {
+      path: '/ManageClient/AccountStatistics',
+      name: 'AccountStatistics',
+      component: AccountStatistics,    
       meta: {
         requiresAuth:true
       }       

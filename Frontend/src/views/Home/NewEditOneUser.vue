@@ -1,6 +1,6 @@
 <template>
-   <div style="height: 100vh; ">
-    <div v-if="CloseForm==true" >
+   <div style="width: 100%; ">
+    <div v-if="CloseForm==false" >
         <section class="vh-100 bg-image"
             style="background-image: url('https://hainh2k3.com/wp-content/uploads/2018/11/CSS-Particles.gif');">
             <div class="mask d-flex align-items-center h-100 gradient-custom-3">
@@ -17,7 +17,7 @@
 
                         <form  @submit.prevent="CreateDocument()" >
                             
-                            <div class="form-outline mb-4">
+                            <div class="form-outline mb-2">
                                 <label class="form-label" for="form3Example1cg">Tên Tài Liệu</label>
                                 <input type="text" v-model="info.NameDocument" id="form3Example1cg" class="form-control form-control-lg" />
                                 <span class="text-danger" v-for="error in v$.NameDocument.$errors" :key="error.$uid">
@@ -25,7 +25,17 @@
                                 </span>
                             </div>
 
-                            <div class="form-outline mb-4" style="display: grid;">
+                            <div class="form-outline mb-2" style="display: grid;">
+                                <label class="form-label" for="form3Example3cg">Loại tài liệu </label>
+                                <el-select v-model="info.Classify" filterable placeholder="Select" >
+                                    <el-option v-for="item in ListClassifyDocument" :key="item.id" :label="item.name" :value="item.name"/>     
+                                </el-select>
+                                <span class="text-danger" v-for="error in v$.Classify.$errors" :key="error.$uid">
+                                    {{ error.$message }}
+                                </span>
+                            </div>
+
+                            <div class="form-outline mb-2" style="display: grid;">
                                 <label class="form-label" for="form3Example3cg">Người Chỉnh Sửa Văn Bản</label>
                                 <el-select-v2 v-model="info.ListUserInDocument" filterable :options="infoUser.map(name => ({ value: name.id, label: name.name }))" placeholder=" "  multiple />
                                 <span class="text-danger" v-for="error in v$.ListUserInDocument.$errors" :key="error.$uid">
@@ -33,7 +43,7 @@
                                 </span>
                             </div>
 
-                            <div class="form-outline mb-4" style="display: grid;">
+                            <div class="form-outline mb-2" style="display: grid;">
                                 <label class="form-label" for="form3Example3cg">Người Hợp Nhất Văn Bản </label>
                                 <el-select v-model="info.MergeUser" filterable placeholder="Select" >
                                     <el-option v-for="item in infoUser" :key="item.id" :label="item.name" :value="item.id"/>     
@@ -65,29 +75,61 @@
             </div>
             </section>
         </div>
-        <div  v-else class="nav">
-            <div style="margin: 100px;">
-                <button @click="SaveDocument">Save</button>
-                <button @click="PosttData">Get Data</button>
-                <div style="width: 1000px;height: 800px;border: 1px solid black; border-radius: 10px;" >
-                    <div v-for="(item, index) in items" :key="index" style="display: flex;justify-content: center;">
-                        <template v-if="item.type === 'titleAndTextarea'">
-                            <div class="box-textarea">
-                                <div >
-                                    <input class="custom-input" type="text" v-model="item.titleContent" placeholder="Input Title here">
-                                </div>
-                                <div>
-                                    <textarea class="custom-textarea" v-model="item.textareaContent"></textarea>
-                                </div>
-                                <i class="fa-solid fa-circle-xmark close-textarea" @click="removeTextarea(item, index)"></i>
-                            </div>
-                        </template>
+        <div  v-else style="width: 100%;background-color: rgb(79, 79, 79);">
+            <HeaderView :data="getid" style="z-index: 2;"/>
+            <div class="d-flex" style="width: 100%;z-index: 1;;">
+                <div class="border" style="width: 20% ;display:flex ;justify-content: center;position: relative;background-color: rgb(156, 156, 156);">
+                    <div style="margin-top: 100px; width: 80%;">
+                        <button style="width: 90%;" @click="addTextarea">
+                            <span class="shadow"></span>
+                            <span class="edge1"></span>
+                            <span class="front text bg-warning" style="font-size: 16px;">
+                                <i class="fa-solid fa-plus me-2 "></i>
+                                Thêm Nội dung
+                            </span>
+                        </button>  
+                        <button style="width: 90%;margin-top: 20px;" @click="PosttData">
+                            <span class="shadow"></span>
+                            <span class="edge2"></span>
+                            <span class="front text bg-success" style="font-size: 16px;">
+                                <i class="fa-solid fa-floppy-disk me-2"></i>
+                                Lưu văn bản
+                            </span>
+                        </button>  
+                        <router-link :to="`/Home/${getid}`" style="z-index: 2;">
+                            <button style="width: 80%;margin-top: 20px;position: absolute;bottom: 20px;left: 28px;">
+                                <span class="shadow"></span>
+                                <span class="edge"></span>
+                                <span class="front text" style="font-size: 16px;">
+                                    <i class="fa-solid fa-house me-2"></i>
+                                    Trang chủ
+                                </span>
+                            </button>
+                        </router-link>
                     </div>
-                    <div style="display: flex;justify-content: center;">
-                        <i class="fa-solid fa-circle-plus iconplus" @click="addTextarea"></i>
+                </div>
+                <div class="parent" style="width: 80%;margin-top: 120px;display: flex;justify-content: center;height: 618px;background-color: rgb(79, 79, 79);">     
+                    <div class="child" style="width: 80%;height: 900px;border: 1px solid black;margin-bottom: 40px;background-color: #fff;padding-top: 40px;" >
+                        <div v-for="(item, index) in items" :key="index" style="display: flex;justify-content: center;width: 100%;">
+                            <template v-if="item.type === 'titleAndTextarea'">
+                                <div class="box-textarea">
+                                    <div >
+                                        <input class="custom-input" type="text" v-model="item.titleContent" placeholder="Nhập tiêu đề tài liệu">
+                                    </div>
+                                    <div>
+                                        <textarea class="custom-textarea" v-model="item.textareaContent"></textarea>
+                                    </div>
+                                    <i class="fa-solid fa-circle-xmark close-textarea" @click="removeTextarea(item, index)"></i>
+                                </div>
+                            </template>
+                        </div>
+                        <div style="display: flex;justify-content: center;">
+                            <i class="fa-solid fa-circle-plus iconplus" @click="addTextarea"></i>
+                        </div>
                     </div>
                 </div>
             </div>
+            
         </div>
    </div>
 </template>
@@ -98,14 +140,17 @@ import useVuelidate from "@vuelidate/core"
 import axios  from 'axios';
 import {useRoute} from 'vue-router'
 import Swal from "sweetalert2";
+import HeaderView from '../../components/HeaderView.vue'
 
 const route=useRoute()
 const getid=route.params.id 
 const infoUser =ref([])
 const items = ref([]);
 const idDocument=ref()
+const ListClassifyDocument=ref([])
 const info = ref({
     ListUserInDocument :[],
+    Classify:"",
     NameDocument : "",
     MergeUser:"",
     PassWordDocument : "",
@@ -113,6 +158,7 @@ const info = ref({
 const rules= computed(()=>{
     return{
         ListUserInDocument:{required},
+        Classify:{required},
         NameDocument : {required},
         PassWordDocument : {required},
         MergeUser : {required},
@@ -122,6 +168,7 @@ const v$ = useVuelidate(rules,info.value)
 
 onMounted(async()=>{
     await getInfoUser()
+    await getClassifyDocument()
 })
 
 const CloseForm =ref(true)
@@ -160,6 +207,7 @@ const postDocument= async()=>{
     try {
         await axios.post(import.meta.env.VITE_POSTDOCUMENT,{
             nameDocument:info.value.NameDocument,
+            classify :info.value.Classify,
             password :info.value.PassWordDocument,
             idDocumentOwner:getid,
             mergeUser :info.value.MergeUser,
@@ -197,6 +245,20 @@ const getDocument = async()=>{
   }
 }
 
+const getClassifyDocument = async()=>{
+  try {
+    await axios.get(import.meta.env.VITE_GET_CLASSIFY_DOCUMENT).then(response =>
+    {
+      for (let i = 0; i < response.data.length; i++) {
+        ListClassifyDocument.value.push(response.data[i])
+      }
+      console.log(ListClassifyDocument.value);
+    })
+  } catch (error) {
+      console.log(error);
+  }
+}
+
 const addTextarea = () => {
   const newItem = {
     type: 'titleAndTextarea',
@@ -212,7 +274,6 @@ const removeTextarea = (item, index) => {
 }
 
 const PosttData = async() => {
-    console.log(items.value);
     for (let i = 0; i < items.value.length; i++) {
         try {
             await axios.post(import.meta.env.VITE_POST_DATA_CONTENT,{
@@ -229,14 +290,11 @@ const PosttData = async() => {
                     showConfirmButton: false,
                     timer: 1000
                 })
-                return route.push(`/Home/${getid}`)
             })
         } catch (error) {
             console.log(error);
-        }
-        
+        }      
     }
-  
 }
 
 const getInfoUser = async()=>{
@@ -258,6 +316,16 @@ const getInfoUser = async()=>{
 </script>
 
 <style >
+.parent {
+  width: 300px; /* Độ rộng của div cha */
+  height: 200px; /* Chiều cao của div cha */
+  overflow: auto; /* Hiển thị thanh cuộn khi cần thiết */
+}
+
+.child {
+  width: 100%; /* Độ rộng của div con */
+  height: 400px; /* Chiều cao của div con (lớn hơn chiều cao của div cha) */
+}
 .el-select .el-input {
     display: flex;
     height: 48px;
@@ -288,7 +356,7 @@ const getInfoUser = async()=>{
     position: relative;
 }
 .custom-input {
-  width: 960px;
+  width: 900px;
   height: 20px;
   border: none;
   margin-top: 20px;
@@ -307,14 +375,44 @@ const getInfoUser = async()=>{
 .custom-textarea{
   padding: 10px;
   resize: none;
-  width: 960px;
+  width: 900px;
   height: 100px;
-  border: 1px solid #DDDDDD; 
+  border: none; 
   border-radius: 10px;
   margin-top: 20px;
 }
 .custom-textarea:focus {
   outline: none; 
   border-color: #DDDDDD; 
+}
+.edge1 {
+ position: absolute;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ border-radius: 12px;
+ background: linear-gradient(
+    to left,
+    #CDAD00 ,
+    #CDAD00,
+    #CDAD00,
+    #CDAD00
+  );
+}
+.edge2 {
+ position: absolute;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ border-radius: 12px;
+ background: linear-gradient(
+    to left,
+    #006241,
+    #006241,
+    #006241,
+    #006241
+  );
 }
 </style>

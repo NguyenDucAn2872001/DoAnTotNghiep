@@ -1,8 +1,8 @@
 <template>
-  <HeaderView :data="getid" />
+  <HeaderView :data="getid" style="z-index: 1;"/>
     <div v-if="editor" style="padding-top: 100px;display: flex;justify-content: center; height: 1100px; background-color: #fff;">
       <div style="width: 100%;">
-        <div class="" style="background-color: beige;height: 100px;position: fixed;width: 100%;top:80px;display: flex;padding-top: 10px;justify-content: center;">
+        <div class="" style="z-index: 1;background-color: beige;height: 100px;position: fixed;width: 100%;top:80px;display: flex;padding-top: 10px;justify-content: center;">
 
           <button type="button" class="btn me-1" @click="addImage" style="background-color: #958DF1; width: 80px;height: 32px;">
             <i class="fa-solid fa-plus me-3" style="color: #fff;"></i>
@@ -228,7 +228,7 @@
             <i class="fa-solid fa-download ms-2"></i>
           </button>
         </div>
-        <div style="display: flex;justify-content: center;height: 1000px;padding-top: 150px;background-color: #fff;padding-bottom: 50px;">
+        <div style="z-index: 2;display: flex;justify-content: center;height: 1000px;padding-top: 150px;background-color: #fff;padding-bottom: 50px;">
           <div style="width: 60%;background-color: #fff;;border: 1px solid black;">
             <editor-content :editor="editor"  id="content-to-pdf"/>
           </div>

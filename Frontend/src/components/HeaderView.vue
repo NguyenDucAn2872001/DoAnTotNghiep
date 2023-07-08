@@ -11,7 +11,10 @@
             <img src="../assets/download_preview_rev_1.png" alt="" style="width: 60px;height: 60px;">
           </div>
           <div class="ms-5" style="display: flex;align-items: center;text-decoration: none ;cursor: pointer;">
-            <i class="fa-solid fa-user" style="padding-right: 10px;"></i>
+            <div class="bg-dark me-2" style="cursor: pointer;width: 30px;height: 30px;display: flex;align-items: center;justify-content: flex-end;border-radius: 50%;">
+                <i class="fa-solid fa-user text-light" style="padding-right: 10px;"></i>
+            </div>
+            
             <div style="font-weight: 700;">{{ nameInput }}</div>
           </div>  
         </div>  

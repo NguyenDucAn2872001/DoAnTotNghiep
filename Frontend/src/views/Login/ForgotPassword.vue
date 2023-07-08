@@ -3,49 +3,52 @@
       <div class="row align-items-center justify-content-center
           min-vh-100">
         <div class="col-12 col-md-8 col-lg-4">
-          <div class="card shadow-sm">
+          <div class="">
 
-            <div class="card-body" v-if="check==true">
-              <div class="mb-4">
-                <h5>Forgot Password?</h5>
-                <p class="mb-2">Vui lòng nhập địa chỉ email và mssv để lấy lại mật khẩu
+            <div class="card-body form_main1 formLogin1" v-if="check==true">
+              <div class="mb-4 " style="z-index: 2; color: #000;">
+                <h5 class="d-flex justify-content-center fw-bold fs-2 text">Forgot Password?</h5>
+                <p class="mb-2 fw-bold">Vui lòng nhập địa chỉ email và mssv để lấy lại mật khẩu
                 </p>
               </div>
-              <form @submit.prevent="submitCreate()">
-                <div class="mb-3">
-                  <label for="email" class="form-label">Email</label>
+                <div class="mb-3" style="z-index: 2;color: #000;">
+                  <label for="email" class="form-label fw-bold">Email</label>
                   <input type="email" id="email" class="form-control" v-model="info.email" name="email" placeholder="Nhập Email">
                 </div>
 
-                <div class="mb-3">
-                  <label for="text" class="form-label">Mã số sinh viên</label>
+                <div class="mb-3" style="z-index: 2;color: #000;">
+                  <label for="text" class="form-label fw-bold">Mã số sinh viên</label>
                   <input type="text" id="text" class="form-control" v-model="info.role"  placeholder="Nhập mã số sinh viên">
                 </div>
-                <div class="mb-3 d-grid" >
-                  <input type="submit" value="Lấy lại mật khẩu" class="btn btn-primary ">
+                <div class="mb-3 d-grid d-flex justify-content-center" style="z-index: 2;" >
+                  <button @click="submitCreate()" class="me-4">
+                                <span class="shadow"></span>
+                                <span class="edge"></span>
+                                <span class="front text"> Lấy lại mật khẩu
+                                </span>
+                            </button>
                 </div>
-                <span >Bạn chưa có tài khoản ? 
+                <span class="text-dark" style="z-index: 2;">Bạn chưa có tài khoản ? 
                   <router-link to="/Login/NewLogin" >
-                    <a href="sign-in.html">Đăng ký tài khoản</a>
+                    <a href="sign-in.html" class="text-danger fw-bold ms-2">Đăng ký tài khoản</a>
                   </router-link>
                 </span>
-              </form>
             </div>
-            <div class="card-body" v-else>
-                <div class="mb-4">
-                    <h5>Lấy lại mật khẩu thành công</h5>
-                    <p class="mb-2">Below is your account and password </p>
+            <div class="card-body form_main1 formLogin1 pt-5 pb-5" v-else>
+                <div class="mb-4" style="z-index: 2;">
+                    <h5 class="fw-bold text-dark">Lấy lại mật khẩu thành công</h5>
+                    <p class="mb-2 fw-bold text-dark">Below is your account and password </p>
                 </div>
-                <div class="row">
-                    <div class="col-4">
+                <div class="row" style="z-index: 2;">
+                    <div class="col fw-bold text-dark">
                         Tài Khoản: 
                     </div>
-                    <div class="col">
+                    <div class="col fw-bold text-dark">
                       {{ info.email }}
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-4">
+                <div class="row fw-bold text-dark" style="z-index: 2;">
+                    <div class="col">
                         Mật Khẩu: 
                     </div>
                     <div class="col">
@@ -122,3 +125,47 @@
             }
     }
 </script>
+
+<style>
+.formLogin1{
+    width: 400px;
+    background: linear-gradient(#fff, #FFCC99) padding-box,
+              linear-gradient(145deg, transparent 35%,#e81cff, #40c9ff) border-box;
+    border: 2px solid transparent;
+    padding: 32px 24px;
+    font-size: 14px;
+    font-family: inherit;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-sizing: border-box;
+    border-radius: 16px;
+}
+.form_main1 {
+  width: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: blanchedalmond;
+  padding: 30px 30px 30px 30px;
+  box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.062);
+  position: relative;
+  overflow: hidden;
+}
+
+.form_main1::before {
+    position: absolute;
+    content: "";
+    width: 485px;
+    height: 413px;
+    background-color: rgb(209, 193, 255);
+    transform: rotate(45deg);
+    left: -254px;
+    bottom: 156px;
+    z-index: 1;
+    border-radius: 30px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.082);
+}
+</style>

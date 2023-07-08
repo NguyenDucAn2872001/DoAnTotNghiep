@@ -47,9 +47,10 @@ router.get('/getIdUser',  async(req, res)=> {
 })
 
 router.post('/saveDocument', async(req, res) => {
-    let sql = "INSERT INTO document (nameDocument,password, idDocumentOwner,mergeUser) values (?) ";
+    let sql = "INSERT INTO document (nameDocument,classify,password, idDocumentOwner,mergeUser) values (?) ";
     const values= [
         req.body.nameDocument,
+        req.body.classify,
         req.body.password,
         req.body.idDocumentOwner,
         req.body.mergeUser
@@ -220,4 +221,15 @@ router.delete('/deleteUserInDocument', async (req, res) => {
     });
 });
 
+router.get('/getClassifyDocument',  async(req, res)=> {
+    let sql = "SELECT * FROM textcompletion.classify_document"
+    connection.query(sql,(err,result)=>{
+        if(err){
+            return res.json(err)
+        }else{
+            console.log(result)
+            return(res.json(result))
+        }
+    })
+})
 module.exports= router

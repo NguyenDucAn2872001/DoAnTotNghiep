@@ -59,36 +59,285 @@
                 </div>
             </section>
         </div>
-        <div  v-else class="nav" style="width: 100%;">
-            <div class="d-flex me-1" style="position: fixed;width: 100% ;margin: 100px">
-                <button type="button" class="btn btn-success me-3" @click="" style="display: flex;align-items: center;width: 100px;justify-content: center;">
-                    <div>PDF </div>
-                    <i class="fa-solid fa-download ms-2"></i>
-                </button>
-                <button type="button" class="btn btn-danger" @click="PosttData" style="display: flex;align-items: center;width: 100px;justify-content: center;">                  
-                    <div>Save </div>
-                    <i class="fa-solid fa-floppy-disk ms-2"></i>
-                </button>
-            </div>
-            <div style="margin: 100px;width: 100%;">            
-                <div style="display: flex;justify-content: center;width: 100%;padding-top: 80px;">
-                    <div style="width: 70%;height: 800px;border: 1px solid black; " >
-                        <div v-for="item in items"  style="width: 100%;"> 
-                            <!-- <div class="box-textarea" style=" width: 100%;"> -->
-                                <div class="ms-5" style="padding-top: 70px;">
-                                    <div style="font-size: 24px;">{{ item.title }}</div>
+        <div  v-else class="nav" style="width: 100%; height: 100vh;">
+            <div class="d-flex" style="width: 100%;">
+                <div class="border" style="width: 20%;margin-top: 80px;display: flex;justify-content: center;">
+                    <div style="width: 70%;margin-top: 40px;">
+                        <button style="width: 90%;" @click="addTextarea">
+                            <span class="shadow"></span>
+                            <span class="edge1"></span>
+                            <span class="front text bg-warning" style="font-size: 16px;">
+                                Lưu PDF
+                                <i class="fa-solid fa-download ms-2"></i>
+                            </span>
+                        </button>  
+                        <button style="width: 90%;margin-top: 20px;"  @click="PosttData">
+                            <span class="shadow"></span>
+                            <span class="edge2"></span>
+                            <span class="front text bg-success" style="font-size: 16px;">
+                                Lưu văn bản
+                                <i class="fa-solid fa-floppy-disk ms-2"></i>
+                            </span>
+                        </button>  
+                    </div>
+                </div>
+                <div style="width: 80% ;margin-top: 80px;">
+                    <div class="" style="width: 100%;height: 80px;background-color: #205AA7;display: flex;justify-content: center;padding-top: 20px;">
+                        <div>
+                            <el-dropdown class=" me-1" >
+                                <el-button type="success">
+                                    <i class="fa-solid fa-plus me-3" style="color: #fff;"></i>
+                                    <i class="fa-solid fa-table"></i>
+                                    <el-icon class="el-icon--right"><arrow-down /></el-icon>
+                                </el-button>
+                                <template #dropdown>
+                                    <el-dropdown-menu>
+                                        <el-dropdown-item>
+                                            <button type="button" class="btn" style="background-color: #958DF1; width: 100%;">
+                                                insertTable
+                                            </button>
+                                            </el-dropdown-item>
+                                            <el-dropdown-item>
+                                            <button type="button" class="btn"  style="background-color: #FFCC99; width: 100%;">
+                                                addColumnBefore
+                                            </button>
+                                            </el-dropdown-item>
+                                            <el-dropdown-item>
+                                            <button type="button" class="btn"  style="background-color: #CCCCFF; width: 100%;">
+                                                deleteColumn
+                                            </button>
+                                            </el-dropdown-item>
+                                            <el-dropdown-item>
+                                            <button type="button" class="btn"  style="background-color: #99CC99; width: 100%;">
+                                                addRowBefore
+                                            </button>
+                                            </el-dropdown-item>
+                                            <el-dropdown-item>
+                                            <button type="button" class="btn"  style="background-color: #BB0000; width: 100%;">
+                                                deleteRow
+                                            </button>
+                                            </el-dropdown-item>
+                                            <el-dropdown-item>
+                                            <button type="button" class="btn" style="background-color: #99FFFF; width: 100%;">
+                                                deleteTable
+                                            </button>
+                                        </el-dropdown-item>
+                                    </el-dropdown-menu>
+                                </template>
+                            </el-dropdown>
+                        </div>
+                        <div>
+                            <button type="button" class="btn me-1" @click="addImage" style="background-color: #958DF1; width: 80px;height: 32px;">
+                                <i class="fa-solid fa-plus me-3" style="color: #fff;"></i>
+                                <i class="fa-solid fa-image" style="color: #fff;"></i>
+                            </button>
+                        </div>
+                        <div>
+                            <el-dropdown class=" me-1" >
+                                <el-button type="warning">
+                                    <i class="fa-solid fa-plus me-3" style="color: #fff;"></i>
+                                    <i class="fa-solid fa-heading"></i>
+                                <el-icon class="el-icon--right"><arrow-down /></el-icon>
+                                </el-button>
+                                <template #dropdown>
+                                <el-dropdown-menu>
+                                    <el-dropdown-item>
+                                    <button type="button" class="btn" style="background-color: #33FFFF; width: 100%;">
+                                        H1
+                                    </button>
+                                    </el-dropdown-item>
+                                    <el-dropdown-item>
+                                    <button type="button" class="btn"  style="background-color: #FFCCFF; width: 100%;">
+                                        H2
+                                    </button>
+                                    </el-dropdown-item>
+                                    <el-dropdown-item>
+                                    <button type="button" class="btn"  style="background-color: #99CCFF; width: 100%;">
+                                        H3
+                                    </button>
+                                    </el-dropdown-item>
+                                </el-dropdown-menu>
+                                </template>
+                            </el-dropdown>
+                        </div>
+                        <div>
+                            <el-dropdown class=" me-1" >
+                                <el-button type="primary">
+                                    <i class="fa-solid fa-plus me-3" style="color: #fff;"></i>
+                                    <i class="fa-solid fa-palette"></i>
+                                    <el-icon class="el-icon--right"><arrow-down /></el-icon>
+                                </el-button>
+                                <template #dropdown>
+                                    <el-dropdown-menu>
+                                        <el-dropdown-item>
+                                            <input type="color">
+                                            </el-dropdown-item>
+                                            <el-dropdown-item>
+                                            <button type="button" class="btn"  style="background-color: #958DF1; width: 100%;">
+                                                purple
+                                            </button>
+                                            </el-dropdown-item>
+                                            <el-dropdown-item>
+                                            <button type="button"  style="background-color: #F98181; width: 100%;">
+                                                red
+                                            </button>
+                                            </el-dropdown-item>
+                                            <el-dropdown-item>
+                                            <button type="button" class="btn"  style="background-color: #FBBC88; width: 100%;">
+                                                orange
+                                            </button>
+                                            </el-dropdown-item>
+                                            <el-dropdown-item>
+                                            <button type="button" class="btn"  style="background-color: #FAF594; width: 100%;">
+                                                yellow
+                                            </button>
+                                            </el-dropdown-item>
+                                            <el-dropdown-item>
+                                            <button type="button" class="btn"  style="background-color: #70CFF8; width: 100%;">
+                                                blue
+                                            </button>
+                                            </el-dropdown-item>
+                                            <el-dropdown-item>
+                                            <button type="button" class="btn"  style="background-color: #94FADB; width: 100%;">
+                                                teal
+                                            </button>
+                                            </el-dropdown-item>
+                                            <el-dropdown-item>
+                                            <button type="button" class="btn btn-light"  style=" width: 100%;">
+                                                unsetColor
+                                            </button>
+                                        </el-dropdown-item>
+                                    </el-dropdown-menu>
+                                </template>
+                            </el-dropdown>
+                        </div>
+                        <div>
+                            <el-dropdown class=" me-1" >
+                                <el-button type="info">
+                                    <i class="fa-solid fa-plus me-3" style="color: #fff;"></i>
+                                    <i class="fa-solid fa-list-check"></i>
+                                    <el-icon class="el-icon--right"><arrow-down /></el-icon>
+                                </el-button>
+                                    <template #dropdown>
+                                        <el-dropdown-menu>
+                                            <el-dropdown-item>
+                                            <button type="button" class="btn"  style="background-color: #958DF1; width: 100%;">
+                                                toggleBulletList
+                                            </button>
+                                            </el-dropdown-item>
+                                            <el-dropdown-item>
+                                            <button type="button" class="btn"  style="background-color: #99FF33; width: 100%;">
+                                                splitListItem
+                                            </button>
+                                            </el-dropdown-item>
+                                            <el-dropdown-item>
+                                            <button type="button" class="btn"  style="background-color: #33FFFF; width: 100%;">
+                                                sinkListItem
+                                            </button>
+                                            </el-dropdown-item>
+                                            <el-dropdown-item>
+                                            <button type="button" class="btn"  style="background-color: #FFCCFF; width: 100%;">
+                                                liftListItem
+                                            </button>
+                                            </el-dropdown-item>
+                                            <el-dropdown-item>Action 5</el-dropdown-item>
+                                        </el-dropdown-menu>
+                                    </template>
+                            </el-dropdown>
+                        </div>
+                        <div>
+                            <el-dropdown class=" me-1" >
+                                <el-button type="#b3e19d" style="background-color: #b3e19d;">
+                                    <i class="fa-solid fa-plus me-3" style="color: #fff;"></i>
+                                    <i class="fa-solid fa-bold"></i>
+                                    <el-icon class="el-icon--right"><arrow-down /></el-icon>
+                                </el-button>
+                                <template #dropdown>
+                                    <el-dropdown-menu>
+                                        <el-dropdown-item>
+                                        <button type="button" class="btn"  style="background-color: #958DF1; width: 100%;">
+                                            toggleBold
+                                        </button>
+                                        </el-dropdown-item>
+                                        <el-dropdown-item>
+                                        <button type="button" class="btn"  style="background-color: #00CC00; width: 100%;">
+                                            setBold
+                                        </button>
+                                        </el-dropdown-item>
+                                        <el-dropdown-item>
+                                        <button type="button" class="btn"  style="background-color: 	#339999; width: 100%;">
+                                            unsetBold
+                                        </button>
+                                        </el-dropdown-item>
+                                    </el-dropdown-menu>
+                                </template>
+                            </el-dropdown>
+                        </div>
+                        <div>
+                            <el-dropdown class=" me-1" >
+                                <el-button type="" style="background-color:  #f3d19e;">
+                                    <i class="fa-solid fa-highlighter"></i>
+                                    <el-icon class="el-icon--right"><arrow-down /></el-icon>
+                                </el-button>
+                                <template #dropdown>
+                                    <el-dropdown-menu>
+                                        <el-dropdown-item>
+                                            <button type="button" class="btn"  style="width: 100%;background-color: orange;">
+                                                orange
+                                            </button>
+                                            </el-dropdown-item>
+                                            <el-dropdown-item>
+                                            <button type="button" class="btn btn-success"  style="width: 100%;">
+                                                green
+                                            </button>
+                                            </el-dropdown-item>
+                                            <el-dropdown-item>
+                                            <button type="button" class="btn btn-primary"  style="width: 100%;">
+                                                blue
+                                            </button>
+                                            </el-dropdown-item>
+                                            <el-dropdown-item>
+                                            <button type="button" class="btn"  style="width: 100%; background-color: yellow;">
+                                                Yellow
+                                            </button>
+                                            </el-dropdown-item>
+                                            <el-dropdown-item>
+                                            <button type="button" class="btn btn-danger"  style="width: 100%;">
+                                                red 
+                                            </button>
+                                            </el-dropdown-item>
+                                            <el-dropdown-item>
+                                            <button type="button" class="btn btn-light"  style="width: 100%;">
+                                                Tắt Highlight
+                                            </button>
+                                            </el-dropdown-item>
+                                        <el-dropdown-item>Action 5</el-dropdown-item>
+                                    </el-dropdown-menu>
+                                </template>
+                            </el-dropdown>
+                        </div>
+                    </div>  
+                    <div class="parent" style="height: 578px;width: 100%;display: flex;justify-content: center;">
+                        <div class="child" style="width: 85%;">          
+                            <div style="display: flex;justify-content: center;width: 100%;padding-top: 40px;">
+                                <div style="width: 100%;height: 800px;border: 1px solid black; " >
+                                    <div v-for="item in items"  style="width: 100%;"> 
+
+                                            <div class="ms-5" style="padding-top: 70px;">
+                                                <div style="font-size: 24px;">{{ item.title }}</div>
+                                            </div>
+                                            <div style="width: 100%;display: flex;justify-content: center;">
+                                                <textarea class="custom-textarea1"  v-model="item.textarea" style="width: 90%;border: none;outline: none;resize: none;" placeholder="Nhập nội dung vào đây"></textarea>
+                                            </div>
+                                    </div>
                                 </div>
-                                <div style="width: 100%;display: flex;justify-content: center;">
-                                    <textarea class="custom-textarea1"  v-model="item.textarea" style="width: 90%;border: none;outline: none;resize: none;" placeholder="Nhập nội dung vào đây"></textarea>
-                                </div>
-                            <!-- </div>         -->
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- <button @click="PosttData">save </button> -->
 </template>
 <script setup>
 import { ref,onMounted,computed } from "vue";
@@ -117,15 +366,6 @@ const arrayToObject = (arr)=> {
   }
   return obj;
 }
-
-// const addTextarea = () => {
-//   const newItem = {
-//     type: 'titleAndTextarea',
-//     titleContent: '',
-//     textareaContent: ''
-//   };
-//   items.value.push(newItem);
-// }
 
 onMounted(async()=>{
     await getInfoUser()

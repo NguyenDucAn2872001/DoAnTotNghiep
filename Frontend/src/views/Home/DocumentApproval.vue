@@ -50,19 +50,46 @@
         <div v-else style="">
           <HeaderView />
           <div style="display: flex;justify-content: center; ;padding-top: 80px;width: 100%;height: 100vh;">
-            <div style="width: 20%;background-color: #9C9C9C;">
-              <div class="mb-5" style="display: flex;justify-content: flex-end;margin-right: 60px;">
-                <button type="button" class="btn btn-success" @click="saveDocument" style="padding: 5px 20px 5px;">Cập nhât phiên bản mới</button>
-              </div>
-              <div class="mb-5" style="display: flex;justify-content: flex-end;margin-right: 60px;">
-                <button type="button" class="btn btn-success" @click="saveDocument" style="padding: 5px 20px 5px;">Giữ lại phiên bản cũ</button>
+            <div style="width: 20%;background-color: #9C9C9C;display: flex;justify-content: center;">
+
+              <div>
+                <div class="mt-5">
+                  <button style="width:250px;" @click="saveDocument">
+                    <span class="shadow"></span>
+                    <span class="edge2"></span>
+                    <span class="front1 text bg-success" style="font-size: 16px;">
+                      <i class="fa-regular fa-circle-up me-2"></i>
+                        Cập nhật Phiên bản mới
+                    </span>
+                  </button>  
+                </div>
+                <div class="mt-5">
+                  <button style="width:250px;" >
+                    <span class="shadow"></span>
+                    <span class="edge2"></span>
+                    <span class="front1 text bg-success" style="font-size: 16px;">
+                      <i class="fa-solid fa-arrow-rotate-left me-2"></i>
+                        Dữ lại phiên bản hiện tại
+                    </span>
+                  </button>  
+                </div>
+                <router-link :to="`/Home/${getid}`" style="z-index: 2;">
+                  <button style="width: 240px;margin-top: 20px;position: absolute;bottom: 20px;left: 28px;">
+                      <span class="shadow"></span>
+                      <span class="edge"></span>
+                      <span class="front text" style="font-size: 16px;">
+                          <i class="fa-solid fa-house me-2"></i>
+                          Trang chủ
+                      </span>
+                  </button>
+              </router-link>
               </div>
             </div>
             <div style="width: 80%;display: flex;justify-content: center;background-color: #4F4F4F;">
               <div class="row" style="width: 90%; height: 600px; background-color: #fff;border: 1px solid black;margin-top: 20px;">
                 <div class="col" style="border: 1px solid black;width: 50%;height: 100%;">
                     <div style="width: 100%;max-height: 20%;display: flex;justify-content: center;margin-top: 20px;">
-                        <div for="">Lựa chọn văn bản</div>
+                        <div class="fw-bold" for="">Lựa chọn văn bản</div>
                     </div >
                     <div class="mt-5 scrollable-div">
                       <div class="mt-4" v-for="(text, title) in textareaByTitle" :key="title">                     
@@ -82,7 +109,7 @@
                 </div>
                 <div class="col" style="border: 1px solid black;width: 50%;height: 100%;">
                     <div style="width: 100%;max-height: 20%;display: flex;justify-content: center;margin-top: 20px;">
-                        <div for="">Bản xem trước</div>
+                        <div class="fw-bold" for="">Bản xem trước</div>
                     </div>
                     <div class="scrollable-review">
                       <div class="mt-5 " v-for="item in selectedTextareas" :key="item.id">
@@ -291,5 +318,19 @@ const saveDocument= async()=>{
 input[type="radio"]:checked {
     outline: none;
     box-shadow: none;
-  }
+}
+.front1 {
+ display: block;
+ position: relative;
+ padding: 10px 2px;
+ border-radius: 12px;
+ font-size: 1.1rem;
+ color: white;
+ background: hsl(345deg 100% 47%);
+ will-change: transform;
+ transform: translateY(-4px);
+ transition: transform
+    600ms
+    cubic-bezier(.3, .7, .4, 1);
+}
 </style>

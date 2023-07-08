@@ -77,15 +77,14 @@
           
           <router-link :to="`/Home/NewEditOneUser/${getid}`"  style="text-decoration: none">
             <div class="btn" style="display: flex;align-items: center;width: 174px;margin-top: 30px; margin-left: 30px;background-color: orange;">
-              <i class="fa-solid fa-plus me-2"></i>
-              <div>Thêm văn bản</div>
+              <i class="fa-solid fa-plus me-2 text-light"></i>
+              <div class="fw-bold text-light">Thêm văn bản</div>
             </div>
           </router-link>
           <div class="d-flex">
             <div class="btn btn-danger" @click="checkClickSee=!checkClickSee" style="display: flex;align-items: center;width: 174px;margin-top: 30px; margin-left: 30px;">
-
               <i class="fa-regular fa-eye me-2"></i>
-              <div>xem văn bản</div>
+              <div class="fw-bold">xem văn bản</div>
             </div>
             <form v-if="checkClickSee" @submit.prevent="OnSearchDocument()">
               <input  v-model="passwordDocument" type="text" @submit.prevent="submitCreate()" placeholder="Nhập mã văn bản" style="margin-top: 30px;margin-left: 16px;border-radius: 11px;padding-left: 6px;height: 38px">
@@ -108,6 +107,7 @@
                                 <tr >
                                     <th class="text-center">Số thứ tự</th>
                                     <th class="text-center">Tên văn bản</th>
+                                    <th class="text-center">Thể loại</th>
                                     <th class="text-center">Mã tài liệu</th>
                                     <th class="text-center">Action</th>
                                     <th class="text-center">Công Khai</th>
@@ -116,9 +116,13 @@
                               <tbody>
                                 <tr v-for="(i, index) in ListDocument">
                                   <td class="text-center">{{ index + 1 }}</td>
-                                  <td class="text-center">{{ i.nameDocument }}</td>
+                                  <td class="text-center ">{{ i.nameDocument }}</td>
+                                  <td class="text-center">{{ i.classify }}</td>
                                   <td class="text-center" style="cursor: pointer;">
-                                    <div >{{ i.password }}</div>
+                                    <div class="toggle">
+                                      <div class="ellipsis">...</div>
+                                      <div class="content">{{ i.password }}</div>
+                                    </div>
                                   </td>
                                   <td class="text-center">
                                     <div class="d-flex " style="justify-content: center;">
@@ -147,9 +151,24 @@
                                           </el-table>
                                         </div>
                                       </el-popover>
-                                      <div class="bg-warning me-2" title="Gửi văn bản" style="cursor: pointer;width: 30px;height: 30px;display: flex;align-items: center;justify-content: space-around;border-radius: 50%;">
-                                        <i class="fa-solid fa-paper-plane" style="color: #fff;"></i>
-                                      </div>
+                                      <el-popover placement="bottom" :width="350" trigger="click">
+                                        <template #reference>
+                                          <div class="bg-warning me-2" title="Gửi văn bản"  @click="OnSearchDocumentbyOwner(i.id )" style="cursor: pointer;width: 30px;height: 30px;display: flex;align-items: center;justify-content: space-around;border-radius: 50%;">
+                                            <i class="fa-solid fa-paper-plane" style="color: #fff;"></i>
+                                          </div>
+                                        </template>
+                                        <div>
+                                          <div>
+                                            <el-tree :data="data" :props="defaultProps" show-checkbox />
+                                          </div>
+                                          <hr>
+                                          <div class="d-flex justify-content-center">
+                                            <div class="bg-warning me-2 text-center" plain @click="open1" style="cursor: pointer;width: 30px;height: 30px;display: flex;align-items: center;justify-content: space-around;border-radius: 50%;">
+                                              <i class="fa-solid fa-paper-plane" style="color: #fff;"></i>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </el-popover>
                                       <div class="bg-danger me-2" title="Xóa văn bản"  @click="deleteDocument(i.id)" style="cursor: pointer;width: 30px;height: 30px;display: flex;align-items: center;justify-content: space-around;border-radius: 50%;">
                                         <i class="fa-solid fa-trash-arrow-up" style="color: #fff;"></i>
                                       </div>
@@ -195,8 +214,24 @@
                                       </el-popover>
                                     </div>
                                   </td>
-                                  <td class="text-center">{{ i.public }}
-                                    <el-switch v-model="i.public " class="ml-2" @change="setPublic(i.id , i.public)"/>
+                                  <td class="text-center">
+                                    <label class="switch" :for="'switch-' + index"  @click="setPublic(i.id , i.public)">
+                                      <input :id="'switch-' + index" type="checkbox" v-model="i.public">
+                                      <div class="slider">
+                                          <div class="circle">
+                                              <svg class="cross" xml:space="preserve" style="enable-background:new 0 0 512 512" viewBox="0 0 365.696 365.696" y="0" x="0" height="6" width="6" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                                                <g>
+                                                  <path data-original="#000000" fill="currentColor" d="M243.188 182.86 356.32 69.726c12.5-12.5 12.5-32.766 0-45.247L341.238 9.398c-12.504-12.503-32.77-12.503-45.25 0L182.86 122.528 69.727 9.374c-12.5-12.5-32.766-12.5-45.247 0L9.375 24.457c-12.5 12.504-12.5 32.77 0 45.25l113.152 113.152L9.398 295.99c-12.503 12.503-12.503 32.769 0 45.25L24.48 356.32c12.5 12.5 32.766 12.5 45.247 0l113.132-113.132L295.99 356.32c12.503 12.5 32.769 12.5 45.25 0l15.081-15.082c12.5-12.504 12.5-32.77 0-45.25zm0 0"></path>
+                                                </g>
+                                              </svg>
+                                              <svg class="checkmark" xml:space="preserve" style="enable-background:new 0 0 512 512" viewBox="0 0 24 24" y="0" x="0" height="10" width="10" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                                                <g>
+                                                  <path class="" data-original="#000000" fill="currentColor" d="M9.707 19.121a.997.997 0 0 1-1.414 0l-5.646-5.647a1.5 1.5 0 0 1 0-2.121l.707-.707a1.5 1.5 0 0 1 2.121 0L9 14.171l9.525-9.525a1.5 1.5 0 0 1 2.121 0l.707.707a1.5 1.5 0 0 1 0 2.121z"></path>
+                                                </g>
+                                              </svg>
+                                          </div>
+                                        </div>
+                                    </label>
                                   </td>
                                 </tr>
                               </tbody>
@@ -327,7 +362,15 @@ import axios  from 'axios';
 import {useRoute ,useRouter} from 'vue-router'
 import Swal from "sweetalert2";
 import html2pdf from 'html2pdf.js';
+import { ElNotification } from 'element-plus'
 
+const open1 = () => {
+  ElNotification({
+    title: 'Success',
+    message: 'Gửi tài liệu thành công',
+    type: 'success',
+  })
+}
 const route=useRoute()
 const router = useRouter()
 const dropdown=ref(false)
@@ -545,9 +588,19 @@ const getDocument = async()=>{
       }
     }).then(response =>
     {
+      console.log(response.data);
       for (let i = 0; i < response.data.length; i++) {
         ListDocument.value.push(response.data[i])
       }
+      for (let i = 0; i < ListDocument.value.length; i++) {
+        if(ListDocument.value[i].public==1){
+          ListDocument.value[i].public=true
+        }
+        else{
+          ListDocument.value[i].public=false
+        }
+      }
+      console.log(ListDocument.value);
     })
   } catch (error) {
       console.log(error);
@@ -729,6 +782,52 @@ const LogOut =()=>{
     }
   })
 }
+
+const defaultProps = {
+  children: 'children',
+  label: 'label',
+  disabled: 'disabled',
+}
+
+const data = [
+  {
+    id: 1,
+    label: 'Đại học Bách Khoa Hà Nội',
+    children: [
+      {
+        id: 3,
+        label: 'Trường Điện , Điện Tử',
+        children: [
+          {
+            id: 4,
+            label: 'Khoa Điện Tử Viễn Thông',
+          },
+          {
+            id: 5,
+            label: 'Khoa Tự Động Hóa',
+            disabled: true,
+          },
+        ],
+      },
+      {
+        id: 2,
+        label: 'Trường Công Nghệ Thông Tin và Truyền Thông',
+        disabled: true,
+        children: [
+          {
+            id: 6,
+            label: 'Khoa Trí Tuệ Nhân Tạo',
+          },
+          {
+            id: 7,
+            label: 'Khoa Toán Tin',
+            disabled: true,
+          },
+        ],
+      },
+    ],
+  },
+]
 </script>
 
 <style >
@@ -939,5 +1038,158 @@ table th {
   overflow-y: auto;
   scroll-snap-type: y mandatory;
   flex-direction: column;
+}
+
+
+.switch {
+  /* switch */
+  --switch-width: 46px;
+  --switch-height: 24px;
+  --switch-bg: rgb(131, 131, 131);
+  --switch-checked-bg: rgb(0, 218, 80);
+  --switch-offset: calc((var(--switch-height) - var(--circle-diameter)) / 2);
+  --switch-transition: all .2s cubic-bezier(0.27, 0.2, 0.25, 1.51);
+  /* circle */
+  --circle-diameter: 18px;
+  --circle-bg: #fff;
+  --circle-shadow: 1px 1px 2px rgba(146, 146, 146, 0.45);
+  --circle-checked-shadow: -1px 1px 2px rgba(163, 163, 163, 0.45);
+  --circle-transition: var(--switch-transition);
+  /* icon */
+  --icon-transition: all .2s cubic-bezier(0.27, 0.2, 0.25, 1.51);
+  --icon-cross-color: var(--switch-bg);
+  --icon-cross-size: 6px;
+  --icon-checkmark-color: var(--switch-checked-bg);
+  --icon-checkmark-size: 10px;
+  /* effect line */
+  --effect-width: calc(var(--circle-diameter) / 2);
+  --effect-height: calc(var(--effect-width) / 2 - 1px);
+  --effect-bg: var(--circle-bg);
+  --effect-border-radius: 1px;
+  --effect-transition: all .2s ease-in-out;
+}
+
+.switch input {
+  display: none;
+}
+
+.switch {
+  display: inline-block;
+}
+
+.switch svg {
+  -webkit-transition: var(--icon-transition);
+  -o-transition: var(--icon-transition);
+  transition: var(--icon-transition);
+  position: absolute;
+  height: auto;
+}
+
+.switch .checkmark {
+  width: var(--icon-checkmark-size);
+  color: var(--icon-checkmark-color);
+  -webkit-transform: scale(0);
+  -ms-transform: scale(0);
+  transform: scale(0);
+}
+
+.switch .cross {
+  width: var(--icon-cross-size);
+  color: var(--icon-cross-color);
+}
+
+.slider {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  width: var(--switch-width);
+  height: var(--switch-height);
+  background: var(--switch-bg);
+  border-radius: 999px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: relative;
+  -webkit-transition: var(--switch-transition);
+  -o-transition: var(--switch-transition);
+  transition: var(--switch-transition);
+  cursor: pointer;
+}
+
+.circle {
+  width: var(--circle-diameter);
+  height: var(--circle-diameter);
+  background: var(--circle-bg);
+  border-radius: inherit;
+  -webkit-box-shadow: var(--circle-shadow);
+  box-shadow: var(--circle-shadow);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-transition: var(--circle-transition);
+  -o-transition: var(--circle-transition);
+  transition: var(--circle-transition);
+  z-index: 1;
+  position: absolute;
+  left: var(--switch-offset);
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  width: var(--effect-width);
+  height: var(--effect-height);
+  left: calc(var(--switch-offset) + (var(--effect-width) / 2));
+  background: var(--effect-bg);
+  border-radius: var(--effect-border-radius);
+  -webkit-transition: var(--effect-transition);
+  -o-transition: var(--effect-transition);
+  transition: var(--effect-transition);
+}
+
+/* actions */
+
+.switch input:checked+.slider {
+  background: var(--switch-checked-bg);
+}
+
+.switch input:checked+.slider .checkmark {
+  -webkit-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+}
+
+.switch input:checked+.slider .cross {
+  -webkit-transform: scale(0);
+  -ms-transform: scale(0);
+  transform: scale(0);
+}
+
+.switch input:checked+.slider::before {
+  left: calc(100% - var(--effect-width) - (var(--effect-width) / 2) - var(--switch-offset));
+}
+
+.switch input:checked+.slider .circle {
+  left: calc(100% - var(--circle-diameter) - var(--switch-offset));
+  -webkit-box-shadow: var(--circle-checked-shadow);
+  box-shadow: var(--circle-checked-shadow);
+}
+.toggle .content {
+  display: none;
+}
+
+.toggle:hover .content {
+  display: block;
+}
+.toggle:hover .ellipsis {
+  display: none;
 }
 </style>
