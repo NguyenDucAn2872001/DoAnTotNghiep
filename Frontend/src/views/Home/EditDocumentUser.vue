@@ -63,7 +63,7 @@
             <div class="d-flex" style="width: 100%;">
                 <div class="border" style="width: 20%;margin-top: 80px;display: flex;justify-content: center;">
                     <div style="width: 70%;margin-top: 40px;">
-                        <button style="width: 90%;" @click="addTextarea">
+                        <button style="width: 90%;" @click="saveAsPdf()">
                             <span class="shadow"></span>
                             <span class="edge1"></span>
                             <span class="front text bg-warning" style="font-size: 16px;">
@@ -71,7 +71,7 @@
                                 <i class="fa-solid fa-download ms-2"></i>
                             </span>
                         </button>  
-                        <button style="width: 90%;margin-top: 20px;"  @click="PosttData">
+                        <button style="width: 90%;margin-top: 20px;"  @click="PosttData()">
                             <span class="shadow"></span>
                             <span class="edge2"></span>
                             <span class="front text bg-success" style="font-size: 16px;">
@@ -79,6 +79,16 @@
                                 <i class="fa-solid fa-floppy-disk ms-2"></i>
                             </span>
                         </button>  
+                        <router-link :to="`/Home/${getid}`" style="z-index: 2;">
+                            <button style="width: 200px;margin-top: 20px;position: absolute;bottom: 20px;left: 40px;">
+                                <span class="shadow"></span>
+                                <span class="edge"></span>
+                                <span class="front text" style="font-size: 16px;">
+                                    <i class="fa-solid fa-house me-2"></i>
+                                    Trang chủ
+                                </span>
+                            </button>
+                        </router-link>
                     </div>
                 </div>
                 <div style="width: 80% ;margin-top: 80px;">
@@ -130,38 +140,29 @@
                             <button type="button" class="btn me-1" @click="addImage" style="background-color: #958DF1; width: 80px;height: 32px;">
                                 <i class="fa-solid fa-plus me-3" style="color: #fff;"></i>
                                 <i class="fa-solid fa-image" style="color: #fff;"></i>
+                                <input id="file-input" type="file" @change="handleFileUpload" style="display: none;">
                             </button>
                         </div>
                         <div>
-                            <el-dropdown class=" me-1" >
+                            <el-dropdown class="me-1">
                                 <el-button type="warning">
                                     <i class="fa-solid fa-plus me-3" style="color: #fff;"></i>
                                     <i class="fa-solid fa-heading"></i>
-                                <el-icon class="el-icon--right"><arrow-down /></el-icon>
+                                    <el-icon class="el-icon--right"><arrow-down /></el-icon>
                                 </el-button>
                                 <template #dropdown>
-                                <el-dropdown-menu>
-                                    <el-dropdown-item>
-                                    <button type="button" class="btn" style="background-color: #33FFFF; width: 100%;">
-                                        H1
-                                    </button>
+                                    <el-dropdown-menu>
+                                    <el-dropdown-item v-for="heading in headings" :key="heading.value">
+                                        <button type="button" class="btn" :style="{ backgroundColor: heading.color, width: '100%' }" @click="changeHeading(heading.value)">
+                                        {{ heading.label }}
+                                        </button>
                                     </el-dropdown-item>
-                                    <el-dropdown-item>
-                                    <button type="button" class="btn"  style="background-color: #FFCCFF; width: 100%;">
-                                        H2
-                                    </button>
-                                    </el-dropdown-item>
-                                    <el-dropdown-item>
-                                    <button type="button" class="btn"  style="background-color: #99CCFF; width: 100%;">
-                                        H3
-                                    </button>
-                                    </el-dropdown-item>
-                                </el-dropdown-menu>
+                                    </el-dropdown-menu>
                                 </template>
                             </el-dropdown>
                         </div>
                         <div>
-                            <el-dropdown class=" me-1" >
+                            <el-dropdown class="me-1">
                                 <el-button type="primary">
                                     <i class="fa-solid fa-plus me-3" style="color: #fff;"></i>
                                     <i class="fa-solid fa-palette"></i>
@@ -170,41 +171,16 @@
                                 <template #dropdown>
                                     <el-dropdown-menu>
                                         <el-dropdown-item>
-                                            <input type="color">
-                                            </el-dropdown-item>
-                                            <el-dropdown-item>
-                                            <button type="button" class="btn"  style="background-color: #958DF1; width: 100%;">
-                                                purple
+                                            <input type="color" v-model="selectedColor" @input="setColor" />
+                                        </el-dropdown-item>
+                                        <el-dropdown-item v-for="option in options" :key="option.value">
+                                            <button type="button" class="btn" :style="{ backgroundColor: option.value, width: '100%' }" @click="selectColor(option.value)">
+                                            {{ option.label }}
                                             </button>
-                                            </el-dropdown-item>
-                                            <el-dropdown-item>
-                                            <button type="button"  style="background-color: #F98181; width: 100%;">
-                                                red
-                                            </button>
-                                            </el-dropdown-item>
-                                            <el-dropdown-item>
-                                            <button type="button" class="btn"  style="background-color: #FBBC88; width: 100%;">
-                                                orange
-                                            </button>
-                                            </el-dropdown-item>
-                                            <el-dropdown-item>
-                                            <button type="button" class="btn"  style="background-color: #FAF594; width: 100%;">
-                                                yellow
-                                            </button>
-                                            </el-dropdown-item>
-                                            <el-dropdown-item>
-                                            <button type="button" class="btn"  style="background-color: #70CFF8; width: 100%;">
-                                                blue
-                                            </button>
-                                            </el-dropdown-item>
-                                            <el-dropdown-item>
-                                            <button type="button" class="btn"  style="background-color: #94FADB; width: 100%;">
-                                                teal
-                                            </button>
-                                            </el-dropdown-item>
-                                            <el-dropdown-item>
-                                            <button type="button" class="btn btn-light"  style=" width: 100%;">
-                                                unsetColor
+                                        </el-dropdown-item>
+                                        <el-dropdown-item>
+                                            <button type="button" class="btn btn-light" style="width: 100%;" @click="unsetColor">
+                                            unsetColor
                                             </button>
                                         </el-dropdown-item>
                                     </el-dropdown-menu>
@@ -321,14 +297,15 @@
                         <div class="child" style="width: 85%;">          
                             <div style="display: flex;justify-content: center;width: 100%;padding-top: 40px;">
                                 <div style="width: 100%;height: 800px;border: 1px solid black; " >
-                                    <div v-for="item in items"  style="width: 100%;"> 
-
+                                    <div id="content-to-pdf">
+                                        <div v-for="(item, index) in items"  style="width: 100%;" > 
                                             <div class="ms-5" style="padding-top: 70px;">
                                                 <div style="font-size: 24px;">{{ item.title }}</div>
                                             </div>
                                             <div style="width: 100%;display: flex;justify-content: center;">
-                                                <textarea class="custom-textarea1"  v-model="item.textarea" style="width: 90%;border: none;outline: none;resize: none;" placeholder="Nhập nội dung vào đây"></textarea>
+                                                <textarea class="custom-textarea1" :id="'switch-' + index" :style="{ color: selectedColor ,fontSize: currentFontSize }" v-model="item.textarea" style="width: 90%;border: none;outline: none;resize: none;" placeholder="Nhập nội dung vào đây"></textarea>
                                             </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -340,14 +317,14 @@
     </div>
 </template>
 <script setup>
-import { ref,onMounted,computed } from "vue";
+import { ref,onMounted,computed,reactive } from "vue";
 import {required } from "@vuelidate/validators"
 import useVuelidate from "@vuelidate/core"
 import axios  from 'axios';
 import {useRoute} from 'vue-router'
 import Swal from "sweetalert2";
 import HeaderView from '../../components/HeaderView.vue'
-
+import html2pdf from 'html2pdf.js';
 
 const route=useRoute()
 const getid=route.params.id 
@@ -358,6 +335,20 @@ const ListUserInDocument=ref([])
 const infoUser=ref([])
 const CloseForm =ref(true)
 const items = ref([]);
+
+const saveAsPdf = async () => {
+  const content = document.getElementById('content-to-pdf');
+
+  const opt = {
+    margin: 1,
+    filename: 'your-filename.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+  };
+
+  html2pdf().set(opt).from(content).save();
+};
 
 const arrayToObject = (arr)=> {
   var obj = {};
@@ -519,7 +510,53 @@ const PosttData = async() => {
     })
     items.value=[]
 }
+const selectedColor = ref('');
+const options = [
+  { label: 'purple', value: '#958DF1' },
+  { label: 'red', value: '#F98181' },
+  { label: 'orange', value: '#FBBC88' },
+  { label: 'yellow', value: '#FAF594' },
+  { label: 'blue', value: '#70CFF8' },
+  { label: 'teal', value: '#94FADB' },
+];
 
+const setColor = (event) => {
+  selectedColor.value = event.target.value;
+};
+
+const selectColor = (color) => {
+  selectedColor.value = color;
+};
+
+const unsetColor = () => {
+  selectedColor.value = '';
+};
+
+const headings = ref([
+  { label: 'H1', value: 'h1', color: '#33FFFF', fontSize: '30px' },
+  { label: 'H2', value: 'h2', color: '#FFCCFF', fontSize: '20px' },
+  { label: 'H3', value: 'h3', color: '#99CCFF', fontSize: '10px' },
+]);
+const currentHeading = ref('');
+const currentFontSize = ref('');
+const content = ref('');
+
+const changeHeading = (heading) => {
+  const selectedHeading = headings.value.find((item) => item.value === heading);
+  if (selectedHeading) {
+    currentHeading.value = selectedHeading.value;
+    currentFontSize.value = selectedHeading.fontSize;
+  }
+};
+const handleFileUpload = (event) => {
+  const file = event.target.files[0];
+  // Xử lý tệp tin được chọn ở đây
+};
+
+const addImage = () => {
+  const fileInput = document.getElementById('file-input');
+  fileInput.click();
+};
 const getidOnclickDocument=(id)=>{
     console.log(id);
 }
@@ -535,5 +572,10 @@ const getidOnclickDocument=(id)=>{
     border: 1px solid #DDDDDD;
     border-radius: 10px;
     margin-top: 20px;
+    
+}
+::placeholder {
+    font-size: 16px;
+
 }
 </style>
