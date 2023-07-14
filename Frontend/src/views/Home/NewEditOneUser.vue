@@ -78,10 +78,10 @@
             </div>
             </section>
         </div>
-        <div  v-else style="width: 100%;background-color: rgb(79, 79, 79);">
+        <div  v-else style="width: 100%;background-color: rgb(156, 156, 156);">
             <HeaderView :data="getid" style="z-index: 2;"/>
             <div class="d-flex" style="width: 100%;z-index: 1;;">
-                <div class="border" style="width: 20% ;display:flex ;justify-content: center;position: relative;background-color: rgb(156, 156, 156);">
+                <div class="border" id="bg-left" style="width: 20% ;display:flex ;justify-content: center;position: relative;">
                     <div style="margin-top: 100px; width: 80%;">
                         <button style="width: 90%;" @click="addTextarea">
                             <span class="shadow"></span>
@@ -111,7 +111,7 @@
                         </router-link>
                     </div>
                 </div>
-                <div class="parent" style="width: 80%;margin-top: 120px;display: flex;justify-content: center;height: 618px;background-color: rgb(79, 79, 79);">     
+                <div class="parent" style="width: 80%;margin-top: 120px;display: flex;justify-content: center;height: 618px;background-color: rgb(156, 156, 156);">     
                     <div class="child" style="width: 80%;height: 900px;border: 1px solid black;margin-bottom: 40px;background-color: #fff;padding-top: 40px;" >
                         <div v-for="(item, index) in items" :key="index" style="display: flex;justify-content: center;width: 100%;">
                             <template v-if="item.type === 'titleAndTextarea'">

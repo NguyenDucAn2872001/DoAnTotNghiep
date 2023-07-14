@@ -1,5 +1,8 @@
 <template>
-    <div class="container d-flex flex-column">
+    <div v-if="Loading==true" style="height: 100vh;display: flex;">
+      <LoadingVue ></LoadingVue>
+    </div>
+    <div v-else class="container d-flex flex-column">
       <div class="row align-items-center justify-content-center
           min-vh-100">
         <div class="col-12 col-md-8 col-lg-4">
@@ -69,61 +72,66 @@
     </div>
 </template>
 <script setup>
-    import {ref } from 'vue'
-    import axios  from 'axios';
-    import Swal from "sweetalert2";
-    const check= ref(true)
-    const info = ref({
-        email : "",
-        password:""
-    })
-    const submitCreate  = async()=>{
-            try {
-                console.log("1");
-                await axios.post(import.meta.env.VITE_FORGOT_PASSWORD,{
-                    email:info.value.email,
-                }
-                ).then(response =>{
-                    console.log(response.data,"test here");
-                    if ( response.data[0].email=== info.value.email ) {
-                      let timerInterval
-                      Swal.fire({
-                        icon: 'success',
-                        title: 'Đang lấy lại mật khẩu!',
-                        html: 'Vui lòng chờ trong <b></b> ms giây',
-                        timer: 2000,
-                        timerProgressBar: true,
-                        didOpen: () => {
-                          Swal.showLoading()
-                          const b = Swal.getHtmlContainer().querySelector('b')
-                          timerInterval = setInterval(() => {
-                            b.textContent = Swal.getTimerLeft()
-                          }, 100)
-                        },
-                        willClose: () => {
-                          clearInterval(timerInterval)
-                        }
-                      }).then((result) => {
-                        if (result.dismiss === Swal.DismissReason.timer) {
-                          console.log('I was closed by the timer')
-                        }
-                      })
-                        info.value.password =response.data[0].password
-                        check.value=false    
-                        
-                    }
-                    else{
-                        console.log("error");
-                    }
-                })
-            } catch (error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Tài khoản không tồn tại!',
-                    text: 'Vui lòng nhập lại hoặc tạo tài khoản mới ',
-                })
-            }
+import {ref,onMounted } from 'vue'
+import axios  from 'axios';
+import Swal from "sweetalert2";
+import LoadingVue from "../../components/Loading.vue";
+
+const Loading=ref(true)
+const check= ref(true)
+const info = ref({
+    email : "",
+    password:""
+})
+onMounted( async() => {
+  setTimeout(function(){   
+    Loading.value=false
+  }, 1500);
+})
+const submitCreate  = async()=>{
+  try {
+    await axios.post(import.meta.env.VITE_FORGOT_PASSWORD,{
+        email:info.value.email,
     }
+    ).then(response =>{
+      if ( response.data[0].email=== info.value.email ) {
+        let timerInterval
+        Swal.fire({
+          icon: 'success',
+          title: 'Đang lấy lại mật khẩu!',
+          html: 'Vui lòng chờ trong <b></b> ms giây',
+          timer: 2000,
+          timerProgressBar: true,
+          didOpen: () => {
+            Swal.showLoading()
+            const b = Swal.getHtmlContainer().querySelector('b')
+            timerInterval = setInterval(() => {
+              b.textContent = Swal.getTimerLeft()
+            }, 100)
+          },
+          willClose: () => {
+            clearInterval(timerInterval)
+          }
+        }).then((result) => {
+          if (result.dismiss === Swal.DismissReason.timer) {
+            console.log('I was closed by the timer')
+          }
+        })
+          info.value.password =response.data[0].password
+          check.value=false    
+      }
+      else{
+          console.log("error");
+      }
+    })
+  } catch (error) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Tài khoản không tồn tại!',
+      text: 'Vui lòng nhập lại hoặc tạo tài khoản mới ',
+    })
+  }
+}
 </script>
 
 <style>

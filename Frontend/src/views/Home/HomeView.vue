@@ -2,32 +2,77 @@
   <div v-if="Loading==true" style="height: 100vh;display: flex;">
     <LoadingVue ></LoadingVue>
   </div>
-  <div v-else>
-  <div v-if="viewDocument==false" style="display: flex;width: 100%;background-color: #F8F8FF;height: 100vh; ">
-    <div class="left" style="width: 20%; background-color: slategrey ;">
+  <div v-else style="height: 100vh; background-color: #F8F8FF;display: flex;flex-direction: column;">
+    <div class="" style="width: 100%;">
+        <nav class="navbar navbar-expand-lg navbar-light " id="my-element" style="width: 100%;">
+          <div class="row " style="width: 100%;">
+
+            <div class="d-flex col" id="navbarSupportedContent" style="align-items: center;">
+              <div class="text-reset me-5 " @click="showNavbar=!showNavbar">
+                <i :class="{'fa-solid fa-bars': !showNavbar, 'fa-solid fa-xmark': showNavbar}" style="font-size: 25px; padding-left: 20px;"></i>
+                <!-- <img src="../../assets/download_preview_rev_1.png" alt="" style="width: 60px;height: 60px;"> -->
+              </div>
+              <div class="text-reset me-5 " style="display: flex;align-items: center;text-decoration: none ;cursor: pointer;">
+                <i class="fa-solid fa-user" style="padding-right: 10px;"></i>
+                <div style="font-weight: 700;">{{ name }}</div>
+              </div>  
+            </div> 
+
+            <div class="col" style="display: flex;justify-content: center;margin-top: 20px;">
+              <img src="../../assets/LogoVienDien_preview_rev_1.png" alt="" style="width: 150px;height: 60px;">
+            </div> 
+
+            <div class="d-flex  col" style="justify-content: flex-end;align-items: center;">
+              <div class="button me-3" href="#" style="cursor: pointer;" @click="dropdown=!dropdown">
+                <i class="fa-brands fa-facebook-messenger text-light bell me-1" style="font-size: 24px;"></i>
+                <!-- <span class="badge rounded-pill badge-notification bg-danger">1</span>     -->
+              </div>
+              <button class="button" @click="dropdownRp=!dropdownRp">
+                <svg viewBox="0 0 448 512" class="bell"><path d="M224 0c-17.7 0-32 14.3-32 32V49.9C119.5 61.4 64 124.2 64 200v33.4c0 45.4-15.5 89.5-43.8 124.9L5.3 377c-5.8 7.2-6.9 17.1-2.9 25.4S14.8 416 24 416H424c9.2 0 17.6-5.3 21.6-13.6s2.9-18.2-2.9-25.4l-14.9-18.6C399.5 322.9 384 278.8 384 233.4V200c0-75.8-55.5-138.6-128-150.1V32c0-17.7-14.3-32-32-32zm0 96h8c57.4 0 104 46.6 104 104v33.4c0 47.9 13.9 94.6 39.7 134.6H72.3C98.1 328 112 281.3 112 233.4V200c0-57.4 46.6-104 104-104h8zm64 352H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7s18.7-28.3 18.7-45.3z"></path></svg>
+              </button>
+            </div>
+
+          </div>
+        </nav>
+      </div>
+    <div v-if="viewDocument==false" style="display: flex;width: 100%;height: 100%;flex-grow: 1;">
+    
+    <div class="left" id="bg-left" :style="{ display: showNavbar ? 'block' : 'none' }">
+    <!-- <div class="left" style="width: 20%; background-color: slategrey ;"> -->
+
       <div class="container">
         <div class="top-elements">
-          <div style="display: flex;justify-content: center;margin-top: 20px;">
+          <!-- <div style="display: flex;justify-content: center;margin-top: 20px;">
             <img src="../../assets/LogoVienDien_preview_rev_1.png" alt="" style="width: 150px;height: 60px;">
-          </div>
+          </div> -->
+          <!-- <router-link to="/Home/EditDocument"  style="text-decoration: none;margin-top: 60px;margin-left: 20px;display:flex; align-items: center;">
+            <button style="width: 250px;">
+              <span class="shadow" style="height: 20px;"></span>
+              <span class="edge"></span>
+              <span class="front text "> 
+                <i class="fa-solid fa-file-word me-3 "  style="font-size: 22px; width: 30px;height: 30px;border-radius: 50%; background-color: #fff;color: #000;padding-top: 5px;"></i>
+                Forgot pass
+              </span>
+          </button>
+          </router-link> -->
           <router-link class="button1" to="/Home/EditDocument"  style="text-decoration: none;z-index: 1;margin-top: 60px;margin-left: 20px;display:flex; align-items: center;">
-            <i class="fa-solid fa-file-word me-3 bg-light " style="color: black;width: 30px;height: 30px;border-radius: 50%;display: flex;justify-content: center;align-items: center;font-size: 20px;" ></i>
+            <i class="fa-solid fa-file-word me-3 ms-3 bg-light " style="color: black;width: 30px;height: 30px;border-radius: 50%;display: flex;justify-content: center;align-items: center;font-size: 20px;" ></i>
             <div  style="font-weight: 700;font-size: 16px;color: #fff;">Word</div>
           </router-link>
           <router-link class="button1" :to="`/Home/NewEdit/${getid}`"  style="text-decoration: none;z-index: 1;margin-top: 50px;margin-left: 20px; display:flex; align-items: center;">    
-              <i class="fa-solid fa-book me-3 bg-light" style="color: black;width: 30px;height: 30px;border-radius: 50%;display: flex;justify-content: center;align-items: center;font-size: 20px;"></i>
+              <i class="fa-solid fa-book me-3 ms-3 bg-light" style="color: black;width: 30px;height: 30px;border-radius: 50%;display: flex;justify-content: center;align-items: center;font-size: 20px;"></i>
               <div style="font-weight: 700;font-size: 16px;color: #fff;">Document Online</div>   
           </router-link>
           <router-link class="button1" :to="`/Home/EditDocumentUser/${getid}`"  style="text-decoration: none;z-index: 1;margin-top: 50px;margin-left: 20px; display:flex; align-items: center;">
-            <i class="fa-solid fa-pen me-3 bg-light" style="color: black;width: 30px;height: 30px;border-radius: 50%;display: flex;justify-content: center;align-items: center;font-size: 20px;"></i>
+            <i class="fa-solid fa-pen me-3 ms-3 bg-light" style="color: black;width: 30px;height: 30px;border-radius: 50%;display: flex;justify-content: center;align-items: center;font-size: 20px;"></i>
             <div  style="font-weight: 700;font-size: 16px;color: #fff;">Chỉnh Sửa Văn bản</div>
           </router-link>
           <router-link class="button1" :to="`/Home/DocumentApproval/${getid}`"  style="text-decoration: none;z-index: 1;margin-top: 50px; margin-left: 20px;display:flex; align-items: center;">
-            <i class="fa-solid fa-code-merge me-3 bg-light" style="color: black;width: 30px;height: 30px;border-radius: 50%;display: flex;justify-content: center;align-items: center;font-size: 20px;"></i>
+            <i class="fa-solid fa-code-merge me-3 ms-3 bg-light" style="color: black;width: 30px;height: 30px;border-radius: 50%;display: flex;justify-content: center;align-items: center;font-size: 20px;"></i>
             <div  style="font-weight: 700;font-size: 16px;color: #fff;">Phê duyệt văn bản</div>
           </router-link>
           <router-link class="button1" :to="`/Home/Community/${getid}`"  style="text-decoration: none;z-index: 1;margin-top: 50px;margin-left: 20px;display:flex; align-items: center;">
-            <i class="fa-solid fa-users-line me-3 bg-light" style="color: black;width: 30px;height: 30px;border-radius: 50%;display: flex;justify-content: center;align-items: center;font-size: 20px;"></i>
+            <i class="fa-solid fa-users-line me-3 ms-3 bg-light" style="color: black;width: 30px;height: 30px;border-radius: 50%;display: flex;justify-content: center;align-items: center;font-size: 20px;"></i>
             <div style="font-weight: 700;font-size: 16px;color: #fff;">Cộng đồng</div>
           </router-link>
         </div>
@@ -35,10 +80,15 @@
           <div @click="CheckOut" > 
             <div class="line"></div>
             <div  style="display: flex;align-items: center;text-decoration: none ;color: #fff;" >
-              <button type="button" class="btn btn-light" @click="LogOut" style="display: flex;align-items: center;">
+
+              <button class="Btn12 ms-4" @click="LogOut">
+                <div class="sign12"><i class="fa-solid fa-circle-arrow-left text-light" style="font-size: 30px;"></i></div>              
+                <div class="text12 ms-5">Đăng xuất</div>
+              </button>
+              <!-- <button type="button" class="btn btn-light"  style="display: flex;align-items: center;">
                 <i class="fa-solid fa-circle-arrow-left me-3 ms-3" style="font-size: 30px;"></i>
                 <div style="padding-right: 20px;font-weight: 700;">Đăng xuất</div>
-              </button>
+              </button> -->
               
             </div>  
             <div class="line_2"></div>
@@ -46,36 +96,11 @@
         </div>
     </div>
     </div>
-    <div class="right" style="width: 80%;">
-      <div class="">
-        <nav class="navbar navbar-expand-lg navbar-light " style="background-color: lightgray ;height: 80px; ">
-          <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <i class="fas fa-bars"></i>
-            </button>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <div >
-                <img src="../../assets/download_preview_rev_1.png" alt="" style="width: 60px;height: 60px;">
-              </div>
-              <div class="ms-5" style="display: flex;align-items: center;text-decoration: none ;cursor: pointer;">
-                <i class="fa-solid fa-user" style="padding-right: 10px;"></i>
-                <div style="font-weight: 700;">{{ name }}</div>
-              </div>  
-            </div>  
-            <div class="d-flex align-items-center">
-              <div class="text-reset me-5 " href="#" style="cursor: pointer;" @click="dropdown=!dropdown">
-                <i class="fa-regular fa-comments"></i>
-                <span class="badge rounded-pill badge-notification bg-danger">1</span>    
-              </div>
-              <div class="dropdown me-5" style="cursor: pointer; " @click="dropdownRp=!dropdownRp">
-                <i class="fas fa-bell"></i>
-                <span class="badge rounded-pill badge-notification bg-danger">1</span>    
-              </div>       
-            </div>
-          </div>
-        </nav>
-      </div>
+
+    <!-- <div style="width: 30px;height: 100vh;background-color: #fff;"></div> -->
+    <div class="right" style="width: 100%;">
+      
       <div class="footer">
         <div class="d-flex">
           
@@ -417,7 +442,7 @@ const infoUser=ref([])
 const message=ref("")
 const ListDocument=ref([])
 const ListUserInDocument=ref([])
-const users=ref([])
+const showNavbar=ref(false)
 const Listusers=ref([])
 const AddUser=ref([])// thêm user vào văn bản
 const checkClickSee=ref(false)
@@ -691,14 +716,32 @@ const CheckOut = async()=>{
 }
 
 const OnSearchDocument= async()=>{
+  
+  
   ListContentDocument.value=[]
   var password=passwordDocument.value
   var version =""
-  idDocument.value=" "
+  idDocument.value="1"
   try {await axios.get(import.meta.env.VITE_GET_ID_DOCUMENT_BY_PASSWORD,{
     params:{password:password}
     }).then(response =>{idDocument.value= response.data[0].id;})
   } catch (error) {console.log(error);} 
+  if(idDocument.value!="1"){
+    Loading.value=true
+    setTimeout(function(){   
+      Loading.value=false
+    }, 1500);
+    GetCommentDocument(idDocument.value)
+    viewDocument.value=true
+  }
+  else{
+    ElNotification({
+      title: 'Error',
+      message: 'Tài Liệu không tồn tại',
+      type: 'error',
+    })
+  }
+  
 
   try {await axios.get(import.meta.env.VITE_GET_VERSION,{
     params:{documentid:idDocument.value,}
@@ -716,10 +759,9 @@ const OnSearchDocument= async()=>{
   } catch (error) {console.log(error)}
 
   CommentPassword.value=[]
-  GetCommentDocument(idDocument.value)
+  console.log(idDocument.value)
 
-  // console.log(idDocument.value);
-  viewDocument.value=true
+  
   passwordDocument.value=""
   checkClickSee.value=!checkClickSee.value
 }
@@ -878,6 +920,10 @@ const data = [
 </script>
 
 <style >
+.left{
+  width: 25%;
+  height: 100%;
+}
 .el-table .cell {
   text-align: center;
 }
@@ -889,6 +935,8 @@ const data = [
   margin-top: 20px;
 }
 .button1 {
+  width: 230px;
+  height: 44px;
   position: relative;
   background-color: #9E9E9E;
   -webkit-border-radius: 10px;
@@ -1239,4 +1287,143 @@ table th {
 .toggle:hover .ellipsis {
   display: none;
 }
+#bg-left {
+  background-image: url("../../assets/bg_left2.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+
+}
+.Btn12 {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 45px;
+  height: 45px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition-duration: .3s;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.199);
+  background-color: rgb(5, 65, 65);
+}
+
+/* plus sign */
+.sign12 {
+  width: 100%;
+  transition-duration: .3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sign12 svg {
+  width: 17px;
+}
+
+.sign12 svg path {
+  fill: white;
+}
+/* text */
+.text12 {
+  padding-left: 20px;
+  position: absolute;
+  right: 0%;
+  width: 0%;
+  opacity: 0;
+  color: white;
+  font-size: 1.2em;
+  font-weight: 600;
+  transition-duration: .3s;
+}
+/* hover effect on button width */
+.Btn12:hover {
+  width: 185px;
+  border-radius: 40px;
+  transition-duration: .3s;
+}
+
+.Btn12:hover .sign12 {
+  width: 30%;
+  transition-duration: .3s;
+  padding-left: 20px;
+}
+/* hover effect button's text */
+.Btn12:hover .text12 {
+  opacity: 1;
+  width: 80%;
+  transition-duration: .3s;
+  padding-right: 10px;
+}
+/* button click effect*/
+.Btn12:active {
+  transform: translate(2px ,2px);
+}
+
+
+
+.button {
+  width: 50px;
+  height: 50px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(44, 44, 44);
+  border-radius: 50%;
+  cursor: pointer;
+  transition-duration: .3s;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.13);
+  border: none;
+}
+
+.bell {
+  width: 18px;
+}
+
+.bell path {
+  fill: white;
+}
+
+.button:hover {
+  background-color: rgb(56, 56, 56);
+}
+
+.button:hover .bell {
+  animation: bellRing 0.9s both;
+}
+
+/* bell ringing animation keyframes*/
+@keyframes bellRing {
+  0%,
+  100% {
+    transform-origin: top;
+  }
+
+  15% {
+    transform: rotateZ(10deg);
+  }
+
+  30% {
+    transform: rotateZ(-10deg);
+  }
+
+  45% {
+    transform: rotateZ(5deg);
+  }
+
+  60% {
+    transform: rotateZ(-5deg);
+  }
+
+  75% {
+    transform: rotateZ(2deg);
+  }
+}
+
+.button:active {
+  transform: scale(0.8);
+}
+
 </style>

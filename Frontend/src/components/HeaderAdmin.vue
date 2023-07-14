@@ -1,6 +1,6 @@
 <template>
 <div class="" style="position: fixed;width: 100%">
-    <nav class="navbar navbar-expand-lg navbar-light " style="background-color: lightgray ;height: 80px; ">
+    <nav class="navbar navbar-expand-lg navbar-light " id="my-element">
     <div class="container-fluid">
         <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <i class="fas fa-bars"></i>

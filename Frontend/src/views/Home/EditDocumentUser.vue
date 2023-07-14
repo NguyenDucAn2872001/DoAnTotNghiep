@@ -64,7 +64,7 @@
         </div>
         <div  v-else class="nav" style="width: 100%; height: 100vh;">
             <div class="d-flex" style="width: 100%;">
-                <div class="border" style="width: 20%;margin-top: 80px;display: flex;justify-content: center;">
+                <div class="border" id="bg-left" style="width: 20%;margin-top: 80px;display: flex;justify-content: center;">
                     <div style="width: 70%;margin-top: 40px;">
                         <button style="width: 90%;" @click="saveAsPdf()">
                             <span class="shadow"></span>
