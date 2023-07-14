@@ -44,8 +44,8 @@
                                 <i class="fas fa-user fa-lg me-3 fa-fw"></i>                              
                                 <div class="form-outline flex-fill mb-0">
                                     <label class="form-label" for="form3Example1c">Mã số sinh viên</label>
-                                    <input type="text"  id="form3Example1c" v-model="info.role" class="form-control" placeholder="Nhập mã số sinh viên"/>
-                                    <span class="text-danger" v-for="error in v$.role.$errors" :key="error.$uid">
+                                    <input type="text"  id="form3Example1c" v-model="info.studentCode" class="form-control" placeholder="Nhập mã số sinh viên"/>
+                                    <span class="text-danger" v-for="error in v$.studentCode.$errors" :key="error.$uid">
                                         {{ error.$message }}
                                     </span>
                                 </div>
@@ -141,7 +141,7 @@ const info = ref({
     password : "",
     name : "",
     username : "",
-    role : "",
+    studentCode : "",
     createdAt : null,
     avata : "",
     repeatPassword: "",
@@ -155,7 +155,7 @@ const rules= computed(()=>{
         password : {required, minLength:minLength(4)},
         name : {required},
         username : {required},
-        role : {required},
+        studentCode : {required},
         avata : {required},
         //repeatPassword: {required},
     }
@@ -173,7 +173,7 @@ const  submitCreate  = async()=>{
                     password :info.value.password,
                     name:info.value.name,
                     username :info.value.username,
-                    role:info.value.role,
+                    studentCode:info.value.studentCode,
                     createdAt :info.value.createdAt,
                     avata:info.value.avata
                 }

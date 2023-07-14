@@ -1,5 +1,8 @@
 <template>
-    <div style="height: 100vh; ">
+<div v-if="Loading==true" style="height: 100vh;display: flex;">
+    <LoadingVue ></LoadingVue>
+</div>
+<div v-else style="height: 100vh; ">
     <HeaderView :data="getid" />
         <div v-if="CloseForm==true">
             <section class="intro">
@@ -314,7 +317,7 @@
                 </div>
             </div>
         </div>
-    </div>
+</div>
 </template>
 <script setup>
 import { ref,onMounted,computed,reactive } from "vue";
@@ -325,7 +328,9 @@ import {useRoute} from 'vue-router'
 import Swal from "sweetalert2";
 import HeaderView from '../../components/HeaderView.vue'
 import html2pdf from 'html2pdf.js';
+import LoadingVue from "../../components/Loading.vue";
 
+const Loading=ref(true)
 const route=useRoute()
 const getid=route.params.id 
 const ListDocumentIdEdit =ref([]) // id của văn bản được quyền chỉnh sửa
@@ -359,6 +364,9 @@ const arrayToObject = (arr)=> {
 }
 
 onMounted(async()=>{
+    setTimeout(function(){   
+        Loading.value=false
+    }, 1500);
     await getInfoUser()
     await GetDocumentIdEdit()
     await GetInfoDocument()

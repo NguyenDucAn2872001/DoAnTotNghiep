@@ -102,21 +102,30 @@
                         password :info.value.password,
                     }
                     ).then(response =>{
-                        console.log(response.data[0].email );
+                        console.log(response.data );
                         if ( info.value.email===response.data[0].email  && info.value.password=== response.data[0].password) {
-                            localStorage.setItem('iduser',response.data[0].id)
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Đăng nhập thành công',
-                                showConfirmButton: false,
-                                timer: 1000
-                            })
-                            localStorage.removeItem('id');
-                            localStorage.setItem('id','true')
-                            setTimeout(function(){   
-                                return route.push(`/Home/${response.data[0].id}`) 
-                            }, 1000);
-                            check.value=true
+                            if(response.data[0].lockAcc===1){
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Tài khoản của bạn đã bị khóa!',
+                                    text: 'Hãy liên hệ Admin để mở khóa '
+                                })
+                            }
+                            else{
+                                localStorage.setItem('iduser',response.data[0].id)
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Đăng nhập thành công',
+                                    showConfirmButton: false,
+                                    timer: 1000
+                                })
+                                localStorage.removeItem('id');
+                                localStorage.setItem('id','true')
+                                setTimeout(function(){   
+                                    return route.push(`/Home/${response.data[0].id}`) 
+                                }, 1000);
+                                check.value=true
+                            }
                         }
                         else
                         {
@@ -130,7 +139,6 @@
                     icon: 'error',
                     title: 'Đăng nhập thất bại!',
                     text: 'Tài khoản hoặc mật khẩu sai ',
-                    //footer: '<a href="">Why do I have this issue?</a>'
                 })
             }
         }else{

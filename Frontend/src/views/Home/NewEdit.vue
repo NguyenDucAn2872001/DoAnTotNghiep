@@ -1,4 +1,8 @@
 <template>
+  <div v-if="Loading==true" style="height: 100vh;display: flex;">
+      <LoadingVue ></LoadingVue>
+  </div>
+  <div v-else>
   <HeaderView :data="getid" style="z-index: 1;"/>
     <div v-if="editor" style="padding-top: 100px;display: flex;justify-content: center; height: 1100px; background-color: #fff;">
       <div style="width: 100%;">
@@ -236,7 +240,8 @@
         </div>
       </div>
     </div>
-  </template>
+  </div>
+</template>
   
 <script setup>
 import axios  from 'axios';
@@ -270,9 +275,10 @@ import { WebrtcProvider } from "y-webrtc";
 import * as Y from "yjs";
 import HeaderView from '../../components/HeaderView.vue'
 import { ArrowDown } from '@element-plus/icons-vue'
+import LoadingVue from "../../components/Loading.vue";
 
+const Loading=ref(true)
 const propData = ref('Hello from parent');
-
 const route=useRoute()
 const getid=route.params.id 
 const color=["#00FFFF","#C0C0C0","#f783ac","#FFFF66","#99FF33","#FF9900","#CC3333"]
@@ -285,6 +291,9 @@ const ListUser=ref([])
 const data=ref("")
 
 onMounted(async()=>{
+  setTimeout(function(){   
+      Loading.value=false
+  }, 1500);
   await getInfoUser()
   name.value = nameInput.value;
   console.log(name.value);

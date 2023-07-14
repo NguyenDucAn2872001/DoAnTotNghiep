@@ -1,6 +1,9 @@
 <template>
-   <div style="width: 100%; ">
-    <div v-if="CloseForm==false" >
+    <div v-if="Loading==true" style="height: 100vh;display: flex;">
+        <LoadingVue ></LoadingVue>
+    </div>
+   <div v-else style="width: 100%; ">
+    <div v-if="CloseForm==true" >
         <section class="vh-100 bg-image"
             style="background-image: url('https://hainh2k3.com/wp-content/uploads/2018/11/CSS-Particles.gif');">
             <div class="mask d-flex align-items-center h-100 gradient-custom-3">
@@ -141,7 +144,9 @@ import axios  from 'axios';
 import {useRoute} from 'vue-router'
 import Swal from "sweetalert2";
 import HeaderView from '../../components/HeaderView.vue'
+import LoadingVue from "../../components/Loading.vue";
 
+const Loading=ref(true)
 const route=useRoute()
 const getid=route.params.id 
 const infoUser =ref([])
@@ -167,6 +172,9 @@ const rules= computed(()=>{
 const v$ = useVuelidate(rules,info.value)
 
 onMounted(async()=>{
+    setTimeout(function(){   
+        Loading.value=false
+    }, 1500);
     await getInfoUser()
     await getClassifyDocument()
 })

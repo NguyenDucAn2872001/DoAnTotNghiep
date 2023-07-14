@@ -1,4 +1,8 @@
 <template>
+  <div v-if="Loading==true" style="height: 100vh;display: flex;">
+    <LoadingVue ></LoadingVue>
+  </div>
+  <div v-else>
   <div v-if="viewDocument==false" style="display: flex;width: 100%;background-color: #F8F8FF;height: 100vh; ">
     <div class="left" style="width: 20%; background-color: slategrey ;">
       <div class="container">
@@ -61,7 +65,7 @@
             </div>  
             <div class="d-flex align-items-center">
               <div class="text-reset me-5 " href="#" style="cursor: pointer;" @click="dropdown=!dropdown">
-                <i class="fa-regular fa-comments" @click="onConnect()"></i>
+                <i class="fa-regular fa-comments"></i>
                 <span class="badge rounded-pill badge-notification bg-danger">1</span>    
               </div>
               <div class="dropdown me-5" style="cursor: pointer; " @click="dropdownRp=!dropdownRp">
@@ -87,7 +91,7 @@
               <div class="fw-bold">xem văn bản</div>
             </div>
             <form v-if="checkClickSee" @submit.prevent="OnSearchDocument()">
-              <input  v-model="passwordDocument" type="text" @submit.prevent="submitCreate()" placeholder="Nhập mã văn bản" style="margin-top: 30px;margin-left: 16px;border-radius: 11px;padding-left: 6px;height: 38px">
+              <input  v-model="passwordDocument" type="text" placeholder="Nhập mã văn bản" style="margin-top: 30px;margin-left: 16px;border-radius: 11px;padding-left: 6px;height: 38px">
               <input type="submit" style="display: none;">
             </form>
           </div>
@@ -255,7 +259,7 @@
           </div>
           <div class="scroll-snap">
             <!-- danh sách các thành viên trong db -->
-            <div v-for="i in users"  @click="chat()">
+            <div v-for="i in Listusers"  @click="chat()">
               <div v-if="i.username==name"></div>
               <div v-else>
                 <div @click="onselectedtosend(i)" class="list-message">
@@ -277,16 +281,14 @@
             <!-- hiển thị tên và avatar -->
             <div style="height: 50px;display: flex;align-items: center;padding: 10px;">
               <i class="fa-solid fa-circle-user icon-users" style="cursor: pointer;"></i>
-              <label for="" style="font-weight: 700;cursor: pointer;">{{ useridGues }}</label>
+              <label for="" style="font-weight: 700;cursor: pointer;">{{ usernameGues }}</label>
             </div>
             <div class="line-1"></div>
             <!-- Hiện tin nhắn  -->
             <div class="scroll-snap" >
-              <div v-for="messagee in listMessage" >
-                
-                  <div class=" you-message"  v-if="messagee.to==1">{{ messagee.message }} </div>
-                  <!-- <div class="guest-message" v-if="messagee.to==useridGues"> {{ usernameGues }} :{{ messagee.message }}</div> -->
-                  <div class="guest-message" v-else>{{ messagee.message }}</div>               
+              <div  v-for="messagee in listMessage"  >
+                <div class="you-message" v-if="messagee.from1==useridGues">{{ messagee.message }}</div>
+                <div class="guest-message" v-if="messagee.to1==useridGues">{{ messagee.message }}</div>
               </div>
             </div>
             <!-- nhắn tin lên thanh chat -->
@@ -301,7 +303,7 @@
     </div>
     
   </div>
-  <div v-else style="width: 100%;height: 100vh ;" >
+  <div v-else style="width: 100%;" >
     <nav class="navbar navbar-expand-lg navbar-light " style="background-color: #444444;position: fixed;width: 100%">
       <div class="container-fluid">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -326,9 +328,35 @@
         </div>
       </div>
     </nav>
-    <div class="row" style="display: flex;justify-content: center;height: 100%; ">
-      <div style="width: 20%;background-color: #666666;">
-        <div class="scrollable-review mt-1" style="border: 1px solid black;width: 19%;height: 50%; top: 30px;background-color: #fff; transform: scale(0.7);position: fixed">
+    <div class="row" style="display: flex;justify-content: center;height: 100%;width: 101%; ">
+      <div style="width: 20%;background-color: #666666; padding-top: 80px;">
+        <div class="text-center mb-3">
+          <div class="text-light fw-bold">Bình Luận </div>
+        </div>
+        <div style="display: flex;justify-content: center;">
+          <div style="width: 90%;height: 500px; border: 1px solid #000;border-radius: 10px;background-color: #fff;margin-left: 10px;position: relative;">
+            <div class="parent" style="height: 444px;width: 100%;; border-bottom: 1px solid #666666;">
+              <div class="child">
+
+                <div class="mt-3" style="display: flex;" v-for="i in CommentPassword">
+                  <div class="ms-2 me-2 " style="width:30px;height:30px;border-radius:50%; display:flex;justify-content:center;align-items:center;background-color:#777777">
+                    <i class="fa-solid fa-user-secret text-light" style="font-size:22px;"></i>
+                  </div>
+                  <div class="pt-1" style="width:75%;height:auto; background-color:#DDDDDD;border-radius:10px">
+                    <div class="ms-3 fw-bold"> {{ i.name }}</div>
+                    <div class="ms-3 mt-1 pb-2" style="width:80%">{{ i.comments }}</div>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+            <div class="" style="position: absolute; bottom: 10px;width: 100%;display: flex;">
+              <input type="text" id="typeEmail" v-model="comments" class="form-control ms-2" placeholder="input comment" style="border-radius: 20px;width: 80%;"/>
+              <i class="fa-regular fa-paper-plane ms-2 mt-1" @click="PostComment()" style="padding-top: 10px;cursor: pointer;" ></i>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="scrollable-review mt-1" style="border: 1px solid black;width: 19%;height: 50%; top: 30px;background-color: #fff; transform: scale(0.7);position: fixed">
           <div id="content-to-pdf1">
             <div class="mt-1" v-for="item in ListContentDocument" :key="item.id" style="transform: scale(0.5)">
               <h3>{{ item.title }}</h3>
@@ -337,10 +365,10 @@
               </div>
             </div>
           </div>  
-        </div>
+        </div> -->
       </div>
-      <div  style="width: 80%;height: 1300px; background-color: #DDDDDD; display: flex;justify-content: space-evenly;padding-top: 50px;">
-        <div class="scrollable-review mt-5" style="border: 1px solid black;width: 85%;height: 150%; background-color: #fff; ">
+      <div class="parent" style="width: 80%;height: 723px; background-color: #DDDDDD; display: flex;justify-content: space-evenly;padding-top: 50px;">
+        <div class=" mt-5 child" style="border: 1px solid black;width: 85%;height: 1700px; background-color: #fff; margin-bottom: 50px;">
           <div id="content-to-pdf">
             <div class="mt-5 ms-5" v-for="item in ListContentDocument" :key="item.id">
               <h3>{{ item.title }}</h3>
@@ -353,16 +381,19 @@
       </div>
     </div>
   </div>
-  
+</div>
 </template>
 <script setup>
-import socket from '../../../plugins/socket'
+import  Socket  from "socket.io-client";
+const URL = 'http://localhost:8888'
+const socket= Socket(URL,{autoConnect:false});
 import { onMounted,ref } from 'vue';
 import axios  from 'axios';
 import {useRoute ,useRouter} from 'vue-router'
 import Swal from "sweetalert2";
 import html2pdf from 'html2pdf.js';
 import { ElNotification } from 'element-plus'
+import LoadingVue from "../../components/Loading.vue";
 
 const open1 = () => {
   ElNotification({
@@ -371,6 +402,7 @@ const open1 = () => {
     type: 'success',
   })
 }
+const Loading=ref(true)
 const route=useRoute()
 const router = useRouter()
 const dropdown=ref(false)
@@ -386,6 +418,7 @@ const message=ref("")
 const ListDocument=ref([])
 const ListUserInDocument=ref([])
 const users=ref([])
+const Listusers=ref([])
 const AddUser=ref([])// thêm user vào văn bản
 const checkClickSee=ref(false)
 const selectUserToSend=ref()
@@ -395,13 +428,10 @@ const viewDocument=ref(false)
 const value = ref(true)
 const nameDocument=ref()
 const ListVersion =ref([])
-
-const onConnect=()=>{
-    socket.auth={
-        username:name.value,
-    }
-    socket.connect()
-}
+const CommentPassword=ref([]) // khi nhapaj pass
+const idDocument=ref([])
+const comments=ref('')
+const currentMessages = ref([]);
 
 const setPublic=(id ,p)=>{
   try {
@@ -474,51 +504,47 @@ const AddNewUser=(id,documentId)=>{
   })
 }
 
-const OnSendMessage=()=>{
-    listMessage.value.push({
-        message:message.value,
-        to:1,
-        from:usernameGues.value
-    })
-    socket.emit("privateMessaGE",{
-        message:message.value,
-        to:selectUserToSend.value.userId
-    })
-    message.value=""
+const OnSendMessage=async()=>{
+  listMessage.value.push({
+      message:message.value,
+      to1:parseInt(getid),
+      from1:useridGues.value
+  })
+  await postMessage(parseInt(getid),useridGues.value,message.value)
+  socket.emit("privateMessaGE",{
+      message:message.value,
+      to1:useridGues.value,
+      from1:parseInt(getid)
+  })
+  message.value=""
 }
 
-const onselectedtosend=(user)=>{
+const onselectedtosend=async(user)=>{
     selectUserToSend.value=user
-    usernameGues.value=user.userId
-    useridGues.value=user.username
+    useridGues.value=user.id
+    usernameGues.value=user.username
+    console.log(useridGues.value, ": to");
+    await getMessage(parseInt(getid),useridGues.value)
 }
 
 onMounted(async()=>{
+  setTimeout(function(){   
+    Loading.value=false
+  }, 1500);
   await getInfoUser()
   await CheckState()
   await getDocument()
-  onConnect()
-  socket.on('getUsers',(data)=>{
-      data.forEach(user => {
-          user.self= user.userId===socket.id
-      });
-      users.value=data.sort((a,b)=>{
-          if(a.self) return -1;
-          if(b.self) return 1;
-          if(a.username<b.username) return-1
-          return a.username>b.username?1:0;
-      })
-  })
-  
-  socket.on("userJustConnected",(data)=>{
-        users.value.push(data)
+  socket.auth={
+      userId:parseInt(getid)
+  }
+  socket.connect()
+  socket.on("privateMessageToReceiver",({ message, from1,to1 })=>{
+    listMessage.value.push({
+        message:message,
+        to1:from1,
+        from1:to1
     })
-    socket.on("privateMessageToReceiver",({message,from})=>{
-        listMessage.value.push({
-            message:message,
-            to:from
-        })
-    })
+  }) 
 })
 
 const saveAsPdf = async () => {
@@ -535,35 +561,32 @@ const saveAsPdf = async () => {
 };
 
 const chat=()=>{
-  
   dropdown.value=!dropdown.value
   openchat.value=!openchat.value
 }
 
-// const getMessage = async(id)=>{
-//   try {
-//     await axios.get('http://localhost:8888/message/messages/user/',{
-//       params: {
-//         sender: getid, // Kiểm tra giá trị của getid
-//         receiver: id // Kiểm tra giá trị của id
-//       }
-//     }).then(response =>
-//     {
-//       console.log(response);
-//       for (let i = 0; i < response.data.length; i++) {
-//         message.value.push(response.data[i].content)
-//       }
+const postMessage = async(to1,from1,message)=>{
+  try {axios.post(import.meta.env.VITE_POST_MESSAGE,{
+    to1:to1,
+    from1 :from1,
+    message:message,
+    
+  }).then (response => {})
+  }catch (error) {console.log(error);}
+}
 
-//     })
-//   } catch (error) {
-//       console.log(error);
-//   }
-// }
+const getMessage = async(from1,to1)=>{
+  listMessage.value=[]
+  try {
+    await axios.get(import.meta.env.VITE_GET_MESSAGE,{params: {to1: to1, from1: from1 }}).then(response =>
+    {for (let i = 0; i < response.data.length; i++) {
+        listMessage.value.push(response.data[i])
+    }})
+  } catch (error) {console.log(error);}
+}
 
 const getInfoUser = async()=>{
-  try {
-    await axios.get(import.meta.env.VITE_GETAPI_USER).then(response =>
-    {
+  try {await axios.get(import.meta.env.VITE_GETAPI_USER).then(response =>{
       for (let i = 0; i < response.data.length; i++) {
         if(response.data[i].id==getid){
           name.value=response.data[i].name
@@ -571,14 +594,12 @@ const getInfoUser = async()=>{
       }
       for (let i = 0; i < response.data.length; i++) {
         infoUser.value.push(response.data[i])
-        if (response.data[i].name!=name.value) {
-          users.value.push(response.data[i].name)
+        if (response.data[i].name!=name.value) {        
+          Listusers.value.push(response.data[i])
         }
       }
     })
-  } catch (error) {
-      console.log(error);
-  }
+  } catch (error) {console.log(error);}
 }
 const getDocument = async()=>{
   try {
@@ -588,7 +609,7 @@ const getDocument = async()=>{
       }
     }).then(response =>
     {
-      console.log(response.data);
+      // console.log(response.data);
       for (let i = 0; i < response.data.length; i++) {
         ListDocument.value.push(response.data[i])
       }
@@ -600,7 +621,7 @@ const getDocument = async()=>{
           ListDocument.value[i].public=false
         }
       }
-      console.log(ListDocument.value);
+      // console.log(ListDocument.value);
     })
   } catch (error) {
       console.log(error);
@@ -644,6 +665,8 @@ const deleteDocument = async(id)=>{
             'Xoá tài liệu thành công .',
             'success'
             )
+            try {axios.delete(import.meta.env.VITE_COMMENT_DOCUMENT,{params:{id:id}})
+            } catch (error) {console.log(error);}
             try {axios.delete(import.meta.env.VITE_DELETE_FINAL_DOCUMENT,{params:{id:id}})
             } catch (error) {console.log(error);}
             try {axios.delete(import.meta.env.VITE_DELETE_CONTENT_DOCUMENT,{params:{id:id}})
@@ -671,17 +694,17 @@ const OnSearchDocument= async()=>{
   ListContentDocument.value=[]
   var password=passwordDocument.value
   var version =""
-  var id =" "
+  idDocument.value=" "
   try {await axios.get(import.meta.env.VITE_GET_ID_DOCUMENT_BY_PASSWORD,{
     params:{password:password}
-    }).then(response =>{id= response.data[0].id})
+    }).then(response =>{idDocument.value= response.data[0].id;})
   } catch (error) {console.log(error);} 
 
   try {await axios.get(import.meta.env.VITE_GET_VERSION,{
-    params:{documentid:id,}
+    params:{documentid:idDocument.value,}
     }).then(response =>{version= response.data[response.data.length-1].version1})
   } catch (error) {console.log(error);} 
-  console.log(version);
+  // console.log(version);
 
   try {await axios.get(import.meta.env.VITE_GET_DOCUMENT_BY_PASSWORD,{    
     params:{password: password,version1: version}
@@ -691,11 +714,30 @@ const OnSearchDocument= async()=>{
       }
     })
   } catch (error) {console.log(error)}
+
+  CommentPassword.value=[]
+  GetCommentDocument(idDocument.value)
+
+  // console.log(idDocument.value);
   viewDocument.value=true
   passwordDocument.value=""
   checkClickSee.value=!checkClickSee.value
 }
 
+const PostComment =()=>{
+  CommentPassword.value.push({
+    documentId: 56, userId: 20, comments: comments.value, feeling: 1,name:name.value
+  })
+  try {axios.post(import.meta.env.VITE_POST_COMMENT_DOCUMENT,{
+    documentId:idDocument.value,
+    userId :getid,
+    comments:comments.value,
+    
+  }).then (response => {})
+        }catch (error) {console.log(error);}
+
+        comments.value=""
+}
 
 const OnSearchDocumentbyOwner= async(id,name)=>{
   ListContentDocument.value=[]
@@ -719,23 +761,28 @@ const OnSearchDocumentbyOwner= async(id,name)=>{
 }
 
 const SeeDocumentWithVersion=async(version,id,name)=>{
-    try {
-      await axios.get(import.meta.env.VITE_GET_DOCUMENT_BY_DOCUMENTOWNER,{
-      params:{
-        id:id,
-        version1: version,
+  try {await axios.get(import.meta.env.VITE_GET_DOCUMENT_BY_DOCUMENTOWNER,{params:{id:id,version1: version,}}).then(response =>{
+    for (let i = 0; i < response.data.length; i++) {
+      ListContentDocument.value.push(response.data[i])
+    }})
+  } catch (error) {console.log(error);}
+  CommentPassword.value=[]
+  GetCommentDocument(id)
+  nameDocument.value=name
+  viewDocument.value=true
+}
+
+const GetCommentDocument =async(id)=>{
+  try {await axios.get(import.meta.env.VITE_GET_COMMENT_DOCUMENT,{
+    params:{documentId:id,}
+    }).then(response =>{
+      for (let i = 0; i < response.data.length; i++) {
+        CommentPassword.value.push(response.data[i])      
       }
-      }).then(response =>
-      {
-        for (let i = 0; i < response.data.length; i++) {
-          ListContentDocument.value.push(response.data[i])
-        }
-      })
-    } catch (error) {
-        console.log(error);
-    }
-    nameDocument.value=name
-    viewDocument.value=true
+
+    })
+    
+  } catch (error) {console.log(error);} 
 }
 
 const DeleteVersionDocument=()=>{

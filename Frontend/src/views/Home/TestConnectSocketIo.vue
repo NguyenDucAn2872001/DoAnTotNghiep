@@ -73,11 +73,6 @@ const OnSendMessage=()=>{
         message:message.value,
         to:selectUserToSend.value.userId
     })
-    // if(!selectUserToSend.value.messages){selectUserToSend.value.messages=[]}
-    // selectUserToSend.value?.messages.push({
-    //     message,
-    //     isSelf:true
-    // })
     message.value=""
 }
 const onselectedtosend=(user)=>{

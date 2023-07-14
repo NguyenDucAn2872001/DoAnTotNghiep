@@ -1,5 +1,8 @@
 <template>
-    <div class="d-flex" style="height: 100vh;">
+    <div v-if="Loading==true" style="height: 100vh;display: flex;">
+        <LoadingVue ></LoadingVue>
+    </div>
+    <div v-else class="d-flex" style="height: 100vh;">
         <div class="col-2 bg-light  border">
             <MenuBarAdmin/>
         </div>
@@ -20,7 +23,14 @@
 import HeaderAdmin from '../../components/HeaderAdmin.vue'
 import MenuBarAdmin from '../../components/MenuBarAdmin.vue'
 import { ref, onMounted } from 'vue'
+import LoadingVue from "../../components/Loading.vue";
 
+const Loading=ref(true)
+onMounted( async() => {
+    setTimeout(function(){   
+        Loading.value=false
+    }, 1500); 
+})
 
 
 </script>

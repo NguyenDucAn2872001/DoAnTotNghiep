@@ -2,8 +2,10 @@ const express = require('express')
 const router = express.Router();
 var connection = require('../../Database/dbinfo');
 
-router.get('/messages/all',  async(req, res)=> {
-    let sql = 'SELECT * FROM messages  where sender = 19 or sender = 20 ';
+router.get('/getmessage',  async(req, res)=> {
+    const { to1, from1 } = req.query;
+    // let sql = `SELECT content FROM messages where to1 = ${sender} and   receiver =${receiver}`;
+    let sql=`SELECT * FROM message WHERE (to1 = ${to1} AND from1 = ${from1}) OR (to1 = ${from1} AND from1 = ${to1})`
     connection.query(sql,(err,result)=>{
         if(err){
             return res.json(err)
@@ -14,23 +16,10 @@ router.get('/messages/all',  async(req, res)=> {
     })
 })
 
-router.get('/messages/user',  async(req, res)=> {
-    const { sender, receiver } = req.query;
-    let sql = `SELECT content FROM messages where sender = ${sender} and   receiver =${receiver}`;
-    connection.query(sql,(err,result)=>{
-        if(err){
-            return res.json(err)
-        }else{
-            console.log(result)
-            return(res.send(result))
-        }
-    })
-})
+router.post('/postmessage', async(req, res) => {
 
-router.post('/messages', async(req, res) => {
-
-    const { sender,receiver, content } = req.body;
-    let sql = `INSERT INTO messages (sender,receiver, content) VALUES (${sender},${receiver}, '${content}')`;
+    const { to1,from1, message } = req.body;
+    let sql =`insert  INTO message (to1,from1,message) VALUES (${to1},${from1}, '${message}');`
     try {
         connection.query(sql, (err, results)=>{         
             res.json(results);               

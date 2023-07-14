@@ -1,5 +1,8 @@
 <template>
-    <div class="d-flex" style="height: 100vh;">
+    <div v-if="Loading==true" style="height: 100vh;display: flex;">
+        <LoadingVue ></LoadingVue>
+    </div>
+    <div v-else class="d-flex" style="height: 100vh;">
         <div class="col-2 bg-light  border">
             <MenuBarAdmin/>
         </div>
@@ -32,12 +35,17 @@ import {ref,onMounted } from 'vue'
 import axios  from 'axios';
 import HeaderAdmin from '../../components/HeaderAdmin.vue'
 import MenuBarAdmin from '../../components/MenuBarAdmin.vue'
+import LoadingVue from "../../components/Loading.vue";
 
+const Loading=ref(true)
 const AdminAcc=ref({id:0,email:"admin@admin.com",username:"admin",name:'admin',password:"admin"})
 const color=ref(["success","secondary","warning","danger"])
 const NumberOdDocument=ref()
 const ListContributionStatistics=ref([])
 onMounted(()=>{
+    setTimeout(function(){   
+        Loading.value=false
+    }, 1500);
     GetNumberOfDocument()
     getContributionStatistics()
 })

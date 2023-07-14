@@ -1,5 +1,8 @@
 <template>
-    <div>
+  <div v-if="Loading==true" style="height: 100vh;display: flex;">
+        <LoadingVue ></LoadingVue>
+    </div>
+    <div v-else>
         <div class="mt-5" v-if="CloseForm==true">
             <section class="intro">
                 <div class="bg-image h-100" >
@@ -126,7 +129,7 @@
       </div>
       
     </div>
-    </div>
+  </div>
 </template>
 <script setup>
 import { ref,onMounted ,computed } from "vue";
@@ -136,8 +139,9 @@ import axios  from 'axios';
 import {useRoute} from 'vue-router'
 import Swal from "sweetalert2";
 import HeaderView from '../../components/HeaderView.vue'
+import LoadingVue from "../../components/Loading.vue";
 
-
+const Loading=ref(true)
 const props = defineProps(['foo'])
 const route=useRoute()
 const getid=route.params.id 
@@ -148,8 +152,10 @@ const CloseForm =ref(true)
 const DocumentID=ref()
 
 onMounted(async()=>{
+  setTimeout(function(){   
+        Loading.value=false
+    }, 1500);
     await GetInfoDocument()
-    console.log(ListDocumentMerge.value);
 })
 const GetInfoDocument =async()=>{
     try {

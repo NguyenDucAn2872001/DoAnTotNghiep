@@ -42,15 +42,15 @@ router.post('/sendOTP', (req, res) => {
     });
   });
 
-router.post('/',  async(req, res)=> {
+router.post('/Addusser',  async(req, res)=> {
     //let sqlcheck="ALTER TABLE users ADD UNIQUE (email) "
-    let sql = "insert IGNORE into users (email,username,name,password,role,createdAt,avata) values (?) ";
+    let sql = "insert IGNORE into users (email,username,name,password,studentCode,createdAt,avata) values (?) ";
     const values= [
         req.body.email,
         req.body.username,
         req.body.name,
         req.body.password,
-        req.body.role,
+        req.body.studentCode,
         req.body.createdAt,
         req.body.avata,
     ]
@@ -73,7 +73,6 @@ router.get('/getUserById',  async(req, res)=> {
         if(err){
             return res.json(err)
         }else{
-            console.log(result)
             return(res.json(result))
         }
     })
@@ -82,21 +81,10 @@ router.get('/getUserById',  async(req, res)=> {
 router.get('/getApi',  async(req, res)=> {
     //let sqlcheck="ALTER TABLE users ADD UNIQUE (email) "
     let sql = "SELECT * FROM textcompletion.users";
-    const values= [
-        req.body.email,
-        req.body.username,
-        req.body.name,
-        req.body.password,
-        req.body.role,
-        req.body.createdAt,
-        req.body.avata,
-        req.body.state,
-    ]
-    connection.query(sql,[values],(err,result)=>{
+    connection.query(sql,(err,result)=>{
         if(err){
             return res.json(err)
         }else{
-            console.log(result)
             return(res.json(result))
         }
     })

@@ -232,4 +232,16 @@ router.get('/getClassifyDocument',  async(req, res)=> {
         }
     })
 })
+
+router.delete('/deleteCommentDocument', async (req, res) => {
+    const { id } = req.query;
+    let sql = `DELETE FROM comment_document WHERE documentId = ${id}`;
+    connection.query(sql, (err, result) => {
+      if (err) {
+        return res.json(err);
+      } else {
+        return res.json(result);
+      }
+    });
+});
 module.exports= router
