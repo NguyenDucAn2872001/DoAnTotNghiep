@@ -14,7 +14,7 @@ import NewEditOneUser from '../views/Home/NewEditOneUser.vue'
 import EditDocumentUser from '../views/Home/EditDocumentUser.vue'
 import DocumentApproval from '../views/Home/DocumentApproval.vue'
 import Community from '../views/Client/Community.vue'
-
+import ViewDocument from '../views/Client/ViewDocument.vue'
 // import { ref } from 'vue'
 
 // const check= ref(localStorage.getItem('id'))
@@ -113,6 +113,14 @@ const router = createRouter({
       path: '/Home/Community/:id',
       name: 'Community',
       component: Community,
+      meta: {
+        requiresAuth:true
+      }
+    },
+    {
+      path: '/Home/Community/ViewDocument/:id',
+      name: 'ViewDocument',
+      component: ViewDocument,
       meta: {
         requiresAuth:true
       }

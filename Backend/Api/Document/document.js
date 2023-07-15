@@ -244,4 +244,31 @@ router.delete('/deleteCommentDocument', async (req, res) => {
       }
     });
 });
+
+router.get('/getPublicDocument',  async(req, res)=> {
+    let sql = "SELECT document.id, document.nameDocument, document.classify, users.username,users.studentCode FROM document INNER JOIN users ON document.idDocumentOwner = users.id WHERE document.public = 1;"
+    connection.query(sql,(err,result)=>{
+        if(err){
+            return res.json(err)
+        }else{
+            console.log(result)
+            return(res.json(result))
+        }
+    })
+})
+
+router.get('/getContentDocumentPublic',  async(req, res)=> {
+    const id = req.query.id;
+    const version1 = req.query.version1;
+
+    let sql = `SELECT * FROM textcompletion.final_document where documentid = ${id} and version1 = ${version1}`;
+    connection.query(sql,(err,result)=>{
+        if(err){
+            return res.json(err)
+        }else{
+            console.log(result)
+            return(res.json(result))
+        }
+    })
+})
 module.exports= router

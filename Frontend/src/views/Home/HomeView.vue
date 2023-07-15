@@ -12,17 +12,18 @@
                 <i :class="{'fa-solid fa-bars': !showNavbar, 'fa-solid fa-xmark': showNavbar}" style="font-size: 25px; padding-left: 20px;"></i>
                 <!-- <img src="../../assets/download_preview_rev_1.png" alt="" style="width: 60px;height: 60px;"> -->
               </div>
-              <div class="text-reset me-5 " style="display: flex;align-items: center;text-decoration: none ;cursor: pointer;">
-                <i class="fa-solid fa-user" style="padding-right: 10px;"></i>
-                <div style="font-weight: 700;">{{ name }}</div>
-              </div>  
+              
+              <div style="font-weight: 700;font-family: system-ui;font-size: 20px;">{{ name }}</div>
             </div> 
 
             <div class="col" style="display: flex;justify-content: center;margin-top: 20px;">
-              <img src="../../assets/LogoVienDien_preview_rev_1.png" alt="" style="width: 150px;height: 60px;">
+              <img src="https://ctt.hust.edu.vn/Images/logo.png" alt="" style="width: 350px;height: 60px;margin-bottom: 18px;">
             </div> 
 
             <div class="d-flex  col" style="justify-content: flex-end;align-items: center;">
+              <div class="text-reset me-3 button" style="display: flex;align-items: center;text-decoration: none ;cursor: pointer;">
+                <i class="fa-solid fa-user bell text-light me-1" style="font-size: 24px;"></i>        
+              </div>  
               <div class="button me-3" href="#" style="cursor: pointer;" @click="dropdown=!dropdown">
                 <i class="fa-brands fa-facebook-messenger text-light bell me-1" style="font-size: 24px;"></i>
                 <!-- <span class="badge rounded-pill badge-notification bg-danger">1</span>     -->
@@ -297,7 +298,13 @@
         </div>
         <div v-if="dropdownRp==true " class="dropdown-message " >
           <i class="fa-solid fa-circle-xmark icon-close" @click="dropdownRp=!dropdownRp"></i>
-          <div class="message">Thông báo </div>         
+          <div class="message">Thông báo </div> 
+          <div class="scroll-snap">
+            <!-- danh sách các thành viên trong db -->
+            <div v-for="i in 1"  @click="chat()">
+              <div>Bạn được Duc An thêm vào quyền chỉnh sửa văn bản Lý thuyết mật mã </div>
+            </div>
+          </div>           
         </div>
         <div v-if="openchat==true " class="message-user" >
           <div style="position: relative; height: 100%;">
@@ -328,6 +335,9 @@
     </div>
     
   </div>
+
+
+  
   <div v-else style="width: 100%;" >
     <nav class="navbar navbar-expand-lg navbar-light " style="background-color: #444444;position: fixed;width: 100%">
       <div class="container-fluid">
@@ -731,7 +741,7 @@ const OnSearchDocument= async()=>{
     setTimeout(function(){   
       Loading.value=false
     }, 1500);
-    GetCommentDocument(idDocument.value)
+    
     viewDocument.value=true
   }
   else{
@@ -745,7 +755,8 @@ const OnSearchDocument= async()=>{
 
   try {await axios.get(import.meta.env.VITE_GET_VERSION,{
     params:{documentid:idDocument.value,}
-    }).then(response =>{version= response.data[response.data.length-1].version1})
+    }).then(response =>{console.log(response.data);
+      ;version= response.data[response.data.length-1].version1})
   } catch (error) {console.log(error);} 
   // console.log(version);
 
@@ -760,7 +771,7 @@ const OnSearchDocument= async()=>{
 
   CommentPassword.value=[]
   console.log(idDocument.value)
-
+  GetCommentDocument(idDocument.value)
   
   passwordDocument.value=""
   checkClickSee.value=!checkClickSee.value
@@ -1370,7 +1381,7 @@ table th {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgb(44, 44, 44);
+  background-color: #696969;
   border-radius: 50%;
   cursor: pointer;
   transition-duration: .3s;
