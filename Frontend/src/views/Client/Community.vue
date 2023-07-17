@@ -126,7 +126,7 @@ const ViewDocument=async(id)=>{
 }
 
 .child {
-  height: 400px; 
+  height: auto; 
   width: 250px;
 }
 

@@ -300,9 +300,15 @@
           <i class="fa-solid fa-circle-xmark icon-close" @click="dropdownRp=!dropdownRp"></i>
           <div class="message">Thông báo </div> 
           <div class="scroll-snap">
-            <!-- danh sách các thành viên trong db -->
-            <div v-for="i in 1"  @click="chat()">
-              <div>Bạn được Duc An thêm vào quyền chỉnh sửa văn bản Lý thuyết mật mã </div>
+            <div class="mt-4"  @click="chat()">
+              <div class="mb-3 me-3 ms-3" v-for="i in listNotification" style="display: flex;justify-content: center;">
+                <router-link v-if="i.edit==1" :to="`/Home/EditDocumentUser/${getid}`" style="text-decoration: none;font-size: 13px;background-color: #707070;color: #fff;padding: 6px;border-radius: 12px;" >
+                  {{ i.content }}
+                </router-link>
+                <router-link v-if="i.edit==0" :to="`/Home/DocumentApproval/${getid}`"  style="text-decoration: none;font-size: 13px;background-color: #707070;color: #fff;padding: 6px;border-radius: 12px" >
+                  {{ i.content }}
+                </router-link>               
+                </div>
             </div>
           </div>           
         </div>
@@ -417,6 +423,9 @@
     </div>
   </div>
 </div>
+<div>
+    <NewEditOneUser ref="child" style="display: none;"/>
+  </div>
 </template>
 <script setup>
 import  Socket  from "socket.io-client";
@@ -429,7 +438,7 @@ import Swal from "sweetalert2";
 import html2pdf from 'html2pdf.js';
 import { ElNotification } from 'element-plus'
 import LoadingVue from "../../components/Loading.vue";
-
+import NewEditOneUser from "./NewEditOneUser.vue"
 const open1 = () => {
   ElNotification({
     title: 'Success',
@@ -437,6 +446,7 @@ const open1 = () => {
     type: 'success',
   })
 }
+const child = ref(null);
 const Loading=ref(true)
 const route=useRoute()
 const router = useRouter()
@@ -466,7 +476,7 @@ const ListVersion =ref([])
 const CommentPassword=ref([]) // khi nhapaj pass
 const idDocument=ref([])
 const comments=ref('')
-const currentMessages = ref([]);
+const listNotification = ref([]);
 
 const setPublic=(id ,p)=>{
   try {
@@ -563,17 +573,23 @@ const onselectedtosend=async(user)=>{
 }
 
 onMounted(async()=>{
+  console.log(child.value.info,"test owr ddaay")
   setTimeout(function(){   
     Loading.value=false
   }, 1500);
   await getInfoUser()
   await CheckState()
   await getDocument()
+  await getNotification()
   socket.auth={
       userId:parseInt(getid)
   }
   socket.connect()
   socket.on("privateMessageToReceiver",({ message, from1,to1 })=>{
+    ElNotification({
+      title: 'Message',
+      message: "Bạn nhận được một tin nhắn mới",
+    })
     listMessage.value.push({
         message:message,
         to1:from1,
@@ -581,6 +597,7 @@ onMounted(async()=>{
     })
   }) 
 })
+
 
 const saveAsPdf = async () => {
   const content = document.getElementById('content-to-pdf');
@@ -618,6 +635,25 @@ const getMessage = async(from1,to1)=>{
         listMessage.value.push(response.data[i])
     }})
   } catch (error) {console.log(error);}
+}
+
+const getNotification = async()=>{
+  listMessage.value=[]
+  try {
+    await axios.get(import.meta.env.VITE_GET_NEW_NOTIFICATION,{params: {notification_recipient: parseInt(getid) }}).then(response =>
+    {for (let i = 0; i < response.data.length; i++) {
+        listNotification.value.push(response.data[i])
+    }})
+  } catch (error) {console.log(error);}
+}
+
+const OpenNotification=(edit)=>{
+  if(edit==1){
+    return route.push('/Home/EditDocumentUser') 
+  }
+  else{
+    return route.push('/Home/EditDocumentUser') 
+  }
 }
 
 const getInfoUser = async()=>{
@@ -1341,30 +1377,30 @@ table th {
   padding-left: 20px;
   position: absolute;
   right: 0%;
-  width: 0%;
+  width: 180px;
   opacity: 0;
   color: white;
   font-size: 1.2em;
   font-weight: 600;
-  transition-duration: .3s;
+  transition-duration: 0.3s;
 }
 /* hover effect on button width */
 .Btn12:hover {
   width: 185px;
   border-radius: 40px;
-  transition-duration: .3s;
+  transition-duration: 1.8s;
 }
 
 .Btn12:hover .sign12 {
   width: 30%;
-  transition-duration: .3s;
+  transition-duration: 1.8s;
   padding-left: 20px;
 }
 /* hover effect button's text */
 .Btn12:hover .text12 {
   opacity: 1;
   width: 80%;
-  transition-duration: .3s;
+  transition-duration: 1.8s;
   padding-right: 10px;
 }
 /* button click effect*/

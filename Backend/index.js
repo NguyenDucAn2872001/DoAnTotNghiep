@@ -118,6 +118,8 @@ app.use('/approval', require('./Api/Document/approval'));
 
 app.use('/comment', require('./Api/Document/comment'));
 
+app.use('/notification', require('./Api/Document/notification'));
+
 server.listen(process.env.PORT,()=>{
     console.log( `Server start running on ${process.env.PORT}`)
     connection.connect((err)=>{

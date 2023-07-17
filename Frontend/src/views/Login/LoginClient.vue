@@ -102,9 +102,8 @@
                         password :info.value.password,
                     }
                     ).then(response =>{
-                        console.log(response.data );
-                        if ( info.value.email===response.data[0].email  && info.value.password=== response.data[0].password) {
-                            if(response.data[0].lockAcc===1){
+                        console.log(response.data.user );
+                            if(response.data.user.lockAcc===1){
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Tài khoản của bạn đã bị khóa!',
@@ -112,7 +111,8 @@
                                 })
                             }
                             else{
-                                localStorage.setItem('iduser',response.data[0].id)
+                                localStorage.setItem('iduser',response.data.user.id)
+                                localStorage.setItem('accessToken', response.data.token);
                                 Swal.fire({
                                     icon: 'success',
                                     title: 'Đăng nhập thành công',
@@ -122,16 +122,10 @@
                                 localStorage.removeItem('id');
                                 localStorage.setItem('id','true')
                                 setTimeout(function(){   
-                                    return route.push(`/Home/${response.data[0].id}`) 
+                                    return route.push(`/Home/${response.data.user.id}`) 
                                 }, 1000);
                                 check.value=true
-                            }
-                        }
-                        else
-                        {
-                            console.log("error");
-                        }
-                    
+                            }                       
                     })
                 }
             } catch (error) {

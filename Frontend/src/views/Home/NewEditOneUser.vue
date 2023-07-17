@@ -137,7 +137,7 @@
    </div>
 </template>
 <script setup>
-import { ref,onMounted,computed } from "vue";
+import { ref,onMounted,computed,defineExpose  } from "vue";
 import {required } from "@vuelidate/validators"
 import useVuelidate from "@vuelidate/core"
 import axios  from 'axios';
@@ -153,6 +153,7 @@ const infoUser =ref([])
 const items = ref([]);
 const idDocument=ref()
 const ListClassifyDocument=ref([])
+const name = ref('');
 const info = ref({
     ListUserInDocument :[],
     Classify:"",
@@ -212,6 +213,7 @@ const SaveDocument= async()=>{
     
 }
 const postDocument= async()=>{
+    console.log(info.value.ListUserInDocument.length,'test here');
     try {
         await axios.post(import.meta.env.VITE_POSTDOCUMENT,{
             nameDocument:info.value.NameDocument,
@@ -224,7 +226,7 @@ const postDocument= async()=>{
             console.log(response);
             Swal.fire({
                 icon: 'success',
-                title: 'Tạo tài khoản thành công',
+                title: 'Tạo Văn bản thành công',
                 showConfirmButton: false,
                 timer: 1000
             })
@@ -260,7 +262,6 @@ const getClassifyDocument = async()=>{
       for (let i = 0; i < response.data.length; i++) {
         ListClassifyDocument.value.push(response.data[i])
       }
-      console.log(ListClassifyDocument.value);
     })
   } catch (error) {
       console.log(error);
@@ -303,23 +304,63 @@ const PosttData = async() => {
             console.log(error);
         }      
     }
+
+    try {
+        await axios.post(import.meta.env.VITE_POST_NEW_NOTIFICATION,{
+            notification_sender:parseInt(getid),
+            notification_recipient :parseInt(info.value.MergeUser),
+            content :`Bạn được ${name.value} thêm vào quyền Phê Duyệt văn bản ${info.value.NameDocument} (mã vb:${info.value.PassWordDocument})`,
+            name_document:info.value.NameDocument,
+            password_document :info.value.PassWordDocument,
+            edit:0,
+        }
+        ).then (response => {
+        })
+    } catch (error) {
+        console.log(error);
+    }
+
+    for (let i = 0; i < info.value.ListUserInDocument.length; i++) {
+        try {
+            await axios.post(import.meta.env.VITE_POST_NEW_NOTIFICATION,{
+                notification_sender:parseInt(getid),
+                notification_recipient :info.value.ListUserInDocument[i],
+                content :`Bạn được ${name.value} thêm vào quyền Chỉnh Sửa văn bản ${info.value.NameDocument} (mã vb:${info.value.PassWordDocument})`,
+                name_document:info.value.NameDocument,
+                password_document :info.value.PassWordDocument,
+                edit:1,
+            }
+            ).then (response => {
+            })
+        } catch (error) {
+            console.log(error);
+        }
+        
+    }
 }
 
 const getInfoUser = async()=>{
   try {
     await axios.get(import.meta.env.VITE_GETAPI_USER).then(response =>
     {
-      for (let i = 0; i < response.data.length; i++) {
-        console.log(response.data[i].name);
-        if (response.data[i].id!=getid) {
-            infoUser.value.push(response.data[i])                
+        for (let i = 0; i < response.data.length; i++) {
+            if(response.data[i].id==getid){
+            name.value=response.data[i].name
+            }
         }
-      }
+        for (let i = 0; i < response.data.length; i++) {
+            if (response.data[i].id!=getid) {
+                infoUser.value.push(response.data[i])                
+            }
+        }
     })
   } catch (error) {
       console.log(error);
   }
 }
+defineExpose({
+    info,
+});
 
 </script>
 
