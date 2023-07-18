@@ -116,4 +116,16 @@ router.put('/updateLockAcc', (req, res) => {
     })
 })
 
+router.get('/getAllDocument',  async(req, res)=> {
+    let sql = "SELECT * FROM textcompletion.document;";
+    connection.query(sql,(err,result)=>{
+        if(err){
+            return res.json(err)
+        }else{
+            console.log(result)
+            return(res.json(result))
+        }
+    })
+})
+
 module.exports= router

@@ -164,9 +164,6 @@ router.post('/verifyOTP',async (req, res) => {
     // const { email, otp ,password} = req.body;
     const email=req.body.email;
     const otp=req.body.otp;
-    const password=req.body.password;
-    const newPassword = await bcrypt.hash(password,10)
-
     let query = `SELECT * FROM otp_forgot WHERE email = '${email}' AND otp = ${otp}`;
     connection.query(query, (err, results) => {
       if (err) {
@@ -175,8 +172,19 @@ router.post('/verifyOTP',async (req, res) => {
       } else {
         if (results.length > 0) {
 
-          
-          let updateQuery = `UPDATE users SET password = '${newPassword}' WHERE email = '${email}'`;
+            res.json(true)
+        } else {
+            res.status(400).json({ message: 'Invalid OTP' });
+          }
+        }
+    });
+});
+
+router.put('/updatePassWord',async(req,res)=>{
+    const email=req.body.email;
+    const password=req.body.password;
+    const newPassword = await bcrypt.hash(password,10)
+    let updateQuery = `UPDATE users SET password = '${newPassword}' WHERE email = '${email}'`;
           connection.query(updateQuery, (err) => {
             if (err) {
               console.error('Error updating password:', err);
@@ -190,14 +198,9 @@ router.post('/verifyOTP',async (req, res) => {
                     }
                     res.json({ message: 'Password changed successfully' });
                 });
-            }
-          });
-        } else {
-            res.status(400).json({ message: 'Invalid OTP' });
-          }
         }
     });
-});
+})
 
 router.get('/getUserById',  async(req, res)=> {
     //let sqlcheck="ALTER TABLE users ADD UNIQUE (email) "

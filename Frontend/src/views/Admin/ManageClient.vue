@@ -3,10 +3,10 @@
         <LoadingVue ></LoadingVue>
     </div>
     <div v-else class="d-flex" style="height: 100vh;">
-        <div class="col-2 bg-light  border">
+        <div class=" bg-light  border" style="width: 20%;">
             <MenuBarAdmin/>
         </div>
-        <div class="col-10">
+        <div class="" style="width: 75%;">
             <HeaderAdmin/>
             <h4 class="text-center fw-bold" style="padding-top: 100px;">Quản lý tài khoản người dùng</h4>
             <section class=" " style="padding-top: 10px;width: 100%;">
@@ -180,6 +180,8 @@ const DeleteUser = async (inf,id)=>{
             )
             info.value.pop(inf)
             try {axios.delete(import.meta.env.VITE_DELETE_MESAGE,{params:{id:id}})
+            } catch (error) {console.log(error);}
+            try {axios.delete(import.meta.env.VITE_DELETE_NOTIFICATION,{params:{id:id}})
             } catch (error) {console.log(error);}
             try {
             axios.get(import.meta.env.VITE_GET_DOCUMENT_BY_ID,{params:{id:id}

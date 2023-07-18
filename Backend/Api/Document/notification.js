@@ -34,4 +34,16 @@ router.post('/newNotification', async(req, res) => {
     }
 });
 
+router.delete('/deleteNotification', async (req, res) => {
+    const { id } = req.query;
+    let sql = `DELETE FROM notification WHERE notification_recipient = ${id}`;
+    connection.query(sql, (err, result) => {
+      if (err) {
+        return res.json(err);
+      } else {
+        return res.json(result);
+      }
+    });
+});
+
 module.exports= router

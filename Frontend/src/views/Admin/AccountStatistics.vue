@@ -3,7 +3,7 @@
         <LoadingVue ></LoadingVue>
     </div>
     <div v-else class="d-flex" style="height: 100vh;">
-        <div class="col-2 bg-light  border">
+        <div class=" bg-light  border" style="width: 20%;">
             <MenuBarAdmin/>
         </div>
         <div class="col-9">

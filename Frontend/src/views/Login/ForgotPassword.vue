@@ -78,7 +78,7 @@
                     </button>
                   </div>
                   <span class="text-dark" style="z-index: 2;">
-                    <router-link to="/Login" >
+                    <router-link to="/" >
                       <a href="sign-in.html" class="text-danger fw-bold ms-2">Quay lại trang đăng nhập</a>
                     </router-link>
                   </span>
@@ -114,50 +114,48 @@ onMounted( async() => {
 })
 const SendOtpToEmail  = async()=>{
   check.value=false 
-  // try {
-  //   await axios.post(import.meta.env.VITE_FORGOT_PASSWORD,{
-  //       email:info.value.email,
-  //   }
-  //   ).then(response =>{
-  //     if ( response.data[0].email=== info.value.email ) {
-  //       let timerInterval
-  //       Swal.fire({
-  //         icon: 'success',
-  //         title: 'Đang lấy lại mật khẩu!',
-  //         html: 'Vui lòng chờ trong <b></b> ms giây',
-  //         timer: 2000,
-  //         timerProgressBar: true,
-  //         didOpen: () => {
-  //           Swal.showLoading()
-  //           const b = Swal.getHtmlContainer().querySelector('b')
-  //           timerInterval = setInterval(() => {
-  //             b.textContent = Swal.getTimerLeft()
-  //           }, 100)
-  //         },
-  //         willClose: () => {
-  //           clearInterval(timerInterval)
-  //         }
-  //       }).then((result) => {
-  //         if (result.dismiss === Swal.DismissReason.timer) {
-  //           console.log('I was closed by the timer')
-  //         }
-  //       })
-  //         info.value.password =response.data[0].password
-             
-  //     }
-  //     else{
-  //         console.log("error");
-  //     }
-  //   })
-  // } catch (error) {
-  //   Swal.fire({
-  //     icon: 'error',
-  //     title: 'Tài khoản không tồn tại!',
-  //     text: 'Vui lòng nhập lại hoặc tạo tài khoản mới ',
-  //   })
-  // }
+  try {
+    await axios.post(import.meta.env.VITE_POST_SEND_OTP,{
+        email:email.value,
+    }
+    ).then(response =>{
+        let timerInterval
+        Swal.fire({
+          icon: 'success',
+          title: `Đang gửi OTP đến ${email.value}!`,
+          html: 'Vui lòng chờ trong <b></b> ms giây',
+          timer: 2000,
+          timerProgressBar: true,
+          didOpen: () => {
+            Swal.showLoading()
+            const b = Swal.getHtmlContainer().querySelector('b')
+            timerInterval = setInterval(() => {
+              b.textContent = Swal.getTimerLeft()
+            }, 100)
+          },
+          willClose: () => {
+            clearInterval(timerInterval)
+          }
+        }).then((result) => {
+          if (result.dismiss === Swal.DismissReason.timer) {
+            console.log('I was closed by the timer')
+          }
+        })
+            
+        setTimeout(function(){   
+            check.value=false  
+        }, 2000);     
+
+    })
+  } catch (error) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Tài khoản không tồn tại!',
+      text: 'Vui lòng nhập lại hoặc tạo tài khoản mới ',
+    })
+  }
 }
-const CheckOtp=()=>{
+const CheckOtp= async()=>{
   if (otp1.value==null||otp2.value==null||otp3.value==null||otp4.value==null){
     ElNotification({
       title: 'Warning',
@@ -165,12 +163,46 @@ const CheckOtp=()=>{
       type: 'warning',
     })
   }else{
-    checkOTP.value=false
+    var otp = Number(`${otp1.value}${otp2.value}${otp3.value}${otp4.value}`)
+    // console.log(typeof(e));
+    try {
+    await axios.post(import.meta.env.VITE_POST_VERIFY_OTP,{
+        email:email.value,
+        otp:otp
+    }
+    ).then(response =>{
+        console.log(response.data ,'test veryfyOTP');
+        if(response.data==true){
+          checkOTP.value=false
+        }
+                
+    })
+  } catch (error) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Sai OTP!',
+      text: 'Vui lòng nhập lại hoặc gửi lại OPT mới',
+    })
+  }
+ 
   }
 }
 
 const ChangePasswod =()=>{
-
+  try {
+    axios.put(import.meta.env.VITE_PUT_UPDATE_PASSWORD,{
+      email:email.value,
+      password:newPassword.value
+    }).then(response =>{
+      Swal.fire({
+        icon: 'success',
+        title: 'Thành Công!',
+        text: 'Bạn đã đổi mật khẩu thành công',
+      })
+    })
+  } catch (error) {
+    console.log(error);
+  } 
 }
 </script>
 
