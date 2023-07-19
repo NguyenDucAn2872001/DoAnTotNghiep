@@ -183,27 +183,33 @@ const DeleteUser = async (inf,id)=>{
             } catch (error) {console.log(error);}
             try {axios.delete(import.meta.env.VITE_DELETE_NOTIFICATION,{params:{id:id}})
             } catch (error) {console.log(error);}
+            try {axios.delete(import.meta.env.VITE_DELETE_USER_IN_DOCUMENT_BY_USERID,{params:{id:id}})
+            } catch (error) {console.log(error);}
+            try {axios.delete(import.meta.env.VITE_DELETE_CONTENT_DOCUMENT_BY_USERID,{params:{id:id}})
+            } catch (error) {console.log(error);}
             try {
             axios.get(import.meta.env.VITE_GET_DOCUMENT_BY_ID,{params:{id:id}
             }
             ).then(response =>{        
                 console.log(response.data);   
-                for (let i = 0; i < response.data.length; i++) {
-                    try {axios.delete(import.meta.env.VITE_COMMENT_DOCUMENT,{params:{id:response.data[i].id}})
-                    } catch (error) {console.log(error);}
-                    try {axios.delete(import.meta.env.VITE_DELETE_FINAL_DOCUMENT,{params:{id:response.data[i].id}})
-                    } catch (error) {console.log(error);}
-                    try {axios.delete(import.meta.env.VITE_DELETE_CONTENT_DOCUMENT,{params:{id:response.data[i].id}})
-                    } catch (error) {console.log(error);}         
-                    try {axios.delete(import.meta.env.VITE_DELETEUSERINDOCUMENT,{params:{id:response.data[i].id}})
-                    } catch (error) {console.log(error);}
-                    try {axios.delete(import.meta.env.VITE_DELETEDOCUMENT,{params:{id:response.data[i].id}})
-                    } catch (error) {console.log(error);}        
+                if(response.data.length>0){
+                    for (let i = 0; i < response.data.length; i++) {
+                        try {axios.delete(import.meta.env.VITE_COMMENT_DOCUMENT,{params:{id:response.data[i].id}})
+                        } catch (error) {console.log(error);}
+                        try {axios.delete(import.meta.env.VITE_DELETE_FINAL_DOCUMENT,{params:{id:response.data[i].id}})
+                        } catch (error) {console.log(error);}
+                        try {axios.delete(import.meta.env.VITE_DELETE_CONTENT_DOCUMENT,{params:{id:response.data[i].id}})
+                        } catch (error) {console.log(error);}         
+                        try {axios.delete(import.meta.env.VITE_DELETEUSERINDOCUMENT,{params:{id:response.data[i].id}})
+                        } catch (error) {console.log(error);}
+                        try {axios.delete(import.meta.env.VITE_DELETEDOCUMENT,{params:{id:response.data[i].id}})
+                        } catch (error) {console.log(error);}        
+                    }
                 }
             })
-        } catch (error) {console.log(error);}
-        try {axios.delete(import.meta.env.VITE_DELETE_USER,{params:{id:id}})
-        } catch (error) {console.log(error);}
+            } catch (error) {console.log(error);}
+            try {axios.delete(import.meta.env.VITE_DELETE_USER,{params:{id:id}})
+            } catch (error) {console.log(error);}
     }
 })
 

@@ -144,7 +144,7 @@ router.post('/sendOtp',async(req,res)=>{
                 to: email,
                 subject: 'Đổi mật khẩu Website hỗ trợ hoàn thiện văn bản sử dụng trong Đại học Bách Khoa Hà Nội',
                 text: 'You recieved message from ',
-                html: `Đây là OPT của bạn : ${OTP} vui lòng không cung cấp cho người khác`
+                html: `<p>Đây là OPT của bạn : <b>${OTP} </b>vui lòng không cung cấp cho người khác</p>`
             }
             transporter.sendMail(mainOptions, function(err, info){
                 if (err) {

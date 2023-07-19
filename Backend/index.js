@@ -26,6 +26,7 @@ io.on('connection',(socket)=>{
     connection.query(`SELECT * FROM users WHERE id=${to1} `,(err,receive)=>{
       console.log(receive);
       connection.query(`SELECT * FROM users WHERE id=${from1} `,(err,sender)=>{
+        console.log(users[receive[0].id],"test send message");
         io.to(users[receive[0].id]).emit("privateMessageToReceiver",{
           message:message,
           from1: sender[0].id,
@@ -37,6 +38,29 @@ io.on('connection',(socket)=>{
 
     console.log("gui thanh cong");
   })
+
+  socket.on("Notification",({content,notification_sender,notification_recipient})=>{
+    console.log(content,notification_sender,notification_recipient,"test o ddaay");
+    for (let i = 0; i < notification_recipient.length; i++) {
+      console.log(notification_recipient[i],"test gui laij thong bao");
+      io.to(users[notification_recipient[i]]).emit("NotificationToReceiver",{
+        content:content,
+        notification_sender: notification_sender,
+        notification_recipient:notification_recipient[i]
+      })
+    }
+  })
+
+  socket.on("NotificationMerge",({content,notification_sender,notification_recipient})=>{
+    console.log(content,notification_sender,notification_recipient,"test o ddaay");
+      console.log(notification_recipient,"test gui laij thong bao merge van ban");
+      io.to(users[notification_recipient]).emit("NotificationMergeToReceiver",{
+        content:content,
+        notification_sender: notification_sender,
+        notification_recipient:notification_recipient
+      })
+  })
+
 
   socket.on('disconnect',()=>{
     console.log("user disconnected");

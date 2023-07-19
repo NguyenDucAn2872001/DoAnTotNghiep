@@ -93,6 +93,30 @@ router.delete('/deleteContentDocument', async (req, res) => {
     });
 });
 
+router.delete('/deleteUserInDocumentById', async (req, res) => {
+    const { id } = req.query;
+    let sql = `DELETE FROM userindocument WHERE userId = ${id}`;
+    connection.query(sql, (err, result) => {
+      if (err) {
+        return res.json(err);
+      } else {
+        return res.json(result);
+      }
+    });
+});
+
+router.delete('/deleteContentDocumentById', async (req, res) => {
+    const { id } = req.query;
+    let sql = `DELETE FROM content_document WHERE userId = ${id}`;
+    connection.query(sql, (err, result) => {
+      if (err) {
+        return res.json(err);
+      } else {
+        return res.json(result);
+      }
+    });
+});
+
 router.delete('/deleteUserDocument', async (req, res) => {
     const { id } = req.query;
     let sql = `DELETE FROM userindocument WHERE documentId = ${id}`;

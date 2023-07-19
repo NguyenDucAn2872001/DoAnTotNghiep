@@ -573,7 +573,6 @@ const onselectedtosend=async(user)=>{
 }
 
 onMounted(async()=>{
-  console.log(child.value.info,"test owr ddaay")
   setTimeout(function(){   
     Loading.value=false
   }, 1500);
@@ -596,7 +595,32 @@ onMounted(async()=>{
         from1:to1
     })
   }) 
+
+  socket.on("NotificationToReceiver",({ content, notification_sender,notification_recipient })=>{
+    ElNotification({
+      title: 'Thông Báo ',
+      message: "Bạn nhận được thêm vào quyền Chỉnh Sửa văn bản mới",
+    })
+    console.log(content,notification_sender,notification_recipient,"test o ddaay");
+    listNotification.value.push({
+      content:content,
+      edit:1
+    })
+  }) 
+  socket.on("NotificationMergeToReceiver",({ content, notification_sender,notification_recipient })=>{
+    ElNotification({
+      title: 'Thông Báo ',
+      message: "Bạn nhận được thêm vào quyền Phê Duyệt văn bản mới",
+    })
+    console.log(content,notification_sender,notification_recipient,"test o ddaay");
+    listNotification.value.push({
+      content:content,
+      edit:0
+    })
+  }) 
 })
+
+
 
 
 const saveAsPdf = async () => {

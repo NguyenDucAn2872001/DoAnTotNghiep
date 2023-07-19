@@ -113,7 +113,6 @@ onMounted( async() => {
   }, 1500);
 })
 const SendOtpToEmail  = async()=>{
-  check.value=false 
   try {
     await axios.post(import.meta.env.VITE_POST_SEND_OTP,{
         email:email.value,

@@ -145,6 +145,9 @@ import {useRoute} from 'vue-router'
 import Swal from "sweetalert2";
 import HeaderView from '../../components/HeaderView.vue'
 import LoadingVue from "../../components/Loading.vue";
+import  Socket  from "socket.io-client";
+const URL = 'http://localhost:8888'
+const socket= Socket(URL,{autoConnect:false});
 
 const Loading=ref(true)
 const route=useRoute()
@@ -178,6 +181,10 @@ onMounted(async()=>{
     }, 1500);
     await getInfoUser()
     await getClassifyDocument()
+    socket.auth={
+      userId:parseInt(getid)
+  }
+  socket.connect()
 })
 
 const CloseForm =ref(true)
@@ -305,6 +312,18 @@ const PosttData = async() => {
         }      
     }
 
+    socket.emit("Notification",{
+        content:`Bạn được ${name.value} thêm vào quyền Chỉnh Sửa văn bản ${info.value.NameDocument} (mã vb:${info.value.PassWordDocument})`,
+        notification_sender:parseInt(getid),
+        notification_recipient:info.value.ListUserInDocument
+    })
+
+
+    socket.emit("NotificationMerge",{
+        content:`Bạn được ${name.value} thêm vào quyền Phê Duyệt văn bản ${info.value.NameDocument} (mã vb:${info.value.PassWordDocument})`,
+        notification_sender:parseInt(getid),
+        notification_recipient:parseInt(info.value.MergeUser)
+    })
     try {
         await axios.post(import.meta.env.VITE_POST_NEW_NOTIFICATION,{
             notification_sender:parseInt(getid),
