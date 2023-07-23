@@ -163,14 +163,19 @@ import MenuBarAdmin from '../../components/MenuBarAdmin.vue'
 import { ref, onMounted } from 'vue'
 import LoadingVue from "../../components/Loading.vue";
 import axios from 'axios';
+import Swal from "sweetalert2";
 
+const infoUser=ref([])
+const AddUser=ref([])// thêm user vào văn bản
 const ListDocument=ref([])
 const Loading=ref(true)
+const ListUserInDocument=ref([])
 onMounted( async() => {
     setTimeout(function(){   
         Loading.value=false
     }, 1500); 
     getAllDocument()
+    await getInfoUser()
 })
 
 const getAllDocument=async()=>{
@@ -195,5 +200,100 @@ const getAllDocument=async()=>{
   }
 }
 
+const getUserIndocument = async(id)=>{
+  console.log(id);
+  ListUserInDocument.value=[]
+  try {
+    await axios.get(import.meta.env.VITE_GETUSERINDOCUMENT_BYID,{
+      params:{
+        documentId:id
+      }
+    }).then(response =>
+    {
+      for (let i = 0; i < response.data.length; i++) {
+        for (let j = 0; j < infoUser.value.length; j++) {
+          if (infoUser.value[j].id==response.data[i].userId) {
+            ListUserInDocument.value.push(infoUser.value[j])
+          }       
+        }
+      }
+    })
+  } catch (error) {
+      console.log(error);
+  }
+}
+
+const getIdDeleteUser=(id)=>{
+  Swal.fire({
+    title: 'Xóa ',
+    text: "Bạn có muốn xóa người dùng này khỏi văn bản không!",
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Xóa!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        ListUserInDocument.value.forEach(element => {
+          if(element.id==id){
+            ListUserInDocument.value.pop(element)
+          }
+        });
+        try {axios.delete(import.meta.env.VITE_DELETE_USER_IN_DOCUMENT,{params:{id:id}})
+        } catch (error) {console.log(error);} 
+        Swal.fire({
+          icon: 'success',
+          title: 'Xóa thành công',
+          showConfirmButton: false,
+          timer: 1000})
+        window.location.reload();
+      }
+  })
+}
+
+const getInfoUser = async()=>{
+  try {await axios.get(import.meta.env.VITE_GETAPI_USER).then(response =>{
+      for (let i = 0; i < response.data.length; i++) {
+        infoUser.value.push(response.data[i])
+      }
+    })
+  } catch (error) {console.log(error);}
+}
+
+
+const AddUserDocument=()=>{
+  AddUser.value = infoUser.value.filter(item => !ListUserInDocument.value.some(obj => obj.id === item.id));
+}
+
+const deleteDocument = async(id)=>{
+  await Swal.fire({
+        title: 'Xóa Tài Liệu',
+        text: "Bạn có muốn xóa tài liệu này không ?",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Tiếp tục!'
+        }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire(
+            'Deleted!',
+            'Xoá tài liệu thành công .',
+            'success'
+            )
+            try {axios.delete(import.meta.env.VITE_COMMENT_DOCUMENT,{params:{id:id}})
+            } catch (error) {console.log(error);}
+            try {axios.delete(import.meta.env.VITE_DELETE_FINAL_DOCUMENT,{params:{id:id}})
+            } catch (error) {console.log(error);}
+            try {axios.delete(import.meta.env.VITE_DELETE_CONTENT_DOCUMENT,{params:{id:id}})
+            } catch (error) {console.log(error);}         
+            try {axios.delete(import.meta.env.VITE_DELETEUSERINDOCUMENT,{params:{id:id}})
+            } catch (error) {console.log(error);}
+            try {axios.delete(import.meta.env.VITE_DELETEDOCUMENT,{params:{id:id}})
+            } catch (error) {console.log(error);}
+            window.location.reload();
+        }
+    })
+}
 
 </script>

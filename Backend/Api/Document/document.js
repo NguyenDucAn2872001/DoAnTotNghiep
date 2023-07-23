@@ -295,4 +295,95 @@ router.get('/getContentDocumentPublic',  async(req, res)=> {
         }
     })
 })
+
+router.post('/postContentDocumentRealTime', async(req, res) => {
+    let sql = "INSERT INTO document_real_time (content,classify,idDocumentOwner,nameDocument) values (?) ";
+    const values= [
+        req.body.content,
+        req.body.classify,
+        req.body.idDocumentOwner,
+        req.body.nameDocument,
+    ]
+    connection.query(sql,[values],(err,result)=>{
+        if(err){
+            return res.json(err)
+        }else{
+            console.log(result)
+            return(res.json(result))
+        }
+    })
+});
+router.get('/getContentDocumentRealTime', async(req, res) => {
+    const id = req.query.id
+    let sql = `SELECT * FROM document_real_time WHERE id =${id}`;
+    //let sql = `SELECT * FROM test_content_document WHERE id = 1`;
+
+    connection.query(sql,(err,result)=>{
+        if(err){
+            return res.json(err)
+        }else{
+            console.log(result)
+            return(res.json(result))
+        }
+    })
+});
+
+router.put('/updateContentDocumentRealTime', (req, res) => {
+    const id = req.body.id; 
+    const content = req.body.content; 
+    connection.query(
+      `UPDATE document_real_time SET content = '${content}' WHERE id = ${id}`,(err, result) => {
+        if (err) {
+            return res.json(err)
+        } else {
+            return(res.json(result))
+        }
+      }
+    );
+});
+
+router.get('/getIdDocumentRealTime', async(req, res) => {
+    const id = req.query.id
+    let sql = `SELECT * FROM document_real_time WHERE idDocumentOwner =${id}`;
+    connection.query(sql,(err,result)=>{
+        if(err){
+            return res.json(err)
+        }else{
+            console.log(result)
+            return(res.json(result))
+        }
+    })
+});
+
+router.post('/postUserInDocumentRealTime', async(req, res) => {
+    let sql = "INSERT INTO users_document_real_time (documentId,userId) values (?) ";
+    const values= [
+        req.body.documentId,
+        req.body.userId,
+    ]
+    connection.query(sql,[values],(err,result)=>{
+        if(err){
+            return res.json(err)
+        }else{
+            console.log(result)
+            return(res.json(result))
+        }
+    })
+});
+
+router.get('/getAllDocumentRealTime', async(req, res) => {
+    const id = req.query.id
+    let sql = `SELECT t2.*
+    FROM users_document_real_time AS t1
+    JOIN document_real_time AS t2 ON t1.documentId = t2.id
+    WHERE t1.userId = ${id}`;
+    connection.query(sql,(err,result)=>{
+        if(err){
+            return res.json(err)
+        }else{
+            console.log(result)
+            return(res.json(result))
+        }
+    })
+});
 module.exports= router

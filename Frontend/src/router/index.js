@@ -15,6 +15,9 @@ import EditDocumentUser from '../views/Home/EditDocumentUser.vue'
 import DocumentApproval from '../views/Home/DocumentApproval.vue'
 import Community from '../views/Client/Community.vue'
 import ViewDocument from '../views/Client/ViewDocument.vue'
+import ViewProfile from '../views/Client/ViewProfile.vue'
+import NewDocumentRealTime from '../views/Home/NewDocumentRealTime.vue'
+import EditDocumentRealTime from '../views/Home/EditDocumentRealTime.vue'
 // import { ref } from 'vue'
 
 // const check= ref(localStorage.getItem('id'))
@@ -81,6 +84,30 @@ const router = createRouter({
       path: '/Home/NewEdit/:id',
       name: 'NewEdit',
       component: NewEdit,
+      meta: {
+        requiresAuth:true
+      }
+    },
+    {
+      path: '/Home/NewEdit/NewDocumentRealTime/:id',
+      name: 'NewDocumentRealTime',
+      component: NewDocumentRealTime,
+      meta: {
+        requiresAuth:true
+      }
+    },
+    {
+      path: '/Home/NewEdit/EditDocumentRealTime/:id',
+      name: 'EditDocumentRealTime',
+      component: EditDocumentRealTime,
+      meta: {
+        requiresAuth:true
+      }
+    },
+    {
+      path: '/Home/ViewProfile/:id',
+      name: 'ViewProfile',
+      component: ViewProfile,
       meta: {
         requiresAuth:true
       }

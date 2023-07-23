@@ -203,10 +203,8 @@ router.put('/updatePassWord',async(req,res)=>{
 })
 
 router.get('/getUserById',  async(req, res)=> {
-    //let sqlcheck="ALTER TABLE users ADD UNIQUE (email) "
-    let sql = "SELECT * FROM users WHERE id=19 ";
-    const id = req.body.id
-
+    const id = req.query.id
+    let sql = `SELECT * FROM users WHERE id=${id} `;
     connection.query(sql,id,(err,result)=>{
         if(err){
             return res.json(err)
@@ -217,7 +215,6 @@ router.get('/getUserById',  async(req, res)=> {
 })
 
 router.get('/getApi',  async(req, res)=> {
-    //let sqlcheck="ALTER TABLE users ADD UNIQUE (email) "
     let sql = "SELECT * FROM textcompletion.users";
     connection.query(sql,(err,result)=>{
         if(err){

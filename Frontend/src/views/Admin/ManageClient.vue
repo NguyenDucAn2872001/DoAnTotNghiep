@@ -55,7 +55,7 @@
                                     <button type="submit" class="btn btn-warning ms-1"><i class="fa-regular fa-comments"></i></button>
                                 </td>
                                 <td class="text-center">
-                                    <label class="switch" :for="'switch-' + index"  @click="setLockAcc(inf.id , inf.lockAcc1)">
+                                    <label class="switch" :for="'switch-' + index"  @click="setLockAcc(inf.id , inf.lockAcc1,inf.email)">
                                       <input :id="'switch-' + index" type="checkbox" v-model="inf.lockAcc1" >
                                       <div class="slider">
                                           <div class="circle">
@@ -127,9 +127,10 @@ onMounted( async() => {
     
 })
 
-const setLockAcc=(id ,p)=>{
+const setLockAcc=(id ,p,email)=>{
+    console.log(email);
     if(p==true){
-        ChangeLockAcc(id,p)
+        ChangeLockAcc(id,p,email)
         Swal.fire({
             icon: 'success',
             title: 'Mở tài khoản thành công',
@@ -137,7 +138,7 @@ const setLockAcc=(id ,p)=>{
             timer: 1000
         })
     } else{
-        ChangeLockAcc(id,p)
+        ChangeLockAcc(id,p,email)
         Swal.fire({
             icon: 'success',
             title: 'Khóa tài khoản thành công',
@@ -148,11 +149,12 @@ const setLockAcc=(id ,p)=>{
     
 
 }
-const ChangeLockAcc=(id ,p)=>{
+const ChangeLockAcc=(id ,p,email)=>{
     try {
     axios.put(import.meta.env.VITE_UPDATE_LOCK_ACCOUNT_CLIENT,{
         id:id,
-        lockAcc:!p
+        lockAcc:!p,
+        email:email
     }).then(response =>
     {
     })

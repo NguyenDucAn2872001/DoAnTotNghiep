@@ -59,7 +59,7 @@
                                     <i class="fa-solid fa-image me-3 fa-fw" style="font-size: 20px;"></i>
                                     <div class="form-outline flex-fill mb-0">
                                         <label class="form-label" for="form3Example1c">Your avatar</label>
-                                        <input type="text"  id="form3Example1c" v-model="info.avata" class="form-control" />
+                                        <input type="file"  id="form3Example1c" @change="handleFileChange" class="form-control" />
                                         <span class="text-danger" v-for="error in v$.avata.$errors" :key="error.$uid">
                                             {{ error.$message }}
                                         </span>
@@ -99,8 +99,10 @@
                             </form>
                         </div>
                         <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
-                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
-                            class="img-fluid" alt="Sample image">
+                            <!-- <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
+                            class="img-fluid" alt="Sample image"> -->
+
+                            <img v-if="imageUrl" :src="imageUrl" alt="Uploaded Image" />
 
                         </div>
                         </div>
@@ -124,6 +126,15 @@ import LoadingVue from "../../components/Loading.vue";
 const Loading=ref(true)
 const emailUser= ref([])
 const nameUser= ref([])
+const selectedFile = ref(null);
+const imageUrl = ref(null);
+
+const handleFileChange = (event) => {
+  selectedFile.value = event.target.files[0];
+  // Create a temporary URL for the selected file
+  imageUrl.value = URL.createObjectURL(selectedFile.value);
+  console.log(imageUrl.value,"dday laf url anrh");
+};
 
 onMounted( async() => {
     setTimeout(function(){   
@@ -153,7 +164,7 @@ const info = ref({
     username : "",
     studentCode : "",
     createdAt : null,
-    avata : "",
+    avata : null,
     repeatPassword: "",
 
 })

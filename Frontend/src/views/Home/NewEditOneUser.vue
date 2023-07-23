@@ -55,7 +55,6 @@
                                     {{ error.$message }}
                                 </span>
                             </div>
-
                             <div class="form-outline mb-4">
                                 <label class="form-label" for="form3Example4cg">Mã Tài Liệu</label>
                                 <input type="text" v-model="info.PassWordDocument" id="form3Example3cg" class="form-control form-control-lg" />
@@ -63,8 +62,6 @@
                                     {{ error.$message }}
                                 </span>
                             </div>
-
-
                             <div class="d-flex justify-content-center">
                                 <input type="submit" class="btn btn-danger btn-block btn-lg gradient-custom-4 text-light" style="width: 40%;" value="Tạo Tài Liệu">
                             </div>

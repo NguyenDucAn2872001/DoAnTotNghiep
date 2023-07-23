@@ -9,7 +9,7 @@
 
             <div class="d-flex col" id="navbarSupportedContent" style="align-items: center;">
               <div class="text-reset me-5 " @click="showNavbar=!showNavbar">
-                <i :class="{'fa-solid fa-bars': !showNavbar, 'fa-solid fa-xmark': showNavbar}" style="font-size: 25px; padding-left: 20px;"></i>
+                <i :class="{'fa-solid fa-bars': !showNavbar, 'fa-solid fa-xmark': showNavbar}" style="font-size: 25px; padding-left: 20px;cursor: pointer;"></i>
                 <!-- <img src="../../assets/download_preview_rev_1.png" alt="" style="width: 60px;height: 60px;"> -->
               </div>
               
@@ -21,9 +21,12 @@
             </div> 
 
             <div class="d-flex  col" style="justify-content: flex-end;align-items: center;">
-              <div class="text-reset me-3 button" style="display: flex;align-items: center;text-decoration: none ;cursor: pointer;">
-                <i class="fa-solid fa-user bell text-light me-1" style="font-size: 24px;"></i>        
-              </div>  
+              <router-link :to="`/Home/ViewProfile/${getid}`">
+                <div class="text-reset me-3 button" style="display: flex;align-items: center;text-decoration: none ;cursor: pointer;">
+                  <i class="fa-solid fa-user bell text-light me-1" style="font-size: 24px;"></i>        
+                </div> 
+              </router-link>
+               
               <div class="button me-3" href="#" style="cursor: pointer;" @click="dropdown=!dropdown">
                 <i class="fa-brands fa-facebook-messenger text-light bell me-1" style="font-size: 24px;"></i>
                 <!-- <span class="badge rounded-pill badge-notification bg-danger">1</span>     -->
@@ -38,24 +41,11 @@
       </div>
     <div v-if="viewDocument==false" style="display: flex;width: 100%;height: 100%;flex-grow: 1;">
     
-    <div class="left" id="bg-left" :style="{ display: showNavbar ? 'block' : 'none' }">
+    <div class="left" id="bg-left" :style="{ display: !showNavbar ? 'block' : 'none' }">
     <!-- <div class="left" style="width: 20%; background-color: slategrey ;"> -->
 
       <div class="container">
         <div class="top-elements">
-          <!-- <div style="display: flex;justify-content: center;margin-top: 20px;">
-            <img src="../../assets/LogoVienDien_preview_rev_1.png" alt="" style="width: 150px;height: 60px;">
-          </div> -->
-          <!-- <router-link to="/Home/EditDocument"  style="text-decoration: none;margin-top: 60px;margin-left: 20px;display:flex; align-items: center;">
-            <button style="width: 250px;">
-              <span class="shadow" style="height: 20px;"></span>
-              <span class="edge"></span>
-              <span class="front text "> 
-                <i class="fa-solid fa-file-word me-3 "  style="font-size: 22px; width: 30px;height: 30px;border-radius: 50%; background-color: #fff;color: #000;padding-top: 5px;"></i>
-                Forgot pass
-              </span>
-          </button>
-          </router-link> -->
           <router-link class="button1" to="/Home/EditDocument"  style="text-decoration: none;z-index: 1;margin-top: 60px;margin-left: 20px;display:flex; align-items: center;">
             <i class="fa-solid fa-file-word me-3 ms-3 bg-light " style="color: black;width: 30px;height: 30px;border-radius: 50%;display: flex;justify-content: center;align-items: center;font-size: 20px;" ></i>
             <div  style="font-weight: 700;font-size: 16px;color: #fff;">Word</div>
@@ -86,20 +76,12 @@
                 <div class="sign12"><i class="fa-solid fa-circle-arrow-left text-light" style="font-size: 30px;"></i></div>              
                 <div class="text12 ms-5">Đăng xuất</div>
               </button>
-              <!-- <button type="button" class="btn btn-light"  style="display: flex;align-items: center;">
-                <i class="fa-solid fa-circle-arrow-left me-3 ms-3" style="font-size: 30px;"></i>
-                <div style="padding-right: 20px;font-weight: 700;">Đăng xuất</div>
-              </button> -->
-              
             </div>  
             <div class="line_2"></div>
           </div>
         </div>
     </div>
     </div>
-
-
-    <!-- <div style="width: 30px;height: 100vh;background-color: #fff;"></div> -->
     <div class="right" style="width: 100%;">
       
       <div class="footer">
@@ -278,7 +260,7 @@
         </div>
         <div v-if="dropdown==true" class="dropdown-message" >
           <i class="fa-solid fa-circle-xmark icon-close" @click="dropdown=!dropdown"></i>
-          <div class="message">Chat </div>
+          <div class="message">Tin Nhắn </div>
           <div class="input-group1 search-box" >
             <input class="form-control border-end-0 border" type="search" placeholder="search" id="example-search-input" style="border-radius: 18px;">
             <i class="fa fa-search icon-search"></i>
@@ -299,6 +281,10 @@
         <div v-if="dropdownRp==true " class="dropdown-message " >
           <i class="fa-solid fa-circle-xmark icon-close" @click="dropdownRp=!dropdownRp"></i>
           <div class="message">Thông báo </div> 
+          <div class="input-group1 search-box" >
+            <input class="form-control border-end-0 border" type="search" placeholder="search" id="example-search-input" style="border-radius: 18px;">
+            <i class="fa fa-search icon-search"></i>
+          </div>
           <div class="scroll-snap">
             <div class="mt-4"  @click="chat()">
               <div class="mb-3 me-3 ms-3" v-for="i in listNotification" style="display: flex;justify-content: center;">
