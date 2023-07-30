@@ -54,8 +54,8 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div class="d-flex flex-row align-items-center mb-4">
-                                    <!-- <i class="fas fa-user fa-lg me-3 fa-fw" ></i> -->
+                                <!-- <div class="d-flex flex-row align-items-center mb-4">
+                                   
                                     <i class="fa-solid fa-image me-3 fa-fw" style="font-size: 20px;"></i>
                                     <div class="form-outline flex-fill mb-0">
                                         <label class="form-label" for="form3Example1c">Your avatar</label>
@@ -64,7 +64,7 @@
                                             {{ error.$message }}
                                         </span>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="d-flex flex-row align-items-center mb-4">
                                     <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
                                     <div class="form-outline flex-fill mb-0">
@@ -99,10 +99,10 @@
                             </form>
                         </div>
                         <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
-                            <!-- <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
-                            class="img-fluid" alt="Sample image"> -->
+                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
+                            class="img-fluid" alt="Sample image">
 
-                            <img v-if="imageUrl" :src="imageUrl" alt="Uploaded Image" />
+                            <!-- <img v-if="imageUrl" :src="imageUrl" alt="Uploaded Image" /> -->
 
                         </div>
                         </div>
@@ -126,15 +126,15 @@ import LoadingVue from "../../components/Loading.vue";
 const Loading=ref(true)
 const emailUser= ref([])
 const nameUser= ref([])
-const selectedFile = ref(null);
-const imageUrl = ref(null);
+// const selectedFile = ref(null);
+// const imageUrl = ref(null);
 
-const handleFileChange = (event) => {
-  selectedFile.value = event.target.files[0];
-  // Create a temporary URL for the selected file
-  imageUrl.value = URL.createObjectURL(selectedFile.value);
-  console.log(imageUrl.value,"dday laf url anrh");
-};
+// const handleFileChange = (event) => {
+//   selectedFile.value = event.target.files[0];
+//   // Create a temporary URL for the selected file
+//   imageUrl.value = URL.createObjectURL(selectedFile.value);
+//   console.log(imageUrl.value,"dday laf url anrh");
+// };
 
 onMounted( async() => {
     setTimeout(function(){   
@@ -177,7 +177,7 @@ const rules= computed(()=>{
         name : {required},
         username : {required},
         studentCode : {required},
-        avata : {required},
+        // avata : {required},
         //repeatPassword: {required},
     }
 })
